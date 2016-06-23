@@ -1,0 +1,45 @@
+<div class="m-param {clazz}">
+  <div class="caption m-b-1" r-hide={!caption}>{caption}</div>
+  <!-- 如果参数不多, 那么一排放; 否则每个参数一排 -->
+  <form class="form" r-class={{'form-inline':!stack}} on-submit={this.submit($event)}>
+    {#list list as param}
+      <fieldset class="form-group" r-class={{'row':stack, 'has-danger':param.invalid}}>
+        <label {#if stack}class="form-control-label {labelPosClazz} {labelColClazz}"{#else}class="form-control-label {param.labelClazz}"{/if} for={this.genParamId(param)} title={param.desc} r-hide={!param.desc}>
+          {#if !hideMandatory}{#include this.mandatoryTpl}{/if}
+          {param.desc}
+          {#if !hideColon}:{/if}
+        </label>
+        <div {#if stack}class="{iptColClazz}"{#else}class="form-group {param.iptClazz}"{/if}>
+          {#if param.type === 'String' || param.type === 'Email' || param.type === 'Integer'}
+            <input class="form-control" type={this.genInputType(param)} id={this.genParamId(param)} r-model2={'params.' + param.name} ref='{param.name}' placeholder={this.genParamTip(param)} maxlength={param.maxlength} on-input={this.getParams(param)} on-blur={this.getParams(param)}>
+          {/if}
+          {#if param.type === 'DateStr'}
+            <input type="date" class="form-control" id={this.genParamId(param)} r-model2={'params.' + param.name} ref='{param.name}' on-change={this.getParams(param)}>
+          {/if}
+          {#if param.type === 'Select'}
+            <select class="form-control c-select" id={this.genParamId(param)} r-model2={'params.' + param.name} ref='{param.name}' on-change={this.getParams(param)}>
+              {#list param.options as option}
+                <option value={option.value}>{option.desc}</option>
+              {/list}
+            </select>
+          {/if}
+          {#if param.type === 'Checkboxes'}
+            <checkboxes list={param.list} ref='{param.name}' on-change={this.getParams(param)}/>
+          {/if}
+          {#if param.invalid && !hideTip}
+            <div class="text-help" r-class={{'form-group':stack}}>
+              <small>{this.genParamTip(param)}</small>
+            </div>
+          {/if}
+        </div>
+      </fieldset>
+    {/list}
+    {#if showSubmit}
+      <fieldset class="form-group" r-class={{'row':stack}}>
+        <div {#if stack}class="{submitClazz} p-l-0"{#else}class="form-group"{/if}>
+          <button type="submit" class="btn {submitBtnClazz}">{submitTitle}</button>{#if loading}<loading/>{/if}
+        </div>
+      </fieldset>
+    {/if}
+  </form>
+</div>

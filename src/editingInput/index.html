@@ -1,0 +1,14 @@
+<div class="m-editingInput f-inline f-xfull" r-class={{'f-block':block,'has-danger':invalid}}>
+  {#if !editing}
+    <label class="form-control-label p-l-0 text-truncate" r-class={{'font-weight-bold':bold, 'text-muted':mute}}>
+      {value}
+    </label>
+    {#if !notEditable}
+      <i class="fa fa-edit fa-btn" on-click={editing=true}></i>
+    {/if}
+  {#else}
+    <input class="form-control" type="text" r-model={newValue} on-input={invalid = !newValue && !canEmpty} on-enter={this.confirm()} autofocus>
+    <i class="fa fa-check fa-btn" r-class={{disabled:invalid}} on-click={this.confirm()}></i>
+    <i class="fa fa-close fa-btn" on-click={this.cancel()}></i>
+  {/if}
+</div>

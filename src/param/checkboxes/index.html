@@ -1,0 +1,10 @@
+<div class="row m-x-0" ref="body">
+  {#list list as checkbox}
+    <div class="col-xs-6 p-l-0">
+      <label class="checkbox-inline {this.genClass(checkbox)}">
+        <input type="checkbox" data-value={checkbox.value} {#if checkbox.checked}checked{/if} on-click={this.click($event, checkbox)}>
+        <span class="text-help" r-class={{'text-muted':muted}}>{checkbox.desc}</span>
+      </label>
+    </div>
+  {/list}
+</div>
