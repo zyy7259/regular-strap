@@ -7,7 +7,7 @@
 
 define([
   '../index.js',
-  'pro/component/param/index',
+  '../../param/index',
   'regular!./index.html'
 ], function (Modal, Param, tpl) {
   return Modal.extend({

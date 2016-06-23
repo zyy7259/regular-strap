@@ -6,7 +6,7 @@
 */
 
 require('./checkboxes')
-require('component/loading')
+require('../loading')
 var tpl = require('./index.html')
 
 /**

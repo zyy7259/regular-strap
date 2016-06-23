@@ -6,7 +6,7 @@
 */
 
 define([
-  'pro/component/loading/index',
+  '../loading/index',
   'regular!./index.html'
 ], function (Loading, tpl) {
   var dom = Regular.dom

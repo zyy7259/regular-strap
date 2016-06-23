@@ -6,8 +6,8 @@
 */
 
 define([
-  'pro/component/loading/index',
-  'pro/component/pager/index',
+  '../loading/index',
+  '../pager/index',
   'pro/base/util'
 ], function (Loading, Pager, u) {
   /**
