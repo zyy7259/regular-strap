@@ -4,7 +4,7 @@
   <form class="form" r-class={{'form-inline':!stack}} on-submit={this.submit($event)}>
     {#list list as param}
       <fieldset class="form-group" r-class={{'row':stack, 'has-danger':param.invalid}}>
-        <label {#if stack}class="form-control-label {labelPosClazz} {labelColClazz}"{#else}class="form-control-label {param.labelClazz}"{/if} for={this.genParamId(param)} title={param.desc} r-hide={!param.desc}>
+        <label {#if stack}class="form-control-label {labelPosClazz} {labelColClazz}"{#else}class="form-control-label {param.labelClazz}"{/if} for={this.genParamId(param)} title={param.title || param.desc} r-hide={!param.desc}>
           {#if !hideMandatory}{#include this.mandatoryTpl}{/if}
           {param.desc}
           {#if !hideColon}:{/if}
@@ -15,6 +15,9 @@
           {/if}
           {#if param.type === 'DateStr'}
             <input type="date" class="form-control" id={this.genParamId(param)} r-model2={'params.' + param.name} ref='{param.name}' on-change={this.getParams(param)}>
+          {/if}
+          {#if param.type === 'DateTime'}
+            <input type="datetime-local" class="form-control" id={this.genParamId(param)} r-model2={'params.' + param.name} ref='{param.name}' on-change={this.getParams(param)}>
           {/if}
           {#if param.type === 'Select'}
             <select class="form-control c-select" id={this.genParamId(param)} r-model2={'params.' + param.name} ref='{param.name}' on-change={this.getParams(param)}>
