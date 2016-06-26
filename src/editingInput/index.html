@@ -1,4 +1,12 @@
-<div class="m-editingInput f-inline f-xfull" r-class={{'f-block':block,'has-danger':invalid}}>
+<!--
+@Author: Yingya Zhang <zyy>
+@Date:   2016-06-26 17:01:00
+@Email:  zyy7259@gmail.com
+@Last modified by:   zyy
+@Last modified time: 2016-06-26 21:55:69
+-->
+
+<form class="m-editingInput form-inline {clazz}" r-class={{'has-danger':invalid}} on-submit={this.confirm($event)}>
   {#if !editing}
     <label class="form-control-label p-l-0 text-truncate" r-class={{'font-weight-bold':bold, 'text-muted':mute}}>
       {value}
@@ -7,8 +15,8 @@
       <i class="fa fa-edit fa-btn" on-click={editing=true}></i>
     {/if}
   {#else}
-    <input class="form-control" type="text" r-model={newValue} on-input={invalid = !newValue && !canEmpty} on-enter={this.confirm()} autofocus>
-    <i class="fa fa-check fa-btn" r-class={{disabled:invalid}} on-click={this.confirm()}></i>
+    <input class="form-control" type="text" r-model={tmp} on-input={invalid = !tmp && !canEmpty} autofocus>
+    <i class="fa fa-check fa-btn" r-class={{disabled:invalid}} on-click={this.confirm($event)}></i>
     <i class="fa fa-close fa-btn" on-click={this.cancel()}></i>
   {/if}
-</div>
+</form>

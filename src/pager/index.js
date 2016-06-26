@@ -2,12 +2,26 @@
 * @Author: Zhang Yingya(hzzhangyingya)
 * @Date:   2016-05-19 15:39:01
 * @Last modified by:   zyy
-* @Last modified time: 2016-06-26 18:21:12
+* @Last modified time: 2016-06-26 23:35:87
 */
 
 var notNumReg = /[^0-9]/g
 var tpl = require('./index.html')
 
+/**
+ * data
+ * - id ID
+ * - total 列表总长度
+ * - limit 每页数量
+ * - size 页码总数, total/limit
+ * - current 当前页码
+ * - padding 分页器当前页码左右多余的页码数量
+ * - sizeLimit 如果 size 小于此值, 那么全部列出
+ * - prevText 上一页文案
+ * - nextText 下一页文案
+ * - showLimit 是否展示调整 limit 的 input
+ * - showJump 是否展示跳页的 input
+ */
 Regular.extend({
   name: 'pager',
   template: tpl,
@@ -17,29 +31,36 @@ Regular.extend({
     this.watchData()
   },
   initDefault: function () {
-    this.data.initial = {
-      id: +new Date(),
-      // 列表总长度
-      total: 0,
-      // 每页数量
-      limit: 10,
-      // size: 页码总数, total/limit
-      // 当前页码
-      current: 1,
-      // 分页器当前页码左右多余的页码数量
-      padding: 2,
-      // 如果 size 小于此值, 那么全部列出
-      sizeLimit: 9,
-      // 上一页文案
-      prevText: '&laquo;',
-      // 下一页文案
-      nextText: '&raquo;',
-      // 是否展示调整 limit 的 input
-      showLimit: false,
-      // 是否展示跳页的 input
-      showJump: false
+    if (this.data.id === undefined) {
+      this.data.id = +new Date()
     }
-    this.supr()
+    if (this.data.total === undefined) {
+      this.data.total = 0
+    }
+    if (this.data.limit === undefined) {
+      this.data.limit = 10
+    }
+    if (this.data.current === undefined) {
+      this.data.current = 1
+    }
+    if (this.data.padding === undefined) {
+      this.data.padding = 2
+    }
+    if (this.data.sizeLimit === undefined) {
+      this.data.sizeLimit = 9
+    }
+    if (this.data.prevText === undefined) {
+      this.data.prevText = '&laquo;'
+    }
+    if (this.data.nextText === undefined) {
+      this.data.nextText = '&raquo;'
+    }
+    if (this.data.showLimit === undefined) {
+      this.data.showLimit = false
+    }
+    if (this.data.showJump === undefined) {
+      this.data.showJump = false
+    }
   },
   caclSize: function () {
     this.data.size = Math.ceil(this.data.total / this.data.limit)

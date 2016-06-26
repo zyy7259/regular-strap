@@ -3,7 +3,7 @@
   "private": true,
   "version": "1.0.0",
   "description": "",
-  "main": "src/index.js",
+  "main": "dist/regular-strap.js",
   "directories": {
     "test": "test"
   },
@@ -34,9 +34,12 @@
   "license": "MIT",
   "devDependencies": {
     "autoprefixer": "^6.3.6",
+    "bootstrap": "^4.0.0-alpha.2",
     "cssnano": "^3.7.1",
+    "font-awesome": "^4.6.3",
     "postcss-calc": "^5.2.1",
     "precss": "^1.4.0",
-    "raw-loader": "^0.5.1"
+    "raw-loader": "^0.5.1",
+    "regularjs": "^0.4.4"
   }
 }

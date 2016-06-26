@@ -1,5 +1,13 @@
-<div class="modal-backdrop fade" r-class={{'in f-block':show}} r-animation="when:hide; class:out; emit:afterFadeOut;" on-click={this.cancel()}></div>
-<div class="modal fade" ref="modal" r-class={{'in f-block':show}} on-click={this.click($event)}>
+<!--
+@Author: Yingya Zhang <zyy>
+@Date:   2016-06-26 17:01:00
+@Email:  zyy7259@gmail.com
+@Last modified by:   zyy
+@Last modified time: 2016-06-26 23:11:05
+-->
+
+<div class="modal-backdrop fade" r-class={{'in':show}} r-hide={!show} r-animation="when:hide; class:out; emit:afterFadeOut;" on-click={this.cancel()}></div>
+<div class="modal fade" ref="modal" r-class={{'in':show}} {#if show}style="display:block;"{/if} on-click={this.click($event)}>
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -8,11 +16,11 @@
         </button>
         <h4 class="modal-title">{title}</h4>
       </div>
-      <div class="modal-body" ref="cnt">{#include this.$body}</div>
+      <div class="modal-body">{#include this.$body}</div>
       <div class="modal-footer">
         {#if loading}<loading/>{/if}
-        <button class="btn btn-primary-outline" r-hide={hideConfirm} on-click={this.confirm()}>{confirmTitle}</button>
-        <button class="btn btn-secondary" r-hide={hideCancel} on-click={this.cancel()}>{cancelTitle}</button>
+        <button type="button" class="btn btn-primary-outline" r-hide={hideConfirm} on-click={this.confirm()}>{confirmTitle}</button>
+        <button type="button" class="btn btn-secondary" r-hide={hideCancel} on-click={this.cancel()}>{cancelTitle}</button>
       </div>
     </div>
   </div>

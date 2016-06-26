@@ -1,0 +1,116 @@
+<!--
+@Author: Yingya Zhang <zyy>
+@Date:   2016-06-26 18:28:00
+@Email:  zyy7259@gmail.com
+@Last modified by:   zyy
+@Last modified time: 2016-06-26 23:36:83
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Required meta tags always come first -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <link rel="stylesheet" href="../node_modules/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+</head>
+<body>
+  <div class="g-doc container-fluid" id="app">
+
+  </div>
+  <script src="../node_modules/regularjs/dist/regular.js"></script>
+  <script src="../dist/regular-strap.js"></script>
+  <script type="text/template" id="tpl">
+    <form>
+      <div class="form-group row">
+        <label class={labelClazz}>
+          dropdown
+        </label>
+        <div class={divClazz}>
+          <dropdown title="dropdown" items={dropdownItems}></dropdown>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class={labelClazz}>
+          editingInput
+        </label>
+        <div class={divClazz}>
+          <editingInput value={editingInputValue} on-confirm={this.confirmEditingInput($event)}></editingInput>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class={labelClazz}>
+          loading
+        </label>
+        <div class={divClazz}>
+          <loading/>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class={labelClazz}>
+          modal
+        </label>
+        <div class={divClazz}>
+          <button type="button" class="btn btn-primary-outline" on-click={this.showModal()}>show modal</button>
+          <modal title="modal title" autoShow={false} autoDestroy={false} ref="modal">
+            modal body
+          </modal>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class={labelClazz}>
+          pager
+        </label>
+        <div class={divClazz}>
+          <pager total=100 current=2></pager>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class={labelClazz}>
+          param
+        </label>
+        <div class={divClazz}>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class={labelClazz}>
+          search
+        </label>
+        <div class={divClazz}>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class={labelClazz}>
+          tab
+        </label>
+        <div class={divClazz}>
+        </div>
+      </div>
+    </form>
+  </script>
+  <script>
+    var App = new Regular({
+      template: '#tpl',
+      data: {
+        labelClazz: 'form-control-label col-xs-2 text-xs-right',
+        divClazz: 'col-xs-10',
+        dropdownItems: [
+          {
+            href: 'https://baidu.com',
+            title: 'baidu'
+          }
+        ],
+        editingInputValue: 'test'
+      },
+      confirmEditingInput: function (newValue) {
+        this.data.editingInputValue = newValue
+      },
+      showModal: function () {
+        this.$refs.modal.show()
+      }
+    }).$inject('#app')
+  </script>
+</body>
+</html>

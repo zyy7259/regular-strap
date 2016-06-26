@@ -2,7 +2,7 @@
 * @Author: Zhang Yingya(hzzhangyingya)
 * @Date:   2016-05-29 19:40:47
 * @Last modified by:   zyy
-* @Last modified time: 2016-06-26 18:10:79
+* @Last modified time: 2016-06-26 23:14:36
 */
 
 require('../loading')
@@ -12,6 +12,14 @@ var body = document.querySelector('.g-doc') || document.body
 var counter = 0
 
 /**
+ * data
+ * - autoShow 是否自动显示
+ * - autoDestroy 是否要自动销毁
+ * - autoDestroyWhenCancel 是否在取消时自动销毁
+ * - autoHideWhenConfirm 是否在确认时自动隐藏
+ * - autoDestroyWhenConfirm 是否在确认时自动销毁
+ * - cancelTitle 取消按钮的文案
+ * - confirmTitle 确定按钮的文案
  * cancel/confirm 之后只是调用 hide 来触发动画, 在动画结束后执行 afterFadeOut
  */
 module.exports = Regular.extend({
@@ -22,28 +30,29 @@ module.exports = Regular.extend({
     this.$on('afterFadeOut', this.afterFadeOut.bind(this))
   },
   initDefault: function () {
-    this.data.initial = {
-      // 使用 JS 始化时, 可以传入内容
-      $cnt: null,
-      // 是否自动显示
-      autoShow: true,
-      // 是否在取消时自动销毁
-      autoDestroyWhenCancel: true,
-      // 是否在确认时自动隐藏
-      autoHideWhenConfirm: true,
-      // 是否在确认时自动销毁
-      autoDestroyWhenConfirm: true,
-      // 取消按钮的文案
-      cancelTitle: '取 消',
-      // 确定按钮的文案
-      confirmTitle: '确 定'
+    if (this.data.autoShow === undefined) {
+      this.data.autoShow = true
     }
-    this.supr()
+    if (this.data.autoDestroy === undefined) {
+      this.data.autoDestroy = true
+    }
+    if (this.data.autoDestroyWhenCancel === undefined) {
+      this.data.autoDestroyWhenCancel = true
+    }
+    if (this.data.autoHideWhenConfirm === undefined) {
+      this.data.autoHideWhenConfirm = true
+    }
+    if (this.data.autoDestroyWhenConfirm === undefined) {
+      this.data.autoDestroyWhenConfirm = true
+    }
+    if (this.data.cancelTitle === undefined) {
+      this.data.cancelTitle = '取 消'
+    }
+    if (this.data.confirmTitle === undefined) {
+      this.data.confirmTitle = '确 定'
+    }
   },
   init: function () {
-    if (this.$cnt) {
-      this.$cnt.$inject(this.$refs.cnt)
-    }
     if (this.data.autoShow) {
       this.show()
     }
@@ -90,8 +99,12 @@ module.exports = Regular.extend({
 
     this.data.hide = false
     this.data.show = false
-    var shouldDestroy = (this.data.reason === 'cancel' && this.data.autoDestroyWhenCancel) ||
-      (this.data.reason === 'confirm' && this.data.autoDestroyWhenConfirm)
+    var shouldDestroy = (this.data.reason === 'cancel' &&
+      this.data.autoDestroyWhenCancel &&
+      this.data.autoDestroy) ||
+      (this.data.reason === 'confirm' &&
+      this.data.autoDestroyWhenConfirm &&
+      this.data.autoDestroy)
     if (shouldDestroy) {
       this.destroy()
     }
