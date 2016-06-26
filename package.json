@@ -1,0 +1,42 @@
+{
+  "name": "regular-strap",
+  "private": true,
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "env": "env",
+    "clean": "run-p -lns clean:*",
+    "clean:css": "rimraf dist/css",
+    "clean:js": "rimraf dist/js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint --fix --config build/eslint.yaml --ignore-path build/eslintignore --color . ; exit 0",
+    "prebuild:css": "npm run --silent clean:css",
+    "prebuild:js": "npm run --silent clean:js",
+    "build": "run-p -lns build:js build:css",
+    "build:favicon": "node build/favicon.js",
+    "build:css": "postcss --config build/postcss.js",
+    "build:js": "webpack --config build/webpack.config.js",
+    "build:js:stats": "npm run build:js -- --profile --json > dist/webpack-stats.json",
+    "watch": "run-p -lns watch:*",
+    "watch-:css": "npm run build:css --silent -- --watch",
+    "watch:js": "npm run build:js --silent -- --watch",
+    "watch:lint": "watch 'npm run lint' -du --interval=0.25 --ignoreDirectoryPattern='/src/(?:3rd|submodule)|dist|node_modules/i' --filter=build/watchFilter.eslint.js",
+    "dev": "npm run watch",
+    "server": "puer & npm run dev",
+    "publish": "NODE_ENV=production npm run build",
+    "foo": "NODE_ENV=production node build/foo.js"
+  },
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "autoprefixer": "^6.3.6",
+    "cssnano": "^3.7.1",
+    "postcss-calc": "^5.2.1",
+    "precss": "^1.4.0",
+    "raw-loader": "^0.5.1"
+  }
+}

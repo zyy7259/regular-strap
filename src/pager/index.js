@@ -2,7 +2,7 @@
 * @Author: Zhang Yingya(hzzhangyingya)
 * @Date:   2016-05-19 15:39:01
 * @Last modified by:   zyy
-* @Last modified time: 2016-06-21 20:19:77
+* @Last modified time: 2016-06-26 18:21:12
 */
 
 var notNumReg = /[^0-9]/g
@@ -48,14 +48,14 @@ Regular.extend({
     var self = this
     var data = self.data
     self.$watch('limit', function (newValue, oldValue) {
-      if (_.isString(newValue)) {
+      if (typeof newValue === 'string') {
         newValue = newValue.replace(notNumReg, '')
         data.limit = newValue ? parseInt(newValue) : data.total
         self.caclSize()
       }
     })
     self.$watch('jump', function (newValue, oldValue) {
-      if (_.isString(newValue)) {
+      if (typeof newValue === 'string') {
         newValue = newValue.replace(notNumReg, '')
         if (newValue !== '') {
           newValue = parseInt(newValue)
@@ -88,14 +88,14 @@ Regular.extend({
     validJump: function () {
       var data = this.data
       var jump = data.jump
-      return _.isNumber(jump) && jump > 0 && jump <= data.size && jump !== data.current
+      return typeof jump === 'number' && jump > 0 && jump <= data.size && jump !== data.current
     }
   },
   jump: function () {
     var self = this
     var data = self.data
     var jump = data.jump
-    if (_.isNumber(jump)) {
+    if (typeof jump === 'number') {
       self.nav(jump)
     }
     data.jump = ''

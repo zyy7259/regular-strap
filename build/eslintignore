@@ -1,0 +1,14 @@
+# see (Ignoring Files and Directories)[http://eslint.org/docs/user-guide/configuring#ignoring-files-and-directories]
+
+# When ESLint is run, it looks in the current working directory to find an .eslintignore file before determining which files to lint. If this file is found, then those preferences are applied when traversing directories. Only one .eslintignore file can be used at a time, so .eslintignore files other than the one in the current working directory will not be used.
+
+# Globs are matched using [node-ignore](https://github.com/kaelzhang/node-ignore)
+
+# Ignore patterns behave according to the .gitignore [specification](http://git-scm.com/docs/gitignore)
+# Paths are relative to .eslintignore location or the current working directory.
+# Lines preceded by ! are negated patterns that re-include a pattern that was ignored by an earlier pattern.
+# ESLint always ignores files in /node_modules/* and /bower_components/*
+
+src/3rd/*
+src/submodule/*
+dist/*

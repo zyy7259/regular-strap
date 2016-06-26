@@ -1,15 +1,16 @@
 /*
 * @Author: Zhang Yingya(hzzhangyingya)
 * @Date:   2016-05-22 19:35:33
-* @Last Modified by:   Zhang Yingya(hzzhangyingya)
-* @Last Modified time: 2016-06-07 21:03:14
+* @Last modified by:   zyy
+* @Last modified time: 2016-06-26 17:12:68
 */
 
 var dom = Regular.dom
+var tpl = require('./index.html')
 
 module.exports = Regular.extend({
   name: 'dropdown',
-  template: require('./index.html'),
+  template: tpl,
   config: function () {
     var self = this
     self.unopenHandler = self.unopen.bind(self)

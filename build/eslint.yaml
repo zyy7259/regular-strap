@@ -1,0 +1,16 @@
+# @Author: Yingya Zhang <zyy>
+# @Date:   2016-05-16 16:04:00
+# @Email:  zyy7259@gmail.com
+# @Last modified by:   zyy
+# @Last modified time: 2016-06-22 09:45:02
+
+env:
+  browser: true
+  commonjs: true
+  jasmine: true
+extends: standard
+globals:
+  _: false
+  Regular: false
+  restate: false
+  define: false

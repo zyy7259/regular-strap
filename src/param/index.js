@@ -2,7 +2,7 @@
 * @Author: Zhang Yingya(hzzhangyingya)
 * @Date:   2016-05-30 16:40:04
 * @Last modified by:   zyy
-* @Last modified time: 2016-06-23 14:28:16
+* @Last modified time: 2016-06-26 18:21:23
 */
 
 require('./checkboxes')
@@ -125,7 +125,7 @@ module.exports = Regular.extend({
     var self = this
     var data = self.data
     var $refs = self.$refs
-    var params = _.cloneDeep(data.params)
+    var params = JSON.parse(JSON.stringify(data.params))
     var invalid = data.list.some(function (param) {
       param.invalid = false
       param.invalidTip = ''
@@ -134,8 +134,8 @@ module.exports = Regular.extend({
         return
       }
       var value = params[name]
-      if (_.isString(value)) {
-        value = _.trim(value)
+      if (typeof value === 'string') {
+        value = value.trim()
       }
       switch (param.type) {
         case 'String':
