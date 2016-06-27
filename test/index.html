@@ -3,7 +3,7 @@
 @Date:   2016-06-26 18:28:00
 @Email:  zyy7259@gmail.com
 @Last modified by:   zyy
-@Last modified time: 2016-06-26 23:36:83
+@Last modified time: 2016-06-27 10:45:05
 -->
 
 <!DOCTYPE html>
@@ -69,16 +69,10 @@
       </div>
       <div class="form-group row">
         <label class={labelClazz}>
-          param
-        </label>
-        <div class={divClazz}>
-        </div>
-      </div>
-      <div class="form-group row">
-        <label class={labelClazz}>
           search
         </label>
         <div class={divClazz}>
+          <search on-change={this.onSearchChange($event)}></search>
         </div>
       </div>
       <div class="form-group row">
@@ -86,11 +80,135 @@
           tab
         </label>
         <div class={divClazz}>
+          <tab>
+            <tabPane id="first" title="t1">
+              content of first
+            </tabPane>
+            <tabPane id="second" title="t2" selected>
+              content of second
+            </tabPane>
+          </tab>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class={labelClazz}>
+          param
+        </label>
+        <div class={divClazz}>
+          <param caption="params" list={paramList} on-change={this.onParamChange($event)}/>
         </div>
       </div>
     </form>
   </script>
   <script>
+    var paramList = [
+      {
+        name: 'strOptional',
+        type: 'String',
+        desc: '可选字符串'
+      },
+      {
+        name: 'strMandatory',
+        type: 'String',
+        desc: '必填字符串',
+        mandatory: true
+      },
+      {
+        name: 'emailOptional',
+        type: 'Email',
+        desc: '可选邮箱'
+      },
+      {
+        name: 'emailMandatory',
+        type: 'Email',
+        desc: '必选邮箱',
+        mandatory: true
+      },
+      {
+        name: 'integerOptional',
+        type: 'Number',
+        desc: '可选数字'
+      },
+      {
+        name: 'integerMandatory',
+        type: 'Number',
+        desc: '必选数字',
+        mandatory: true
+      },
+      {
+        name: 'dateStrOptional',
+        type: 'DateStr',
+        desc: '可选日期字符串'
+      },
+      {
+        name: 'dateStrMandatory',
+        type: 'DateStr',
+        desc: '必选日期字符串',
+        mandatory: true
+      },
+      {
+        name: 'dateTimeOptional',
+        type: 'DateTime',
+        desc: '可选日期'
+      },
+      {
+        name: 'dateTimeMandatory',
+        type: 'DateTime',
+        desc: '必选日期',
+        mandatory: true
+      },
+      {
+        name: 'slectOptional',
+        type: 'Select',
+        desc: '可选选择器',
+        list: [
+          {
+            value: 'a',
+            desc: 'a'
+          }
+        ]
+      },
+      {
+        name: 'checkboxesOptional',
+        type: 'Checkboxes',
+        desc: '可选checkboxes',
+        list: [
+          {
+            value: 'a',
+            desc: 'a'
+          },
+          {
+            value: 'b',
+            desc: 'b',
+            checked: true
+          },
+          {
+            value: 'c',
+            desc: 'c'
+          }
+        ]
+      },
+      {
+        name: 'radiosOptional',
+        type: 'Radios',
+        desc: '可选radio',
+        list: [
+          {
+            value: 'a',
+            desc: 'a'
+          },
+          {
+            value: 'b',
+            desc: 'b',
+            checked: true
+          },
+          {
+            value: 'c',
+            desc: 'c'
+          }
+        ]
+      }
+    ]
     var App = new Regular({
       template: '#tpl',
       data: {
@@ -102,13 +220,20 @@
             title: 'baidu'
           }
         ],
-        editingInputValue: 'test'
+        editingInputValue: 'test',
+        paramList: paramList
       },
       confirmEditingInput: function (newValue) {
         this.data.editingInputValue = newValue
       },
       showModal: function () {
         this.$refs.modal.show()
+      },
+      onParamChange: function (params) {
+        console.log('params', params)
+      },
+      onSearchChange: function (str) {
+        console.log('searching ' + str)
       }
     }).$inject('#app')
   </script>

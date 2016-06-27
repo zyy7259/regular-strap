@@ -2,34 +2,51 @@
 * @Author: Zhang Yingya(hzzhangyingya)
 * @Date:   2016-05-30 16:40:04
 * @Last modified by:   zyy
-* @Last modified time: 2016-06-26 18:21:23
+* @Last modified time: 2016-06-27 10:39:73
 */
 
-require('./checkboxes')
 require('../loading')
+require('./checkboxes')
+require('./radios')
 var tpl = require('./index.html')
 
+Regular.directive('r-model2', {
+  // TODO 理解一下
+  link: function (elem, value) {
+    value = this.$get(value)
+    return Regular.directive('r-model').link.call(this, elem, value)
+  }
+})
+
 /**
-* data.list []
-* - type: 'String/Email/Integer/DateStr/Select/Checkboxes'
-* - name: String
-* - desc: String
-* - mandatory: true/false
-* - labelClazz: ''
-* - iptClazz: ''
-* - options: used by Select
-*   - value: String
-*   - desc: String
-* - list: used by checkboxes
-*   - value: String
-*   - desc: String
-*
-* data.emailReg
-* - 验证邮箱的正则表达式
-*
-* data.default
-* - 默认值
-*/
+ * data
+ * - id ID
+ * - list 参数列表
+ *   - type: 'String/Email/Number/DateStr/DateTime/Select/Checkboxes/Radios'
+ *   - name: String
+ *   - desc: String
+ *   - mandatory: true/false
+ *   - min/max: used by Number
+ *   - list: used by Select/Checkboxes/Radios
+ *     - value: String
+ *     - desc: String
+ *     - checked: Boolean
+ * - default 默认值
+ * - paramsLimit 超过这个数量, 参数就叠起来
+ * - emailReg 验证邮箱的正则表达式
+ * - hideMandatory 是否隐藏 * 号
+ * - hideColon 是否隐藏 : 号
+ * - hideTip 是否隐藏提示
+ * - params 参数值对象
+ * - showSubmit 是否展示提交按钮
+ * - submitTitle 提交按钮的文案
+ * - submitClazz
+ * - submitBtnClazz
+ * 下面的类只在 stackParams 的时候才起作用, 3 + 8 != 12, 是为了让右边有空隙
+ * - labelPosClazz
+ * - labelColClazz
+ * - iptColClazz
+ */
 module.exports = Regular.extend({
   name: 'param',
   template: tpl,
@@ -39,36 +56,48 @@ module.exports = Regular.extend({
     this.mergeParamDefault()
   },
   initDefault: function () {
-    this.data.initial = {
-      // ID
-      id: +new Date(),
-      // 超过这个数量, 参数就叠起来
-      paramsLimit: 3,
-      // 参数列表
-      list: [],
-      // 是否隐藏 * 号
-      hideMandatory: false,
-      // 是否隐藏 : 号
-      hideColon: false,
-      // 是否隐藏提示
-      hideTip: false,
-      // 参数值对象
-      params: {},
-      // 是否展示提交按钮
-      showSubmit: false,
-      // 提交按钮的文案
-      submitTitle: '确定',
-      // 下面的类只在 stackParams 的时候才起作用, 3 + 8 != 12, 是为了让右边有空隙
-      // label 的类
-      labelPosClazz: 'text-xs-right',
-      labelColClazz: 'col-md-3',
-      // ipt 的类
-      iptColClazz: 'col-md-8',
-      // submit 的类
-      submitClazz: 'col-md-offset-3 col-md-8',
-      submitBtnClazz: 'btn-primary-outline'
+    if (this.data.id === undefined) {
+      this.data.id = +new Date()
     }
-    this.supr()
+    if (this.data.list === undefined) {
+      this.data.list = []
+    }
+    if (this.data.paramsLimit === undefined) {
+      this.data.paramsLimit = 3
+    }
+    if (this.data.hideMandatory === undefined) {
+      this.data.hideMandatory = false
+    }
+    if (this.data.hideColon === undefined) {
+      this.data.hideColon = false
+    }
+    if (this.data.hideTip === undefined) {
+      this.data.hideTip = false
+    }
+    if (this.data.params === undefined) {
+      this.data.params = {}
+    }
+    if (this.data.showSubmit === undefined) {
+      this.data.showSubmit = false
+    }
+    if (this.data.submitTitle === undefined) {
+      this.data.submitTitle = '确定'
+    }
+    if (this.data.labelPosClazz === undefined) {
+      this.data.labelPosClazz = 'text-xs-right'
+    }
+    if (this.data.labelColClazz === undefined) {
+      this.data.labelColClazz = 'col-md-3'
+    }
+    if (this.data.iptColClazz === undefined) {
+      this.data.iptColClazz = 'col-md-8'
+    }
+    if (this.data.submitClazz === undefined) {
+      this.data.submitClazz = 'col-md-offset-3 col-md-8'
+    }
+    if (this.data.submitBtnClazz === undefined) {
+      this.data.submitBtnClazz = 'btn-primary-outline'
+    }
   },
   // 参数默认值
   mergeParamDefault: function () {
@@ -99,9 +128,10 @@ module.exports = Regular.extend({
       case 'Email':
         tip = '请输入合法邮箱'
         break
-      case 'Integer':
-        tip = '请输入数字, '
+      case 'Number':
+        tip = '请输入数字'
         if (param.min) {
+          tip += ', '
           tip += '最小值 ' + param.min
         }
         if (param.max) {
@@ -158,7 +188,7 @@ module.exports = Regular.extend({
             }
           }
           break
-        case 'Integer':
+        case 'Number':
           if (!value) {
             if (self.shouldInvalidEmptyParam(params, param)) {
               return true
@@ -206,7 +236,7 @@ module.exports = Regular.extend({
               return true
             }
           } else {
-            if (param.valueType === 'Integer') {
+            if (param.valueType === 'Number') {
               value = parseInt(value)
               if (isNaN(value)) {
                 return self.invalidParam(param)
@@ -216,6 +246,7 @@ module.exports = Regular.extend({
           }
           break
         case 'Checkboxes':
+        case 'Radios':
           value = $refs[name].getChecked()
           if (!value.length) {
             if (self.shouldInvalidEmptyParam(params, param)) {

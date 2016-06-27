@@ -2,47 +2,18 @@
 * @Author: Zhang Yingya(hzzhangyingya)
 * @Date:   2016-05-31 20:28:05
 * @Last modified by:   zyy
-* @Last modified time: 2016-06-22 10:21:41
+* @Last modified time: 2016-06-27 10:01:36
 */
 
 var tpl = require('./index.html')
+var Checkable = require('../checkable')
 
-module.exports = Regular.extend({
+module.exports = Checkable.extend({
   name: 'checkboxes',
   template: tpl,
   config: function () {
-    this.updateDefaultCheckeds()
+    this.resetDefaultCheckeds()
     this.watch()
-  },
-  updateDefaultCheckeds: function () {
-    this.data.defaultCheckeds = this.data.list.filter(function (checkbox) {
-      return checkbox.checked
-    }).map(function (checkbox) {
-      return checkbox.value
-    })
-    this.data.currChecked = this.data.defaultCheckeds.slice(0)
-  },
-  watch: function () {
-    var self = this
-    self.$watch('list', function () {
-      self.updateDefaultCheckeds()
-    })
-  },
-  isDefaultChecked: function (checkbox) {
-    return this.data.defaultCheckeds.indexOf(checkbox.value) !== -1
-  },
-  isCurrChecked: function (checkbox) {
-    return this.data.currChecked.indexOf(checkbox.value) !== -1
-  },
-  genClass: function (checkbox) {
-    var isDefaultChecked = this.isDefaultChecked(checkbox)
-    var isCurrChecked = this.isCurrChecked(checkbox)
-    if (isDefaultChecked && isCurrChecked) {
-      return 'has-success'
-    } else if ((isDefaultChecked && !isCurrChecked) ||
-    (!isDefaultChecked && isCurrChecked)) {
-      return 'has-warning'
-    }
   },
   // 获得页面上所有选中的 checkboxes
   getChecked: function () {
