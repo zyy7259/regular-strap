@@ -2,7 +2,7 @@
 * @Author: Zhang Yingya(hzzhangyingya)
 * @Date:   2016-04-23 19:01:33
 * @Last modified by:   zyy
-* @Last modified time: 2016-06-26 18:04:01
+* @Last modified time: 2016-06-28 11:20:79
 */
 
 define([
@@ -140,9 +140,7 @@ define([
         delete query.limit
       }
 
-      Object.assign(query, data.extraData)
-
-      return query
+      return Object.assign({}, query, data.extraData)
     },
 
     jump: function () {

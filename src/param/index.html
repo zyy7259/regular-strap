@@ -3,7 +3,7 @@
 @Date:   2016-06-26 17:01:00
 @Email:  zyy7259@gmail.com
 @Last modified by:   zyy
-@Last modified time: 2016-06-27 10:37:68
+@Last modified time: 2016-06-28 16:36:48
 -->
 
 <div class="m-param {clazz}">
@@ -18,6 +18,9 @@
           {#if !hideColon}:{/if}
         </label>
         <div {#if stack}class="{iptColClazz}"{#else}class="form-group {param.iptClazz}"{/if}>
+          {#if param.type === 'Static'}
+            <p class="form-control-static">{params[param.name]}</p>
+          {/if}
           {#if param.type === 'String' || param.type === 'Email' || param.type === 'Number'}
             <input class="form-control" type={this.genInputType(param)} id={this.genParamId(param)} r-model2={'params.' + param.name} ref='{param.name}' placeholder={this.genParamTip(param)} maxlength={param.maxlength} on-input={this.getParams(param)} on-blur={this.getParams(param)}>
           {/if}
@@ -35,10 +38,10 @@
             </select>
           {/if}
           {#if param.type === 'Checkboxes'}
-            <checkboxes list={param.list} ref='{param.name}' on-change={this.getParams(param)}/>
+            <checkboxes list={param.list} default={params[param.name]} ref='{param.name}' on-change={this.getParams(param)}/>
           {/if}
           {#if param.type === 'Radios'}
-            <radios list={param.list} ref='{param.name}' on-change={this.getParams(param)}></radios>
+            <radios list={param.list} default={params[param.name]} ref='{param.name}' on-change={this.getParams(param)}></radios>
           {/if}
           {#if param.invalid && !hideTip}
             <div class="text-help" r-class={{'form-group':stack}}>

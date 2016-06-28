@@ -2,13 +2,67 @@
 * @Author: Zhang Yingya(hzzhangyingya)
 * @Date:   2016-05-30 16:40:04
 * @Last modified by:   zyy
-* @Last modified time: 2016-06-27 10:39:73
+* @Last modified time: 2016-06-28 17:28:06
 */
 
 require('../loading')
 require('./checkboxes')
 require('./radios')
 var tpl = require('./index.html')
+
+var dateUtil = {
+  fix: function (number, count) {
+    count = count || 2
+    var str = '' + number
+    while (str.length < count) {
+      str = '0' + str
+    }
+    return str
+  },
+  getYearStr: function (date) {
+    return '' + date.getFullYear()
+  },
+  getMonthStr: function (date) {
+    return dateUtil.fix(date.getMonth() + 1)
+  },
+  getDayStr: function (date) {
+    return dateUtil.fix(date.getDate())
+  },
+  getHourStr: function (date) {
+    return dateUtil.fix(date.getHours())
+  },
+  getMinuteStr: function (date) {
+    return dateUtil.fix(date.getMinutes())
+  },
+  getSecondStr: function (date) {
+    return dateUtil.fix(date.getSeconds())
+  },
+  getMillisecondStr: function (date) {
+    return dateUtil.fix(date.getMilliseconds(), 3)
+  }
+}
+dateUtil.format = (function () {
+  var reg = /yyyy|MM|dd|hh|mm|ss|SSS/g
+  var mappers = {
+    yyyy: dateUtil.getYearStr,
+    MM: dateUtil.getMonthStr,
+    dd: dateUtil.getDayStr,
+    hh: dateUtil.getHourStr,
+    mm: dateUtil.getMinuteStr,
+    ss: dateUtil.getSecondStr,
+    SSS: dateUtil.getMillisecondStr
+  }
+  return function (date, format) {
+    date = new Date(date)
+    if (isNaN(+date)) {
+      return 'invalid date'
+    }
+    format = format || 'yyyy-MM-dd'
+    return format.replace(reg, function (match) {
+      return mappers[match](date)
+    })
+  }
+})()
 
 Regular.directive('r-model2', {
   // TODO 理解一下
@@ -101,7 +155,41 @@ module.exports = Regular.extend({
   },
   // 参数默认值
   mergeParamDefault: function () {
-    this.data.params = Object.assign({}, this.data.default)
+    var self = this
+    var data = self.data
+    data.params = {}
+    Object.assign(data.params, data.default)
+    data.list.forEach(function (param) {
+      var defaultValue = data.params[param.name] || param.value
+      switch (param.type) {
+        case 'DateStr':
+        case 'DateTime':
+          if (defaultValue) {
+            var format = param.type === 'DateStr' ? 'yyyy-MM-dd' : 'yyyy-MM-ddThh:mm'
+            defaultValue = +new Date(defaultValue)
+            if (!isNaN(defaultValue)) {
+              defaultValue = new Date(defaultValue)
+              data.params[param.name] = dateUtil.format(defaultValue, format)
+            } else {
+              delete data.params[param.name]
+            }
+          }
+          return
+        case 'Select':
+          param.list.some(function (option) {
+            if (option.selected) {
+              defaultValue = option.value
+              return true
+            }
+          })
+          break
+        default:
+          break
+      }
+      if (defaultValue !== null && defaultValue !== undefined) {
+        data.params[param.name] = defaultValue
+      }
+    })
   },
   init: function () {
     var self = this
@@ -189,7 +277,7 @@ module.exports = Regular.extend({
           }
           break
         case 'Number':
-          if (!value) {
+          if (value === null || value === undefined || value === '') {
             if (self.shouldInvalidEmptyParam(params, param)) {
               return true
             }
@@ -248,7 +336,7 @@ module.exports = Regular.extend({
         case 'Checkboxes':
         case 'Radios':
           value = $refs[name].getChecked()
-          if (!value.length) {
+          if (!value || !value.length) {
             if (self.shouldInvalidEmptyParam(params, param)) {
               return true
             }
