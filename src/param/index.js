@@ -2,7 +2,7 @@
 * @Author: Zhang Yingya(hzzhangyingya)
 * @Date:   2016-05-30 16:40:04
 * @Last modified by:   zyy
-* @Last modified time: 2016-06-29 16:28:94
+* @Last modified time: 2016-06-29 17:03:88
 */
 
 require('../loading')
@@ -92,6 +92,7 @@ Regular.directive('r-model2', {
  *   - invalidTip: String 参数非法时展示的提示
  *   - tip: String 参数提示
  *   - min/max: used by Integer/Float
+ *   - valueType: Integer/Float used by Select/Checkboxes/Radios
  *   - list: used by Select/Checkboxes/Radios
  *     - value: String
  *     - desc: String
@@ -366,7 +367,15 @@ module.exports = Regular.extend({
         case 'Checkboxes':
         case 'Radios':
           value = $refs[name].getChecked()
-          if (!value || !value.length) {
+
+          var noValue = false
+          if (param.type === 'Checkboxes') {
+            noValue = !value.length
+          } else if (param.type === 'Radios') {
+            noValue = value === null || value === undefined || value === ''
+          }
+
+          if (noValue) {
             if (isParamToCheck && self.shouldInvalidEmptyParam(params, param)) {
               return true
             }

@@ -3,7 +3,7 @@
 @Date:   2016-06-26 18:28:00
 @Email:  zyy7259@gmail.com
 @Last modified by:   zyy
-@Last modified time: 2016-06-29 16:34:52
+@Last modified time: 2016-06-29 17:08:01
 -->
 
 <!DOCTYPE html>
@@ -66,7 +66,7 @@
       {
         name: 'strOptionalEmpty',
         type: 'String',
-        desc: '可选字符串'
+        desc: '可选字符串空'
       },
       {
         name: 'strOptional',
@@ -77,7 +77,7 @@
       {
         name: 'strMandatoryEmpty',
         type: 'String',
-        desc: '必填字符串',
+        desc: '必填字符串空',
         mandatory: true
       },
       {
@@ -89,7 +89,7 @@
       {
         name: 'integerOptionalEmpty',
         type: 'Integer',
-        desc: '可选数字'
+        desc: '可选数字空'
       },
       {
         name: 'integerOptional',
@@ -100,7 +100,7 @@
       {
         name: 'integerMandatoryEmpty',
         type: 'Integer',
-        desc: '必选数字',
+        desc: '必选数字空',
         mandatory: true
       },
       {
@@ -112,7 +112,7 @@
       {
         name: 'floatOptionalEmpty',
         type: 'Float',
-        desc: '可选数字'
+        desc: '可选数字空'
       },
       {
         name: 'floatOptional',
@@ -123,7 +123,7 @@
       {
         name: 'floatMandatoryEmpty',
         type: 'Float',
-        desc: '必选数字',
+        desc: '必选数字空',
         mandatory: true
       },
       {
@@ -135,7 +135,7 @@
       {
         name: 'emailOptionalEmpty',
         type: 'Email',
-        desc: '可选邮箱'
+        desc: '可选邮箱空'
       },
       {
         name: 'emailOptional',
@@ -146,7 +146,7 @@
       {
         name: 'emailMandatoryEmpty',
         type: 'Email',
-        desc: '必选邮箱',
+        desc: '必选邮箱空',
         mandatory: true
       },
       {
@@ -158,7 +158,7 @@
       {
         name: 'dateStrOptionalEmpty',
         type: 'DateStr',
-        desc: '可选日期字符串'
+        desc: '可选日期字符串空'
       },
       {
         name: 'dateStrOptional',
@@ -169,7 +169,7 @@
       {
         name: 'dateStrMandatoryEmpty',
         type: 'DateStr',
-        desc: '必选日期字符串',
+        desc: '必选日期字符串空',
         mandatory: true
       },
       {
@@ -181,7 +181,7 @@
       {
         name: 'dateTimeOptionalEmpty',
         type: 'DateTime',
-        desc: '可选日期'
+        desc: '可选日期空'
       },
       {
         name: 'dateTimeOptional',
@@ -192,7 +192,7 @@
       {
         name: 'dateTimeMandatoryEmpty',
         type: 'DateTime',
-        desc: '必选日期',
+        desc: '必选日期空',
         mandatory: true
       },
       {
@@ -204,7 +204,7 @@
       {
         name: 'selectOptionalEmpty',
         type: 'Select',
-        desc: '可选选择器',
+        desc: '可选选择器空',
         list: [
           {
             value: 'a',
@@ -299,9 +299,33 @@
         ]
       },
       {
+        name: 'selectOptionalIntegerString',
+        type: 'Select',
+        desc: '可选选择器数字字符串',
+        list: [
+          {
+            value: 0,
+            desc: 'zero'
+          },
+          {
+            value: 1,
+            desc: 'one',
+            selected: true
+          },
+          {
+            value: 2,
+            desc: 'two'
+          },
+          {
+            value: 3,
+            desc: 'three'
+          }
+        ]
+      },
+      {
         name: 'selectMandatoryEmpty',
         type: 'Select',
-        desc: '必选选择器',
+        desc: '必选选择器空',
         list: [
           {
             value: 'a',
@@ -347,7 +371,7 @@
       {
         name: 'checkboxesOptionalEmpty',
         type: 'Checkboxes',
-        desc: '可选checkboxes',
+        desc: '可选checkboxes空',
         list: [
           {
             value: 'a',
@@ -392,9 +416,33 @@
         ]
       },
       {
+        name: 'checkboxesOptionalInteger',
+        type: 'Checkboxes',
+        desc: '可选checkboxes数字',
+        list: [
+          {
+            value: 0,
+            desc: 'zero'
+          },
+          {
+            value: 1,
+            desc: 'one',
+            checked: true
+          },
+          {
+            value: 2,
+            desc: 'two'
+          },
+          {
+            value: 3,
+            desc: 'three'
+          }
+        ]
+      },
+      {
         name: 'checkboxesMandatoryEmpty',
         type: 'Checkboxes',
-        desc: '必选checkboxes',
+        desc: '必选checkboxes空',
         mandatory: true,
         list: [
           {
@@ -442,7 +490,7 @@
       {
         name: 'radiosOptionalEmpty',
         type: 'Radios',
-        desc: '可选radio',
+        desc: '可选radio空',
         list: [
           {
             value: 'a',
@@ -487,9 +535,9 @@
         ]
       },
       {
-        name: 'radiosNumberOptional',
+        name: 'radiosOptionalNumber',
         type: 'Radios',
-        desc: '可选数字radio',
+        desc: '可选radio数字',
         list: [
           {
             value: 0,
@@ -513,7 +561,7 @@
       {
         name: 'radiosMandatoryEmpty',
         type: 'Radios',
-        desc: '必选radio',
+        desc: '必选radio空',
         mandatory: true,
         list: [
           {
