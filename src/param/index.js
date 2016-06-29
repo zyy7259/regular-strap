@@ -2,7 +2,7 @@
 * @Author: Zhang Yingya(hzzhangyingya)
 * @Date:   2016-05-30 16:40:04
 * @Last modified by:   zyy
-* @Last modified time: 2016-06-28 17:28:06
+* @Last modified time: 2016-06-29 15:56:78
 */
 
 require('../loading')
@@ -153,7 +153,12 @@ module.exports = Regular.extend({
       this.data.submitBtnClazz = 'btn-primary-outline'
     }
   },
-  // 参数默认值
+  /**
+   * 参数默认值
+   * - DateStr & DateTime: 如果提供了默认值，那么需要格式化一下日期
+   * - Select: 重新计算默认值
+   * - Checkboxes & Radios: 如果没有提供默认值，那么重新计算默认值
+   */
   mergeParamDefault: function () {
     var self = this
     var data = self.data
@@ -182,6 +187,19 @@ module.exports = Regular.extend({
               return true
             }
           })
+          break
+        case 'Checkboxes':
+        case 'Radios':
+          if (!defaultValue) {
+            var checkeds = param.list.filter(function (item) {
+              return item.checked
+            }).map(function (item) {
+              return item.value
+            })
+            if (checkeds.length) {
+              defaultValue = param.type === 'Radios' ? checkeds[0] : checkeds
+            }
+          }
           break
         default:
           break
@@ -237,9 +255,9 @@ module.exports = Regular.extend({
   },
   /**
   * 获取参数, 有错误的话返回 false, 正常的话返回所有的参数
-  * 如果指定了 checkParam, 那么只检查对应的参数
+  * 如果指定了 paramToCheck, 那么只检查对应的参数
   */
-  getParams: function (checkParam) {
+  getParams: function (paramToCheck) {
     var self = this
     var data = self.data
     var $refs = self.$refs
@@ -248,9 +266,8 @@ module.exports = Regular.extend({
       param.invalid = false
       param.invalidTip = ''
       var name = param.name
-      if (checkParam && name !== checkParam.name) {
-        return
-      }
+      // 是否是待检查的参数，如果不是，那么不用展示错误
+      var isParamToCheck = paramToCheck && name === paramToCheck.name
       var value = params[name]
       if (typeof value === 'string') {
         value = value.trim()
@@ -258,7 +275,7 @@ module.exports = Regular.extend({
       switch (param.type) {
         case 'String':
           if (value !== 0 && !value) {
-            if (self.shouldInvalidEmptyParam(params, param)) {
+            if (isParamToCheck && self.shouldInvalidEmptyParam(params, param)) {
               return true
             }
           } else {
@@ -267,18 +284,18 @@ module.exports = Regular.extend({
           break
         case 'Email':
           if (!value) {
-            if (self.shouldInvalidEmptyParam(params, param)) {
+            if (isParamToCheck && self.shouldInvalidEmptyParam(params, param)) {
               return true
             }
           } else {
-            if (!checkParam && !self.verifyEmail(value)) {
+            if (!self.verifyEmail(value)) {
               return self.invalidParam(param)
             }
           }
           break
         case 'Number':
           if (value === null || value === undefined || value === '') {
-            if (self.shouldInvalidEmptyParam(params, param)) {
+            if (isParamToCheck && self.shouldInvalidEmptyParam(params, param)) {
               return true
             }
           } else {
@@ -292,35 +309,10 @@ module.exports = Regular.extend({
             params[name] = value
           }
           break
-        case 'DateStr':
-          if (!value) {
-            if (self.shouldInvalidEmptyParam(params, param)) {
-              return true
-            }
-          } else {
-            value = +new Date(value)
-            if (isNaN(value)) {
-              return self.invalidParam(param)
-            }
-          }
-          break
-        case 'DateTime':
-          if (!value) {
-            if (self.shouldInvalidEmptyParam(params, param)) {
-              return true
-            }
-          } else {
-            value = +new Date(value.replace(/-/g, '/').replace('T', ' '))
-            if (isNaN(value)) {
-              return self.invalidParam(param)
-            }
-            params[name] = value
-          }
-          break
         case 'Select':
           value = $refs[name].value
           if (!value) {
-            if (self.shouldInvalidEmptyParam(params, param)) {
+            if (isParamToCheck && self.shouldInvalidEmptyParam(params, param)) {
               return true
             }
           } else {
@@ -333,11 +325,36 @@ module.exports = Regular.extend({
             params[name] = value
           }
           break
+        case 'DateStr':
+          if (!value) {
+            if (isParamToCheck && self.shouldInvalidEmptyParam(params, param)) {
+              return true
+            }
+          } else {
+            value = +new Date(value)
+            if (isNaN(value)) {
+              return self.invalidParam(param)
+            }
+          }
+          break
+        case 'DateTime':
+          if (!value) {
+            if (isParamToCheck && self.shouldInvalidEmptyParam(params, param)) {
+              return true
+            }
+          } else {
+            value = +new Date(value.replace(/-/g, '/').replace('T', ' '))
+            if (isNaN(value)) {
+              return self.invalidParam(param)
+            }
+            params[name] = new Date(value)
+          }
+          break
         case 'Checkboxes':
         case 'Radios':
           value = $refs[name].getChecked()
           if (!value || !value.length) {
-            if (self.shouldInvalidEmptyParam(params, param)) {
+            if (isParamToCheck && self.shouldInvalidEmptyParam(params, param)) {
               return true
             }
           } else {
@@ -348,7 +365,7 @@ module.exports = Regular.extend({
           break
       }
     })
-    if (checkParam) {
+    if (paramToCheck) {
       this.$emit('change', params)
     }
     return invalid ? false : params

@@ -2,7 +2,7 @@
 * @Author: Zhang Yingya(hzzhangyingya)
 * @Date:   2016-05-29 19:40:47
 * @Last modified by:   zyy
-* @Last modified time: 2016-06-26 23:14:36
+* @Last modified time: 2016-06-28 23:18:53
 */
 
 require('../loading')
@@ -58,13 +58,18 @@ module.exports = Regular.extend({
     }
   },
   show: function () {
+    var self = this
     counter++
     dom.addClass(body, 'modal-open')
-    this.$inject(body)
-    this.data.show = true
-    this.$update()
+    self.$inject(body)
+    self.$update()
+    setTimeout(function () {
+      self.data.show = true
+      self.$update()
+    }, 0)
   },
   click: function (event) {
+    console.log(event)
     if (event.target === this.$refs.modal) {
       this.cancel()
     }
