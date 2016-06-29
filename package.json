@@ -13,7 +13,7 @@
     "clean:css": "rimraf dist/css",
     "clean:js": "rimraf dist/js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "eslint --fix --config build/eslint.yaml --ignore-path build/eslintignore --color . ; exit 0",
+    "lint": "eslint --config build/eslint.yaml --ignore-path build/eslintignore --color . ; exit 0",
     "prebuild:css": "npm run --silent clean:css",
     "prebuild:js": "npm run --silent clean:js",
     "build": "run-p -lns build:js build:css",

@@ -2,7 +2,7 @@
 * @Author: Zhang Yingya(hzzhangyingya)
 * @Date:   2016-05-30 16:40:04
 * @Last modified by:   zyy
-* @Last modified time: 2016-06-29 15:56:78
+* @Last modified time: 2016-06-29 16:28:94
 */
 
 require('../loading')
@@ -76,11 +76,22 @@ Regular.directive('r-model2', {
  * data
  * - id ID
  * - list 参数列表
- *   - type: 'String/Email/Number/DateStr/DateTime/Select/Checkboxes/Radios'
+ *   - type:
+ *     - String
+ *     - Integer
+ *     - Float
+ *     - Email
+ *     - DateStr
+ *     - DateTime
+ *     - Select
+ *     - Checkboxes
+ *     - Radios
  *   - name: String
  *   - desc: String
  *   - mandatory: true/false
- *   - min/max: used by Number
+ *   - invalidTip: String 参数非法时展示的提示
+ *   - tip: String 参数提示
+ *   - min/max: used by Integer/Float
  *   - list: used by Select/Checkboxes/Radios
  *     - value: String
  *     - desc: String
@@ -234,7 +245,8 @@ module.exports = Regular.extend({
       case 'Email':
         tip = '请输入合法邮箱'
         break
-      case 'Number':
+      case 'Integer':
+      case 'Float':
         tip = '请输入数字'
         if (param.min) {
           tip += ', '
@@ -293,13 +305,14 @@ module.exports = Regular.extend({
             }
           }
           break
-        case 'Number':
+        case 'Integer':
+        case 'Float':
           if (value === null || value === undefined || value === '') {
             if (isParamToCheck && self.shouldInvalidEmptyParam(params, param)) {
               return true
             }
           } else {
-            value = parseFloat(value)
+            value = param.type === 'Float' ? parseFloat(value) : parseInt(value)
             if (isNaN(value) ||
               (param.min && value < param.min) ||
               (param.max && value > param.max)
@@ -316,8 +329,8 @@ module.exports = Regular.extend({
               return true
             }
           } else {
-            if (param.valueType === 'Number') {
-              value = parseInt(value)
+            if (param.valueType === 'Integer' || param.valueType === 'Float') {
+              value = param.valueType === 'Float' ? parseFloat(value) : parseInt(value)
               if (isNaN(value)) {
                 return self.invalidParam(param)
               }
