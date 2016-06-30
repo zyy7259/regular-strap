@@ -2,7 +2,7 @@
 * @Author: Zhang Yingya(hzzhangyingya)
 * @Date:   2016-05-29 19:40:47
 * @Last modified by:   zyy
-* @Last modified time: 2016-06-28 23:18:53
+* @Last modified time: 2016-06-30 15:17:34
 */
 
 require('../loading')
@@ -69,7 +69,7 @@ module.exports = Regular.extend({
     }, 0)
   },
   click: function (event) {
-    console.log(event)
+    // console.log(event)
     if (event.target === this.$refs.modal) {
       this.cancel()
     }

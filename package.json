@@ -27,7 +27,7 @@
     "watch:lint": "watch 'npm run lint' -du --interval=0.25 --ignoreDirectoryPattern='/src/(?:third|submodule)|dist|node_modules/i' --filter=build/watchFilter.eslint.js",
     "dev": "npm run watch",
     "server": "puer -p 8001 & npm run dev",
-    "publish": "NODE_ENV=production npm run build",
+    "publish": "npm run build:js && NODE_ENV=production npm run build:js",
     "foo": "NODE_ENV=production node build/foo.js"
   },
   "author": "",

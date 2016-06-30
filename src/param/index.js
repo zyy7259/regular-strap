@@ -2,7 +2,7 @@
 * @Author: Zhang Yingya(hzzhangyingya)
 * @Date:   2016-05-30 16:40:04
 * @Last modified by:   zyy
-* @Last modified time: 2016-06-30 13:28:82
+* @Last modified time: 2016-06-30 15:32:42
 */
 
 require('../loading')
@@ -109,6 +109,9 @@ module.exports = Regular.extend({
     if (this.data.list === undefined) {
       this.data.list = []
     }
+    if (this.data.default === undefined) {
+      this.data.default = {}
+    }
     if (this.data.paramsLimit === undefined) {
       this.data.paramsLimit = 3
     }
@@ -156,6 +159,7 @@ module.exports = Regular.extend({
       var data = self.data
       data.params = {}
       data.list.forEach(function (param) {
+        param.invalid = false
         // 解析默认值
         var defaultValue = param.value || data.default[param.name]
         switch (param.type) {

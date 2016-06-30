@@ -3,13 +3,14 @@
 * @Date:   2016-06-26 17:04:00
 * @Email:  zyy7259@gmail.com
 * @Last modified by:   zyy
-* @Last modified time: 2016-06-29 23:46:03
+* @Last modified time: 2016-06-30 13:55:22
 */
 
 var Dropdown = require('./dropdown')
 var EditableInput = require('./editableInput')
 var Loading = require('./loading')
 var Modal = require('./modal')
+var ModalForm = require('./modal/form')
 var Pager = require('./pager')
 var Param = require('./param')
 var Search = require('./search')
@@ -20,6 +21,7 @@ var RegularStrap = {
   EditableInput: EditableInput,
   Loading: Loading,
   Modal: Modal,
+  ModalForm: ModalForm,
   Pager: Pager,
   Param: Param,
   Search: Search,
