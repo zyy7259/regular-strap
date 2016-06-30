@@ -3,7 +3,7 @@
 @Date:   2016-06-26 17:01:00
 @Email:  zyy7259@gmail.com
 @Last modified by:   zyy
-@Last modified time: 2016-06-29 16:21:30
+@Last modified time: 2016-06-30 13:32:27
 -->
 
 <div class="m-param {clazz}">
@@ -21,8 +21,8 @@
           {#if param.type === 'Static'}
             <p class="form-control-static">{params[param.name]}</p>
           {/if}
-          {#if param.type === 'String' || param.type === 'Email' || param.type === 'Integer' || param.type === 'Float'}
-            <input class="form-control" type={this.genInputType(param)} id={this.genParamId(param)} r-model2={'params.' + param.name} ref='{param.name}' placeholder={this.genParamTip(param)} maxlength={param.maxlength} on-input={this.getParams(param)} on-blur={this.getParams(param)}>
+          {#if this.paramFitInput(param)}
+            <input class="form-control" type={this.genInputType(param)} id={this.genParamId(param)} r-model2={'params.' + param.name} ref='{param.name}' placeholder={this.genParamTip(param)} maxlength={param.maxlength} on-input={this.getParams(param)}>
           {/if}
           {#if param.type === 'DateStr'}
             <input type="date" class="form-control" id={this.genParamId(param)} r-model2={'params.' + param.name} ref='{param.name}' on-change={this.getParams(param)}>
@@ -53,7 +53,7 @@
     {/list}
     {#if showSubmit}
       <fieldset class="form-group" r-class={{'row':stack}}>
-        <div {#if stack}class="{submitClazz} p-l-0"{#else}class="form-group"{/if}>
+        <div {#if stack}class="{submitClazz}"{#else}class="form-group"{/if}>
           <button type="submit" class="btn {submitBtnClazz}">{submitTitle}</button>{#if loading}<loading/>{/if}
         </div>
       </fieldset>

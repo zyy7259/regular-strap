@@ -3,7 +3,7 @@
 @Date:   2016-06-26 18:28:00
 @Email:  zyy7259@gmail.com
 @Last modified by:   zyy
-@Last modified time: 2016-06-29 17:08:01
+@Last modified time: 2016-06-30 13:10:97
 -->
 
 <!DOCTYPE html>
@@ -13,32 +13,43 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <link rel="stylesheet" href="../node_modules/font-awesome/css/font-awesome.min.css">
-  <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../src/third/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="../src/third/bootstrap/dist/css/bootstrap.min.css">
+  <style>
+    h2 {
+      border-bottom: 1px solid #ccc;
+      padding-bottom: 0.2rem;
+      margin-bottom: 1rem;
+      margin-top: 2rem;
+    }
+    h2:first-child {
+      margin-top: 0;
+    }
+  </style>
 </head>
 <body>
   <div class="g-doc container-fluid" id="app">
 
   </div>
-  <script src="../node_modules/regularjs/dist/regular.js"></script>
+  <script src="../src/third/regular/dist/regular.js"></script>
   <script src="../dist/regular-strap.js"></script>
   <script type="text/template" id="tpl">
     <h2>dropdown</h2>
     <dropdown title="dropdown" items={dropdownItems}></dropdown>
-    <h2 class="m-t-1">editingInput</h2>
-    <editingInput value={editingInputValue} on-confirm={this.confirmEditingInput($event)}></editingInput>
-    <h2 class="m-t-1">loading</h2>
+    <h2>editableInput</h2>
+    <editableInput value={editableInputValue} on-confirm={this.confirmEditingInput($event)}></editableInput>
+    <h2>loading</h2>
     <loading/>
-    <h2 class="m-t-1">modal</h2>
+    <h2>modal</h2>
     <button type="button" class="btn btn-primary-outline" on-click={this.showModal()}>show modal</button>
     <modal title="modal title" autoShow={false} autoDestroy={false} ref="modal">
       modal body
     </modal>
-    <h2 class="m-t-1">pager</h2>
+    <h2>pager</h2>
     <pager total=100 current=2></pager>
-    <h2 class="m-t-1">search</h2>
+    <h2>search</h2>
     <search on-change={this.onSearchChange($event)}></search>
-    <h2 class="m-t-1">tab</h2>
+    <h2>tab</h2>
     <tab>
       <tabPane id="first" title="t1">
         content of first
@@ -47,101 +58,115 @@
         content of second
       </tabPane>
     </tab>
-    <h2 class="m-t-1">param</h2>
+    <h2>param</h2>
     <param caption="params" list={paramList} default={paramDefault} showSubmit on-change={this.onParamChange($event)} on-submit={this.onParamChange($event)}/>
   </script>
   <script>
     var paramList = [
+      // Static
       {
-        name: 'static1',
+        name: 'staticEmpty',
         type: 'Static',
-        desc: '只读文本2',
-        value: 'static1'
+        desc: '只读文本, 空'
       },
       {
-        name: 'static2',
+        name: 'staticWithValue',
         type: 'Static',
-        desc: '只读文本2'
+        desc: '只读文本, 带值',
+        value: 'staticWithValue'
       },
+      {
+        name: 'staticWithDefault',
+        type: 'Static',
+        desc: '只读文本, 带默认值'
+      },
+      // String
       {
         name: 'strOptionalEmpty',
         type: 'String',
-        desc: '可选字符串空'
+        desc: '可选字符串, 空'
       },
       {
-        name: 'strOptional',
+        name: 'strOptionalWithValue',
         type: 'String',
-        desc: '可选字符串',
-        value: 'strOptional'
+        desc: '可选字符串, 带值',
+        value: 'strOptionalWithValue'
+      },
+      {
+        name: 'strOptionalWithDefault',
+        type: 'String',
+        desc: '可选字符串, 带默认值'
+      },
+      {
+        name: 'strOptionalWithMax',
+        type: 'String',
+        desc: '可选字符串, 带 maxlength',
+        maxlength: 3
       },
       {
         name: 'strMandatoryEmpty',
         type: 'String',
-        desc: '必填字符串空',
+        desc: '必填字符串, 空',
         mandatory: true
       },
-      {
-        name: 'strMandatory',
-        type: 'String',
-        desc: '必填字符串',
-        mandatory: true
-      },
+      // Number
       {
         name: 'integerOptionalEmpty',
-        type: 'Integer',
-        desc: '可选数字空'
+        type: 'Number',
+        desc: '可选数字, 空'
       },
       {
-        name: 'integerOptional',
-        type: 'Integer',
-        desc: '可选数字',
+        name: 'integerOptionalWithValue',
+        type: 'Number',
+        desc: '可选数字, 带值',
         value: 0
+      },
+      {
+        name: 'integerOptionalWithDefault',
+        type: 'Number',
+        desc: '可选数字, 带默认值'
+      },
+      {
+        name: 'integerOptionalWithMin',
+        type: 'Number',
+        desc: '可选数字, 带 min',
+        min: 3
+      },
+      {
+        name: 'integerOptionalWithMax',
+        type: 'Number',
+        desc: '可选数字, 带 max',
+        min: 3
+      },
+      {
+        name: 'integerOptionalWithMinMax',
+        type: 'Number',
+        desc: '可选数字, 带 min max',
+        min: 3,
+        max: 5
       },
       {
         name: 'integerMandatoryEmpty',
-        type: 'Integer',
-        desc: '必选数字空',
+        type: 'Number',
+        desc: '必选数字, 空',
         mandatory: true
       },
-      {
-        name: 'integerMandatory',
-        type: 'Integer',
-        desc: '必选数字',
-        mandatory: true
-      },
-      {
-        name: 'floatOptionalEmpty',
-        type: 'Float',
-        desc: '可选数字空'
-      },
-      {
-        name: 'floatOptional',
-        type: 'Float',
-        desc: '可选数字',
-        value: 0
-      },
-      {
-        name: 'floatMandatoryEmpty',
-        type: 'Float',
-        desc: '必选数字空',
-        mandatory: true
-      },
-      {
-        name: 'floatMandatory',
-        type: 'Float',
-        desc: '必选数字',
-        mandatory: true
-      },
+      // Email
       {
         name: 'emailOptionalEmpty',
         type: 'Email',
-        desc: '可选邮箱空'
+        desc: '可选邮箱, 空'
       },
       {
-        name: 'emailOptional',
+        name: 'emailOptionalWithValue',
         type: 'Email',
-        desc: '可选邮箱',
-        value: 'emailOptional@163.com'
+        desc: '可选邮箱, 带值',
+        value: 'emailOptionalWithValue@163.com'
+      },
+      {
+        name: 'emailOptionalWithDefault',
+        type: 'Email',
+        desc: '可选邮箱, 带默认值'
       },
       {
         name: 'emailMandatoryEmpty',
@@ -149,22 +174,22 @@
         desc: '必选邮箱空',
         mandatory: true
       },
-      {
-        name: 'emailMandatory',
-        type: 'Email',
-        desc: '必选邮箱',
-        mandatory: true
-      },
+      // DateStr
       {
         name: 'dateStrOptionalEmpty',
         type: 'DateStr',
-        desc: '可选日期字符串空'
+        desc: '可选日期字符串, 空'
       },
       {
-        name: 'dateStrOptional',
+        name: 'dateStrOptionalWithValue',
         type: 'DateStr',
-        desc: '可选日期字符串',
+        desc: '可选日期字符串, 带值',
         value: '2016-06-16'
+      },
+      {
+        name: 'dateStrOptionalWithDefault',
+        type: 'DateStr',
+        desc: '可选日期字符串, 带默认值'
       },
       {
         name: 'dateStrMandatoryEmpty',
@@ -172,22 +197,22 @@
         desc: '必选日期字符串空',
         mandatory: true
       },
-      {
-        name: 'dateStrMandatory',
-        type: 'DateStr',
-        desc: '必选日期字符串',
-        mandatory: true
-      },
+      // DateTime
       {
         name: 'dateTimeOptionalEmpty',
         type: 'DateTime',
-        desc: '可选日期空'
+        desc: '可选日期, 空'
       },
       {
-        name: 'dateTimeOptional',
+        name: 'dateTimeOptionalWithValue',
         type: 'DateTime',
-        desc: '可选日期',
+        desc: '可选日期, 带值',
         value: new Date()
+      },
+      {
+        name: 'dateTimeOptionalWithDefault',
+        type: 'DateTime',
+        desc: '可选日期, 带默认值'
       },
       {
         name: 'dateTimeMandatoryEmpty',
@@ -195,16 +220,11 @@
         desc: '必选日期空',
         mandatory: true
       },
-      {
-        name: 'dateTimeMandatory',
-        type: 'DateTime',
-        desc: '必选日期',
-        mandatory: true
-      },
+      // Select
       {
         name: 'selectOptionalEmpty',
         type: 'Select',
-        desc: '可选选择器空',
+        desc: '可选选择器, 空',
         list: [
           {
             value: 'a',
@@ -225,9 +245,56 @@
         ]
       },
       {
-        name: 'selectOptional',
+        name: 'selectOptionalWithValue',
         type: 'Select',
-        desc: '可选选择器',
+        desc: '可选选择器, 带值',
+        list: [
+          {
+            value: 'a',
+            desc: 'apple'
+          },
+          {
+            value: 'b',
+            desc: 'boy'
+          },
+          {
+            value: 'c',
+            desc: 'cat'
+          },
+          {
+            value: 'd',
+            desc: 'dog'
+          }
+        ],
+        value: 'b'
+      },
+      {
+        name: 'selectOptionalWithDefault',
+        type: 'Select',
+        desc: '可选选择器, 带默认值',
+        list: [
+          {
+            value: 'a',
+            desc: 'apple'
+          },
+          {
+            value: 'b',
+            desc: 'boy'
+          },
+          {
+            value: 'c',
+            desc: 'cat'
+          },
+          {
+            value: 'd',
+            desc: 'dog'
+          }
+        ]
+      },
+      {
+        name: 'selectOptionalWithSelected',
+        type: 'Select',
+        desc: '可选选择器, 带 selected',
         list: [
           {
             value: 'a',
@@ -251,81 +318,31 @@
       {
         name: 'selectOptionalInteger',
         type: 'Select',
-        desc: '可选选择器数字',
-        valueType: 'Integer',
+        desc: '可选选择器, 数字',
         list: [
           {
             value: 0,
-            desc: 'zero'
+            desc: '0'
           },
           {
             value: 1,
-            desc: 'one',
-            selected: true
+            desc: '1'
           },
           {
             value: 2,
-            desc: 'two'
-          },
-          {
-            value: 3,
-            desc: 'three'
-          }
-        ]
-      },
-      {
-        name: 'selectOptionalFloat',
-        type: 'Select',
-        desc: '可选选择器数字',
-        valueType: 'Float',
-        list: [
-          {
-            value: 0.1,
-            desc: 'zero point one'
-          },
-          {
-            value: 1.1,
-            desc: 'one point one',
+            desc: '2',
             selected: true
           },
           {
-            value: 2.1,
-            desc: 'two point one'
-          },
-          {
-            value: 3.1,
-            desc: 'three point one'
-          }
-        ]
-      },
-      {
-        name: 'selectOptionalIntegerString',
-        type: 'Select',
-        desc: '可选选择器数字字符串',
-        list: [
-          {
-            value: 0,
-            desc: 'zero'
-          },
-          {
-            value: 1,
-            desc: 'one',
-            selected: true
-          },
-          {
-            value: 2,
-            desc: 'two'
-          },
-          {
             value: 3,
-            desc: 'three'
+            desc: '3'
           }
         ]
       },
       {
         name: 'selectMandatoryEmpty',
         type: 'Select',
-        desc: '必选选择器空',
+        desc: '必选选择器, 空',
         list: [
           {
             value: 'a',
@@ -345,33 +362,11 @@
           }
         ]
       },
-      {
-        name: 'selectMandatory',
-        type: 'Select',
-        desc: '必选选择器',
-        list: [
-          {
-            value: 'a',
-            desc: 'apple'
-          },
-          {
-            value: 'b',
-            desc: 'boy'
-          },
-          {
-            value: 'c',
-            desc: 'cat'
-          },
-          {
-            value: 'd',
-            desc: 'dog'
-          }
-        ]
-      },
+      // Checkboxes
       {
         name: 'checkboxesOptionalEmpty',
         type: 'Checkboxes',
-        desc: '可选checkboxes空',
+        desc: '可选checkboxes, 空',
         list: [
           {
             value: 'a',
@@ -392,9 +387,56 @@
         ]
       },
       {
-        name: 'checkboxesOptional',
+        name: 'checkboxesOptionalWithValue',
         type: 'Checkboxes',
-        desc: '可选checkboxes',
+        desc: '可选checkboxes, 带值',
+        list: [
+          {
+            value: 'a',
+            desc: 'apple'
+          },
+          {
+            value: 'b',
+            desc: 'boy'
+          },
+          {
+            value: 'c',
+            desc: 'cat'
+          },
+          {
+            value: 'd',
+            desc: 'dog'
+          }
+        ],
+        value: ['b']
+      },
+      {
+        name: 'checkboxesOptionalWithDefault',
+        type: 'Checkboxes',
+        desc: '可选checkboxes, 带默认值',
+        list: [
+          {
+            value: 'a',
+            desc: 'apple'
+          },
+          {
+            value: 'b',
+            desc: 'boy'
+          },
+          {
+            value: 'c',
+            desc: 'cat'
+          },
+          {
+            value: 'd',
+            desc: 'dog'
+          }
+        ]
+      },
+      {
+        name: 'checkboxesOptionalWithChecked',
+        type: 'Checkboxes',
+        desc: '可选checkboxes, 带 checked',
         list: [
           {
             value: 'a',
@@ -418,24 +460,24 @@
       {
         name: 'checkboxesOptionalInteger',
         type: 'Checkboxes',
-        desc: '可选checkboxes数字',
+        desc: '可选checkboxes, 数字',
         list: [
           {
             value: 0,
-            desc: 'zero'
+            desc: '0'
           },
           {
             value: 1,
-            desc: 'one',
+            desc: '1',
             checked: true
           },
           {
             value: 2,
-            desc: 'two'
+            desc: '2'
           },
           {
             value: 3,
-            desc: 'three'
+            desc: '3'
           }
         ]
       },
@@ -463,34 +505,11 @@
           }
         ]
       },
-      {
-        name: 'checkboxesMandatory',
-        type: 'Checkboxes',
-        desc: '必选checkboxes',
-        mandatory: true,
-        list: [
-          {
-            value: 'a',
-            desc: 'apple'
-          },
-          {
-            value: 'b',
-            desc: 'boy'
-          },
-          {
-            value: 'c',
-            desc: 'cat'
-          },
-          {
-            value: 'd',
-            desc: 'dog'
-          }
-        ]
-      },
+      // Radios
       {
         name: 'radiosOptionalEmpty',
         type: 'Radios',
-        desc: '可选radio空',
+        desc: '可选radio, 空',
         list: [
           {
             value: 'a',
@@ -511,9 +530,56 @@
         ]
       },
       {
-        name: 'radiosOptional',
+        name: 'radiosOptionalWithValue',
         type: 'Radios',
-        desc: '可选radio',
+        desc: '可选radio, 带值',
+        list: [
+          {
+            value: 'a',
+            desc: 'apple'
+          },
+          {
+            value: 'b',
+            desc: 'boy'
+          },
+          {
+            value: 'c',
+            desc: 'cat'
+          },
+          {
+            value: 'd',
+            desc: 'dog'
+          }
+        ],
+        value: 'b'
+      },
+      {
+        name: 'radiosOptionalWithDefault',
+        type: 'Radios',
+        desc: '可选radio, 带默认值',
+        list: [
+          {
+            value: 'a',
+            desc: 'apple'
+          },
+          {
+            value: 'b',
+            desc: 'boy'
+          },
+          {
+            value: 'c',
+            desc: 'cat'
+          },
+          {
+            value: 'd',
+            desc: 'dog'
+          }
+        ]
+      },
+      {
+        name: 'radiosOptionalWithChecked',
+        type: 'Radios',
+        desc: '可选radio, 带 checked',
         list: [
           {
             value: 'a',
@@ -537,55 +603,31 @@
       {
         name: 'radiosOptionalNumber',
         type: 'Radios',
-        desc: '可选radio数字',
+        desc: '可选radio, 数字',
         list: [
           {
             value: 0,
-            desc: 'zero'
+            desc: '0'
           },
           {
             value: 1,
-            desc: 'one',
-            checked: true
+            desc: '1'
           },
           {
             value: 2,
-            desc: 'two'
+            desc: '2',
+            checked: true
           },
           {
             value: 3,
-            desc: 'three'
+            desc: '3'
           }
         ]
       },
       {
         name: 'radiosMandatoryEmpty',
         type: 'Radios',
-        desc: '必选radio空',
-        mandatory: true,
-        list: [
-          {
-            value: 'a',
-            desc: 'apple'
-          },
-          {
-            value: 'b',
-            desc: 'boy'
-          },
-          {
-            value: 'c',
-            desc: 'cat'
-          },
-          {
-            value: 'd',
-            desc: 'dog'
-          }
-        ]
-      },
-      {
-        name: 'radiosMandatory',
-        type: 'Radios',
-        desc: '必选radio',
+        desc: '必选radio, 空',
         mandatory: true,
         list: [
           {
@@ -609,16 +651,15 @@
     ]
 
     var paramDefault = {
-      static2: 'static2',
-      strMandatory: 'strMandatory',
-      integerMandatory: 123,
-      floatMandatory: 123,
-      emailMandatory: 'emailMandatory@163.com',
-      dateStrMandatory: '2016-07-16',
-      dateTimeMandatory: new Date(),
-      selectMandatory: 'c',
-      checkboxesMandatory: ['c'],
-      radiosMandatory: 'c'
+      staticWithDefault: 'staticWithDefault',
+      strOptionalWithDefault: 'strOptionalWithDefault',
+      integerOptionalWithDefault: 0,
+      emailOptionalWithDefault: 'emailOptionalWithDefault@163.com',
+      dateStrOptionalWithDefault: '2016-06-16',
+      dateTimeOptionalWithDefault: new Date(),
+      selectOptionalWithDefault: 'b',
+      checkboxesOptionalWithDefault: ['b'],
+      radiosOptionalWithDefault: 'b'
     }
 
     var App = new Regular({
@@ -630,12 +671,12 @@
             title: 'baidu'
           }
         ],
-        editingInputValue: 'test',
+        editableInputValue: 'test',
         paramList: paramList,
         paramDefault: paramDefault
       },
       confirmEditingInput: function (newValue) {
-        this.data.editingInputValue = newValue
+        this.data.editableInputValue = newValue
       },
       showModal: function () {
         this.$refs.modal.show()

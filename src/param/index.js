@@ -2,84 +2,61 @@
 * @Author: Zhang Yingya(hzzhangyingya)
 * @Date:   2016-05-30 16:40:04
 * @Last modified by:   zyy
-* @Last modified time: 2016-06-29 17:03:88
+* @Last modified time: 2016-06-30 13:28:82
 */
 
 require('../loading')
 require('./checkboxes')
 require('./radios')
 var tpl = require('./index.html')
+var util = require('util')
+var dateUtil = util.date
+var DateStrFormat = 'yyyy-MM-dd'
+var DateTimeFormat = 'yyyy-MM-ddThh:mm'
 
-var dateUtil = {
-  fix: function (number, count) {
-    count = count || 2
-    var str = '' + number
-    while (str.length < count) {
-      str = '0' + str
+if (Regular.directive('r-model2') === undefined) {
+  Regular.directive('r-model2', {
+    // TODO 理解一下
+    link: function (elem, value) {
+      value = this.$get(value)
+      return Regular.directive('r-model').link.call(this, elem, value)
     }
-    return str
+  })
+} else {
+  console.warn('r-model2 指令已经被注册了，请检查兼容性')
+}
+
+// 合法的值类型, 这些类型均使用 input:text 来呈现
+var validValueTypes = ['String', 'Number', 'Boolean', 'Array', 'Object']
+var valueParsers = {
+  'String': function (value) {
+    return '' + value
   },
-  getYearStr: function (date) {
-    return '' + date.getFullYear()
+  'Number': function (value) {
+    return +value
   },
-  getMonthStr: function (date) {
-    return dateUtil.fix(date.getMonth() + 1)
+  'Boolean': function (value) {
+    return value === 'true'
   },
-  getDayStr: function (date) {
-    return dateUtil.fix(date.getDate())
+  'Array': function (value) {
+    return JSON.parse(value)
   },
-  getHourStr: function (date) {
-    return dateUtil.fix(date.getHours())
-  },
-  getMinuteStr: function (date) {
-    return dateUtil.fix(date.getMinutes())
-  },
-  getSecondStr: function (date) {
-    return dateUtil.fix(date.getSeconds())
-  },
-  getMillisecondStr: function (date) {
-    return dateUtil.fix(date.getMilliseconds(), 3)
+  'Object': function (value) {
+    return JSON.parse(value)
   }
 }
-dateUtil.format = (function () {
-  var reg = /yyyy|MM|dd|hh|mm|ss|SSS/g
-  var mappers = {
-    yyyy: dateUtil.getYearStr,
-    MM: dateUtil.getMonthStr,
-    dd: dateUtil.getDayStr,
-    hh: dateUtil.getHourStr,
-    mm: dateUtil.getMinuteStr,
-    ss: dateUtil.getSecondStr,
-    SSS: dateUtil.getMillisecondStr
-  }
-  return function (date, format) {
-    date = new Date(date)
-    if (isNaN(+date)) {
-      return 'invalid date'
-    }
-    format = format || 'yyyy-MM-dd'
-    return format.replace(reg, function (match) {
-      return mappers[match](date)
-    })
-  }
-})()
-
-Regular.directive('r-model2', {
-  // TODO 理解一下
-  link: function (elem, value) {
-    value = this.$get(value)
-    return Regular.directive('r-model').link.call(this, elem, value)
-  }
-})
 
 /**
  * data
  * - id ID
  * - list 参数列表
  *   - type:
+ *     - Static
  *     - String
- *     - Integer
- *     - Float
+ *     - Number
+ *     - Boolean
+ *     - Array
+ *     - Object
  *     - Email
  *     - DateStr
  *     - DateTime
@@ -89,14 +66,16 @@ Regular.directive('r-model2', {
  *   - name: String
  *   - desc: String
  *   - mandatory: true/false
- *   - invalidTip: String 参数非法时展示的提示
- *   - tip: String 参数提示
- *   - min/max: used by Integer/Float
- *   - valueType: Integer/Float used by Select/Checkboxes/Radios
+ *   - value: 该参数的默认值
+ *   - min/max: used by Number
+ *   - maxlength: used by input
  *   - list: used by Select/Checkboxes/Radios
  *     - value: String
  *     - desc: String
+ *     - selected: Boolean
  *     - checked: Boolean
+ *   - invalidTip: String 参数非法时展示的提示
+ *   - tip: String 参数提示
  * - default 默认值
  * - paramsLimit 超过这个数量, 参数就叠起来
  * - emailReg 验证邮箱的正则表达式
@@ -112,6 +91,7 @@ Regular.directive('r-model2', {
  * - labelPosClazz
  * - labelColClazz
  * - iptColClazz
+ * 默认值的优先级 default < param.value < param.list.checked/selected
  */
 module.exports = Regular.extend({
   name: 'param',
@@ -119,7 +99,8 @@ module.exports = Regular.extend({
   mandatoryTpl: '{#if param.mandatory}<span class="text-danger">*&nbsp;&nbsp;</span>{/if}',
   config: function () {
     this.initDefault()
-    this.mergeParamDefault()
+    this.parseParamList()
+    this.watch()
   },
   initDefault: function () {
     if (this.data.id === undefined) {
@@ -166,70 +147,86 @@ module.exports = Regular.extend({
     }
   },
   /**
-   * 参数默认值
-   * - DateStr & DateTime: 如果提供了默认值，那么需要格式化一下日期
-   * - Select: 重新计算默认值
-   * - Checkboxes & Radios: 如果没有提供默认值，那么重新计算默认值
+   * - 解析参数默认值
+   * - 解析值类型
    */
-  mergeParamDefault: function () {
-    var self = this
-    var data = self.data
-    data.params = {}
-    Object.assign(data.params, data.default)
-    data.list.forEach(function (param) {
-      var defaultValue = data.params[param.name] || param.value
-      switch (param.type) {
-        case 'DateStr':
-        case 'DateTime':
-          if (defaultValue) {
-            var format = param.type === 'DateStr' ? 'yyyy-MM-dd' : 'yyyy-MM-ddThh:mm'
-            defaultValue = +new Date(defaultValue)
-            if (!isNaN(defaultValue)) {
-              defaultValue = new Date(defaultValue)
-              data.params[param.name] = dateUtil.format(defaultValue, format)
-            } else {
-              delete data.params[param.name]
+  parseParamList: (function () {
+    return function () {
+      var self = this
+      var data = self.data
+      data.params = {}
+      data.list.forEach(function (param) {
+        // 解析默认值
+        var defaultValue = param.value || data.default[param.name]
+        switch (param.type) {
+          case 'Select':
+            // Select: 如果没有提供默认值, 那么取第一个为默认值, 如果某一项有 selected, 取其为默认值
+            if (!defaultValue) {
+              defaultValue = param.list[0].value
             }
-          }
-          return
-        case 'Select':
-          param.list.some(function (option) {
-            if (option.selected) {
-              defaultValue = option.value
-              return true
-            }
-          })
-          break
-        case 'Checkboxes':
-        case 'Radios':
-          if (!defaultValue) {
-            var checkeds = param.list.filter(function (item) {
-              return item.checked
-            }).map(function (item) {
-              return item.value
+            param.list.some(function (option) {
+              if (option.selected) {
+                defaultValue = option.value
+                return true
+              }
             })
-            if (checkeds.length) {
-              defaultValue = param.type === 'Radios' ? checkeds[0] : checkeds
+            break
+          case 'DateStr':
+          case 'DateTime':
+            // DateStr & DateTime: 如果提供了默认值，那么需要格式化一下日期
+            if (defaultValue) {
+              var format = param.type === 'DateStr' ? DateStrFormat : DateTimeFormat
+              defaultValue = +new Date(defaultValue)
+              if (!isNaN(defaultValue)) {
+                defaultValue = dateUtil.format(defaultValue, format)
+              } else {
+                defaultValue = null
+              }
             }
-          }
-          break
-        default:
-          break
-      }
-      if (defaultValue !== null && defaultValue !== undefined) {
-        data.params[param.name] = defaultValue
-      }
-    })
-  },
-  init: function () {
+            break
+          case 'Checkboxes':
+          case 'Radios':
+            // Checkboxes & Radios: 如果没有提供默认值，那么重新计算默认值
+            if (!defaultValue) {
+              var checkeds = param.list.filter(function (item) {
+                return item.checked
+              }).map(function (item) {
+                return item.value
+              })
+              if (checkeds.length) {
+                defaultValue = param.type === 'Radios' ? checkeds[0] : checkeds
+              }
+            }
+            break
+          default:
+            break
+        }
+        // 将格式化好后的默认值存储起来
+        if (util.exist(defaultValue)) {
+          data.params[param.name] = defaultValue
+        } else {
+          delete data.params[param.name]
+        }
+      })
+    }
+  })(),
+  watch: function () {
     var self = this
-    self.$watch('default', function () {
-      self.mergeParamDefault()
-    })
+    setTimeout(function () {
+      self.$watch('default|json', function () {
+        self.parseParamList()
+      })
+    }, 0)
   },
   computed: {
     // 是否每个参数一排
     stack: 'list.length >= paramsLimit'
+  },
+  isValidValueType: function (type) {
+    return validValueTypes.indexOf(type) !== -1
+  },
+  paramFitInput: function (param) {
+    return this.isValidValueType(param.type) || param.type === 'Email'
   },
   genInputType: function (param) {
     return param.type === 'Email' ? 'email' : 'text'
@@ -244,20 +241,19 @@ module.exports = Regular.extend({
     }
     switch (param.type) {
       case 'Email':
-        tip = '请输入合法邮箱'
+        tip = '请输入合法邮箱, 格式为 foo@bar.com'
         break
-      case 'Integer':
-      case 'Float':
-        tip = '请输入数字'
+      case 'String':
+      case 'Number':
+        tip = '请输入' + (param.type === 'String' ? '字符串' : '数字')
         if (param.min) {
-          tip += ', '
-          tip += '最小值 ' + param.min
+          tip += ', 最小值 ' + param.min
         }
         if (param.max) {
-          if (param.min) {
-            tip += ', '
-          }
-          tip += '最大值 ' + param.max
+          tip += ', 最大值 ' + param.max
+        }
+        if (param.maxlength) {
+          tip += ', 最长 ' + param.maxlength + ' 位'
         }
         break
       case 'DateStr':
@@ -268,127 +264,108 @@ module.exports = Regular.extend({
   },
   /**
   * 获取参数, 有错误的话返回 false, 正常的话返回所有的参数
-  * 如果指定了 paramToCheck, 那么只检查对应的参数
+  * 如果指定了 paramToCheck, 那么只有当此参数有错误时才报错
   */
   getParams: function (paramToCheck) {
     var self = this
     var data = self.data
     var $refs = self.$refs
+    // clone 一份
     var params = JSON.parse(JSON.stringify(data.params))
     var invalid = data.list.some(function (param) {
       param.invalid = false
       param.invalidTip = ''
       var name = param.name
-      // 是否是待检查的参数，如果不是，那么不用展示错误
-      var isParamToCheck = paramToCheck && name === paramToCheck.name
+      // 如果是字符串，trim一下
       var value = params[name]
       if (typeof value === 'string') {
         value = value.trim()
       }
-      switch (param.type) {
-        case 'String':
-          if (value !== 0 && !value) {
-            if (isParamToCheck && self.shouldInvalidEmptyParam(params, param)) {
-              return true
+      // 是否是待检查的参数
+      var isParamToCheck = paramToCheck && name === paramToCheck.name
+      // 参数值是否不存在
+      var valueIsEmpty = util.isEmpty(value)
+      var valueIsInvalid = false
+      // 参数类型
+      var type = param.type
+      if (self.isValidValueType(type)) {
+        type = 'Value'
+      }
+      switch (type) {
+        case 'Value':
+          if (!valueIsEmpty) {
+            if (param.type === 'Number') {
+              value = valueParsers[param.type](value)
+              valueIsInvalid = isNaN(value) ||
+                (param.min && value < param.min) ||
+                (param.max && value > param.max)
             }
-          } else {
-            params[name] = '' + value
+            // other types
           }
           break
         case 'Email':
-          if (!value) {
-            if (isParamToCheck && self.shouldInvalidEmptyParam(params, param)) {
-              return true
-            }
-          } else {
-            if (!self.verifyEmail(value)) {
-              return self.invalidParam(param)
-            }
-          }
-          break
-        case 'Integer':
-        case 'Float':
-          if (value === null || value === undefined || value === '') {
-            if (isParamToCheck && self.shouldInvalidEmptyParam(params, param)) {
-              return true
-            }
-          } else {
-            value = param.type === 'Float' ? parseFloat(value) : parseInt(value)
-            if (isNaN(value) ||
-              (param.min && value < param.min) ||
-              (param.max && value > param.max)
-            ) {
-              return self.invalidParam(param)
-            }
-            params[name] = value
-          }
-          break
-        case 'Select':
-          value = $refs[name].value
-          if (!value) {
-            if (isParamToCheck && self.shouldInvalidEmptyParam(params, param)) {
-              return true
-            }
-          } else {
-            if (param.valueType === 'Integer' || param.valueType === 'Float') {
-              value = param.valueType === 'Float' ? parseFloat(value) : parseInt(value)
-              if (isNaN(value)) {
-                return self.invalidParam(param)
-              }
-            }
-            params[name] = value
+          if (!valueIsEmpty) {
+            valueIsInvalid = !self.verifyEmail(value)
           }
           break
         case 'DateStr':
-          if (!value) {
-            if (isParamToCheck && self.shouldInvalidEmptyParam(params, param)) {
-              return true
-            }
-          } else {
+          if (!valueIsEmpty) {
             value = +new Date(value)
-            if (isNaN(value)) {
-              return self.invalidParam(param)
+            valueIsInvalid = isNaN(value)
+            if (!valueIsInvalid) {
+              value = dateUtil.format(value, DateStrFormat)
             }
           }
           break
         case 'DateTime':
-          if (!value) {
-            if (isParamToCheck && self.shouldInvalidEmptyParam(params, param)) {
-              return true
+          if (!valueIsEmpty) {
+            value = +dateUtil.dateFromDateTimeLocal(value)
+            valueIsInvalid = isNaN(value)
+            if (!valueIsInvalid) {
+              value = new Date(value)
             }
-          } else {
-            value = +new Date(value.replace(/-/g, '/').replace('T', ' '))
-            if (isNaN(value)) {
-              return self.invalidParam(param)
+          }
+          break
+        case 'Select':
+          // value = $refs[name].value
+          if (!valueIsEmpty) {
+            var parser = valueParsers[util.getClass(param.list[0].value)]
+            if (!parser) {
+              throw new Error('不支持的Select值类型', validValueTypes)
             }
-            params[name] = new Date(value)
+            value = parser(value)
           }
           break
         case 'Checkboxes':
         case 'Radios':
           value = $refs[name].getChecked()
-
-          var noValue = false
           if (param.type === 'Checkboxes') {
-            noValue = !value.length
+            valueIsEmpty = !value.length
           } else if (param.type === 'Radios') {
-            noValue = value === null || value === undefined || value === ''
-          }
-
-          if (noValue) {
-            if (isParamToCheck && self.shouldInvalidEmptyParam(params, param)) {
-              return true
-            }
-          } else {
-            params[name] = value
+            valueIsEmpty = util.isEmpty(value)
           }
           break
         default:
           break
       }
+      // 如果是检查所有参数 或者 是当前要检查的参数，那么当参数值为空时，检测参数是否非法
+      if ((!paramToCheck || isParamToCheck) && valueIsEmpty) {
+        return self.shouldInvalidEmptyParam(params, param)
+      }
+      // 参数值非法
+      if (valueIsInvalid) {
+        return self.invalidParam(param)
+      }
+      // 只有当参数非空时（空数组）, 才赋值参数值
+      if (!valueIsEmpty && util.exist(value)) {
+        params[name] = value
+      } else {
+        delete params[name]
+      }
     })
+    // 如果当前正在检查某个参数，那么触发 change
     if (paramToCheck) {
-      this.$emit('change', params)
+      self.$emit('change', params)
     }
     return invalid ? false : params
   },
@@ -402,6 +379,7 @@ module.exports = Regular.extend({
     } else {
       delete params[param.name]
       delete this.data.params[param.name]
+      return false
     }
   },
   invalidParam: function (param) {
@@ -413,7 +391,7 @@ module.exports = Regular.extend({
     return true
   },
   verifyEmail: (function () {
-    var _reg = /^\S+@\S+$/
+    var _reg = /^\S+@\S+?\.\S+$/
     return function (email) {
       var reg = this.data.emailReg || _reg
       return reg.test(email)

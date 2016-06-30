@@ -24,7 +24,7 @@
     "watch": "run-p -lns watch:*",
     "watch-:css": "npm run build:css --silent -- --watch",
     "watch:js": "npm run build:js --silent -- --watch",
-    "watch:lint": "watch 'npm run lint' -du --interval=0.25 --ignoreDirectoryPattern='/src/(?:3rd|submodule)|dist|node_modules/i' --filter=build/watchFilter.eslint.js",
+    "watch:lint": "watch 'npm run lint' -du --interval=0.25 --ignoreDirectoryPattern='/src/(?:third|submodule)|dist|node_modules/i' --filter=build/watchFilter.eslint.js",
     "dev": "npm run watch",
     "server": "puer -p 8001 & npm run dev",
     "publish": "NODE_ENV=production npm run build",

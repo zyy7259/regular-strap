@@ -9,6 +9,6 @@
 # Lines preceded by ! are negated patterns that re-include a pattern that was ignored by an earlier pattern.
 # ESLint always ignores files in /node_modules/* and /bower_components/*
 
-src/3rd/*
+src/third/*
 src/submodule/*
 dist/*

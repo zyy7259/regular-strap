@@ -3,11 +3,11 @@
 * @Date:   2016-06-26 17:04:00
 * @Email:  zyy7259@gmail.com
 * @Last modified by:   zyy
-* @Last modified time: 2016-06-26 18:07:48
+* @Last modified time: 2016-06-29 23:46:03
 */
 
 var Dropdown = require('./dropdown')
-var EditingInput = require('./editingInput')
+var EditableInput = require('./editableInput')
 var Loading = require('./loading')
 var Modal = require('./modal')
 var Pager = require('./pager')
@@ -17,7 +17,7 @@ var Tab = require('./tab')
 
 var RegularStrap = {
   Dropdown: Dropdown,
-  EditingInput: EditingInput,
+  EditableInput: EditableInput,
   Loading: Loading,
   Modal: Modal,
   Pager: Pager,
