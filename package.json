@@ -27,7 +27,8 @@
     "watch:lint": "watch 'npm run lint' -du --interval=0.25 --ignoreDirectoryPattern='/src/(?:third|submodule)|dist|node_modules/i' --filter=build/watchFilter.eslint.js",
     "dev": "npm run watch",
     "server": "puer -p 8001 & npm run dev",
-    "publish": "npm run build:js && NODE_ENV=production npm run build:js",
+    "archive": "git archive --format zip -o dist/regular-strap.zip master",
+    "publish": "npm run build:js && NODE_ENV=production npm run build:js && npm run archive",
     "foo": "NODE_ENV=production node build/foo.js"
   },
   "author": "",
