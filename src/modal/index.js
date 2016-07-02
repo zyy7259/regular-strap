@@ -2,7 +2,7 @@
 * @Author: Zhang Yingya(hzzhangyingya)
 * @Date:   2016-05-29 19:40:47
 * @Last modified by:   zyy
-* @Last modified time: 2016-06-30 15:17:34
+* @Last modified time: 2016-07-02 16:16:50
 */
 
 require('../loading')
@@ -53,16 +53,25 @@ module.exports = Regular.extend({
     }
   },
   init: function () {
+    this.hideDom()
     if (this.data.autoShow) {
       this.show()
     }
+  },
+  hideDom: function () {
+    this.$refs.backdrop.style.display = 'none'
+    this.$refs.modal.style.display = 'none'
+  },
+  showDom: function () {
+    this.$refs.backdrop.style.display = 'block'
+    this.$refs.modal.style.display = 'block'
   },
   show: function () {
     var self = this
     counter++
     dom.addClass(body, 'modal-open')
+    self.showDom()
     self.$inject(body)
-    self.$update()
     setTimeout(function () {
       self.data.show = true
       self.$update()
@@ -104,6 +113,7 @@ module.exports = Regular.extend({
 
     this.data.hide = false
     this.data.show = false
+    this.hideDom()
     var shouldDestroy = (this.data.reason === 'cancel' &&
       this.data.autoDestroyWhenCancel &&
       this.data.autoDestroy) ||
