@@ -3,7 +3,7 @@
 @Date:   2016-06-26 18:28:00
 @Email:  zyy7259@gmail.com
 @Last modified by:   zyy
-@Last modified time: 2016-07-04 14:04:59
+@Last modified time: 2016-07-05 10:26:26
 -->
 
 <!DOCTYPE html>
@@ -48,7 +48,7 @@
     <loading/>
     <h2>modal</h2>
     <button type="button" class="btn btn-primary-outline" on-click={this.showModal()}>show modal</button>
-    <modal title="modal title" autoShow={false} autoDestroy={false} hideCancel ref="modal">
+    <modal title="modal title" size="large" autoShow={false} autoDestroy={false} actions={modalActions} hideCancel ref="modal" on-preview={this.modalPreview($event)}>
       modal body
     </modal>
     <h2>pager</h2>
@@ -93,6 +93,12 @@
           }
         ],
         editableInputValue: 'test',
+        modalActions: [
+          {
+            desc: '预览月服务计费',
+            value: 'preview'
+          }
+        ],
         paramList: paramList,
         paramDefault: paramDefault
       },
@@ -101,6 +107,9 @@
       },
       showModal: function () {
         this.$refs.modal.show()
+      },
+      modalPreview: function (preview) {
+        console.log(preview)
       },
       onSearchChange: function (str) {
         console.log('searching ' + str)

@@ -2,7 +2,7 @@
 * @Author: Zhang Yingya(hzzhangyingya)
 * @Date:   2016-05-29 19:40:47
 * @Last modified by:   zyy
-* @Last modified time: 2016-07-02 16:16:50
+* @Last modified time: 2016-07-05 10:52:14
 */
 
 require('../loading')
@@ -13,6 +13,9 @@ var counter = 0
 
 /**
  * data
+ * - size
+ *   - lg/large
+ *   - sm/small
  * - autoShow 是否自动显示
  * - autoDestroy 是否要自动销毁
  * - autoDestroyWhenCancel 是否在取消时自动销毁
@@ -50,6 +53,21 @@ module.exports = Regular.extend({
     }
     if (this.data.confirmTitle === undefined) {
       this.data.confirmTitle = '确 定'
+    }
+  },
+  computed: {
+    sizeClazz: function () {
+      switch (this.data.size) {
+        case 'lg':
+        case 'large':
+          return 'modal-lg'
+        case 'sm':
+        case 'small':
+          return 'modal-sm'
+        default:
+          break
+      }
+      return ''
     }
   },
   init: function () {
@@ -92,12 +110,19 @@ module.exports = Regular.extend({
     this.data.reason = 'cancel'
     this.$emit('cancel')
   },
-  confirm: function () {
+  act: function (action) {
+    this.confirm(action)
+  },
+  confirm: function (action) {
     if (this.data.autoHideWhenConfirm) {
       this.hide()
     }
     this.data.reason = 'confirm'
-    this.$emit('confirm')
+    var eventName = 'confirm'
+    if (action) {
+      eventName = action.value
+    }
+    this.$emit(eventName, action)
   },
   hide: function () {
     this.data.show = false

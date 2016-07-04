@@ -3,7 +3,7 @@
 * @Date:   2016-07-02 22:39:00
 * @Email:  zyy7259@gmail.com
 * @Last modified by:   zyy
-* @Last modified time: 2016-07-02 22:39:11
+* @Last modified time: 2016-07-05 16:01:39
 */
 
 var paramList = [
@@ -23,6 +23,12 @@ var paramList = [
     name: 'staticWithDefault',
     type: 'Static',
     desc: '只读文本, 带默认值'
+  },
+  {
+    name: 'staticWithSuffix',
+    type: 'Static',
+    desc: '只读文本, 带附加值',
+    suffix: 'suffix'
   },
   // String
   {
@@ -453,11 +459,12 @@ var paramList = [
   {
     name: 'radiosOptionalEmpty',
     type: 'Radios',
-    desc: '可选radio, 空',
+    desc: '可选radio, 空, 带disabled',
     list: [
       {
         value: 'a',
-        desc: 'apple'
+        desc: 'apple',
+        disabled: true
       },
       {
         value: 'b',
@@ -524,6 +531,87 @@ var paramList = [
     name: 'radiosOptionalWithChecked',
     type: 'Radios',
     desc: '可选radio, 带 checked',
+    list: [
+      {
+        value: 'a',
+        desc: 'apple'
+      },
+      {
+        value: 'b',
+        desc: 'boy',
+        checked: true
+      },
+      {
+        value: 'c',
+        desc: 'cat'
+      },
+      {
+        value: 'd',
+        desc: 'dog'
+      }
+    ]
+  },
+  {
+    name: 'radiosOptionalCheckable',
+    type: 'Radios',
+    desc: ' ',
+    hideColon: true,
+    checkable: true,
+    checkableDesc: '可选radio, checkable',
+    suffix: '免费赠送',
+    suffixClazz: 'text-info',
+    list: [
+      {
+        value: 'a',
+        desc: 'apple'
+      },
+      {
+        value: 'b',
+        desc: 'boy',
+        checked: true
+      },
+      {
+        value: 'c',
+        desc: 'cat'
+      },
+      {
+        value: 'd',
+        desc: 'dog'
+      }
+    ]
+  },
+  {
+    name: 'radiosOptionalCheckableWithChecked',
+    type: 'Radios',
+    desc: '可选radio, checkable, checked',
+    checkable: true,
+    checked: true,
+    list: [
+      {
+        value: 'a',
+        desc: 'apple'
+      },
+      {
+        value: 'b',
+        desc: 'boy',
+        checked: true
+      },
+      {
+        value: 'c',
+        desc: 'cat'
+      },
+      {
+        value: 'd',
+        desc: 'dog'
+      }
+    ]
+  },
+  {
+    name: 'radiosOptionalCheckableWithDisabled',
+    type: 'Radios',
+    desc: '可选radio, checkable, disabled',
+    checkable: true,
+    disabled: true,
     list: [
       {
         value: 'a',

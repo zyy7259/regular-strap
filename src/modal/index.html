@@ -3,7 +3,7 @@
 @Date:   2016-06-26 17:01:00
 @Email:  zyy7259@gmail.com
 @Last modified by:   zyy
-@Last modified time: 2016-07-02 16:41:08
+@Last modified time: 2016-07-05 10:26:07
 -->
 
 <div
@@ -19,7 +19,7 @@
   r-class={{'in':show}}
   on-click={this.click($event)}
 >
-  <div class="modal-dialog">
+  <div class="modal-dialog {sizeClazz}">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" on-click={this.cancel()}>
@@ -29,6 +29,9 @@
       </div>
       <div class="modal-body">{#include this.$body}</div>
       <div class="modal-footer">
+        {#list actions as action}
+          <button type="button" class="btn btn-primary-outline" on-click={this.act(action)}>{action.desc}</button>
+        {/list}
         {#if loading}<loading/>{/if}
         <button type="button" class="btn btn-primary-outline" r-hide={hideConfirm} on-click={this.confirm()}>{confirmTitle}</button>
         <button type="button" class="btn btn-secondary" r-hide={hideCancel} on-click={this.cancel()}>{cancelTitle}</button>

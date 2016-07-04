@@ -2,13 +2,14 @@
 * @Author: Zhang Yingya(hzzhangyingya)
 * @Date:   2016-05-30 16:40:04
 * @Last modified by:   zyy
-* @Last modified time: 2016-06-30 15:32:42
+* @Last modified time: 2016-07-05 21:12:05
 */
 
 require('../loading')
 require('./checkboxes')
 require('./radios')
 var tpl = require('./index.html')
+var suffixTpl = require('./suffix.html')
 var util = require('util')
 var dateUtil = util.date
 var DateStrFormat = 'yyyy-MM-dd'
@@ -81,6 +82,7 @@ var valueParsers = {
  * - emailReg 验证邮箱的正则表达式
  * - hideMandatory 是否隐藏 * 号
  * - hideColon 是否隐藏 : 号
+ * - hideLabel 是否隐藏 label
  * - hideTip 是否隐藏提示
  * - params 参数值对象
  * - showSubmit 是否展示提交按钮
@@ -96,6 +98,7 @@ var valueParsers = {
 module.exports = Regular.extend({
   name: 'param',
   template: tpl,
+  suffixTpl: suffixTpl,
   mandatoryTpl: '{#if param.mandatory}<span class="text-danger">*&nbsp;&nbsp;</span>{/if}',
   config: function () {
     this.initDefault()
@@ -120,6 +123,9 @@ module.exports = Regular.extend({
     }
     if (this.data.hideColon === undefined) {
       this.data.hideColon = false
+    }
+    if (this.data.hideLabel === undefined) {
+      this.data.hideLabel = false
     }
     if (this.data.hideTip === undefined) {
       this.data.hideTip = false
@@ -153,71 +159,81 @@ module.exports = Regular.extend({
    * - 解析参数默认值
    * - 解析值类型
    */
-  parseParamList: (function () {
-    return function () {
-      var self = this
-      var data = self.data
-      data.params = {}
-      data.list.forEach(function (param) {
-        param.invalid = false
-        // 解析默认值
-        var defaultValue = param.value || data.default[param.name]
-        switch (param.type) {
-          case 'Select':
-            // Select: 如果没有提供默认值, 那么取第一个为默认值, 如果某一项有 selected, 取其为默认值
-            if (!defaultValue) {
-              defaultValue = param.list[0].value
+  parseParamList: function () {
+    var self = this
+    var data = self.data
+    data.params = {}
+    data.parsedList = data.list.map(function (param) {
+      param = JSON.parse(JSON.stringify(param))
+      // 解析默认值
+      var defaultValue = param.value
+      if (util.isEmpty(defaultValue)) {
+        defaultValue = data.default[param.name]
+      }
+      var defaultIsEmpty = util.isEmpty(defaultValue)
+      switch (param.type) {
+        case 'Select':
+          // Select: 如果没有提供默认值, 那么取第一个为默认值, 如果某一项有 selected, 取其为默认值
+          if (defaultIsEmpty) {
+            defaultValue = param.list[0].value
+          }
+          param.list.some(function (option) {
+            if (option.selected) {
+              defaultValue = option.value
+              return true
             }
-            param.list.some(function (option) {
-              if (option.selected) {
-                defaultValue = option.value
-                return true
-              }
-            })
-            break
-          case 'DateStr':
-          case 'DateTime':
-            // DateStr & DateTime: 如果提供了默认值，那么需要格式化一下日期
-            if (defaultValue) {
-              var format = param.type === 'DateStr' ? DateStrFormat : DateTimeFormat
-              defaultValue = +new Date(defaultValue)
-              if (!isNaN(defaultValue)) {
-                defaultValue = dateUtil.format(defaultValue, format)
+          })
+          break
+        case 'DateStr':
+        case 'DateTime':
+          // DateStr & DateTime: 如果提供了默认值，那么需要格式化一下日期
+          if (!defaultIsEmpty) {
+            var format = param.type === 'DateStr' ? DateStrFormat : DateTimeFormat
+            defaultValue = +new Date(defaultValue)
+            if (!isNaN(defaultValue)) {
+              defaultValue = dateUtil.format(defaultValue, format)
+            } else {
+              defaultValue = null
+            }
+          }
+          break
+        case 'Checkboxes':
+        case 'Radios':
+          // 如果没有 checked 并且提供了默认值, 那么根据默认值勾选对应的 item
+          var hasChecked = param.list.some(function (item) {
+            return item.checked
+          })
+          if (!hasChecked && !defaultIsEmpty) {
+            param.list.forEach(function (item) {
+              var checked
+              if (param.type === 'Checkboxes') {
+                checked = defaultValue.indexOf(item.value) !== -1
               } else {
-                defaultValue = null
+                checked = item.value === defaultValue
               }
-            }
-            break
-          case 'Checkboxes':
-          case 'Radios':
-            // Checkboxes & Radios: 如果没有提供默认值，那么重新计算默认值
-            if (!defaultValue) {
-              var checkeds = param.list.filter(function (item) {
-                return item.checked
-              }).map(function (item) {
-                return item.value
-              })
-              if (checkeds.length) {
-                defaultValue = param.type === 'Radios' ? checkeds[0] : checkeds
-              }
-            }
-            break
-          default:
-            break
-        }
-        // 将格式化好后的默认值存储起来
-        if (util.exist(defaultValue)) {
-          data.params[param.name] = defaultValue
-        } else {
-          delete data.params[param.name]
-        }
-      })
-    }
-  })(),
+              item.checked = checked
+            })
+          }
+          break
+        default:
+          break
+      }
+      // 将格式化好后的默认值存储起来
+      if (util.exist(defaultValue)) {
+        data.params[param.name] = defaultValue
+      } else {
+        delete data.params[param.name]
+      }
+      return param
+    })
+  },
   watch: function () {
     var self = this
     setTimeout(function () {
       self.$watch('default|json', function () {
+        self.parseParamList()
+      })
+      self.$watch('list|json', function () {
         self.parseParamList()
       })
     }, 0)
@@ -274,11 +290,11 @@ module.exports = Regular.extend({
     var self = this
     var data = self.data
     var $refs = self.$refs
+    if (!$refs) { return {} }
     // clone 一份
     var params = JSON.parse(JSON.stringify(data.params))
-    var invalid = data.list.some(function (param) {
+    var invalid = data.parsedList.some(function (param) {
       param.invalid = false
-      param.invalidTip = ''
       var name = param.name
       // 如果是字符串，trim一下
       var value = params[name]

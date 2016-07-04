@@ -2,7 +2,7 @@
 * @Author: Zhang Yingya(hzzhangyingya)
 * @Date:   2016-05-31 20:28:05
 * @Last modified by:   zyy
-* @Last modified time: 2016-06-28 16:33:68
+* @Last modified time: 2016-07-05 01:20:46
 */
 
 var tpl = require('./index.html')
@@ -12,18 +12,8 @@ module.exports = Checkable.extend({
   name: 'checkboxes',
   template: tpl,
   config: function () {
-    this.parseDefault()
     this.resetDefaultCheckeds()
     this.watch()
-  },
-  // 如果提供了默认值，那么勾选对应的 checkbox
-  parseDefault: function () {
-    var data = this.data
-    if (data.default) {
-      data.list.forEach(function (checkbox) {
-        checkbox.checked = data.default.indexOf(checkbox.value) !== -1
-      })
-    }
   },
   // 获得页面上所有选中的 checkboxes
   getChecked: function () {

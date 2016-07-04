@@ -3,11 +3,11 @@
 @Date:   2016-06-26 17:01:00
 @Email:  zyy7259@gmail.com
 @Last modified by:   zyy
-@Last modified time: 2016-06-27 10:06:79
+@Last modified time: 2016-07-04 23:33:56
 -->
 
 <div class="row m-x-0" ref="body">
-  {#list list as checkbox}
+  {#list param.list as checkbox}
     <div class="col-xs-6 p-l-0">
       <label class="checkbox-inline {this.genClass(checkbox)}">
         <input type="checkbox" {#if checkbox.checked}checked{/if} on-click={this.click($event, checkbox)}>

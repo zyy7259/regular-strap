@@ -3,23 +3,35 @@
 @Date:   2016-06-26 17:01:00
 @Email:  zyy7259@gmail.com
 @Last modified by:   zyy
-@Last modified time: 2016-06-30 13:32:27
+@Last modified time: 2016-07-05 16:07:04
 -->
 
 <div class="m-param {clazz}">
   <div class="caption m-b-1" r-hide={!caption}>{caption}</div>
   <!-- 如果参数不多, 那么一排放; 否则每个参数一排 -->
   <form class="form" r-class={{'form-inline':!stack}} on-submit={this.submit($event)}>
-    {#list list as param}
+    {#list parsedList as param}
       <fieldset class="form-group" r-class={{'row':stack, 'has-danger':param.invalid}}>
-        <label {#if stack}class="form-control-label {labelPosClazz} {labelColClazz}"{#else}class="form-control-label {param.labelClazz}"{/if} for={this.genParamId(param)} title={param.title || param.desc} r-hide={!param.desc}>
+        <label
+          {#if stack}
+            class="form-control-label {labelPosClazz} {labelColClazz}"
+          {#else}
+            class="form-control-label {param.labelClazz}"
+          {/if}
+          for={this.genParamId(param)}
+          title={param.title || param.desc}
+          r-hide={hideLabel || param.hideLabel || !param.desc}
+        >
           {#if !hideMandatory}{#include this.mandatoryTpl}{/if}
           {param.desc}
-          {#if !hideColon}:{/if}
+          {#if !hideColon && !param.hideColon}:{/if}
         </label>
         <div {#if stack}class="{iptColClazz}"{#else}class="form-group {param.iptClazz}"{/if}>
           {#if param.type === 'Static'}
-            <p class="form-control-static">{params[param.name]}</p>
+            <p class="form-control-static">
+              {#if !param.hideValue}{params[param.name]}{/if}
+              {#include this.suffixTpl}
+            </p>
           {/if}
           {#if this.paramFitInput(param)}
             <input class="form-control" type={this.genInputType(param)} id={this.genParamId(param)} r-model2={'params.' + param.name} ref='{param.name}' placeholder={this.genParamTip(param)} maxlength={param.maxlength} on-input={this.getParams(param)}>
@@ -38,10 +50,10 @@
             </select>
           {/if}
           {#if param.type === 'Checkboxes'}
-            <checkboxes list={param.list} default={params[param.name]} ref='{param.name}' on-change={this.getParams(param)}/>
+            <checkboxes param={param} ref='{param.name}' on-change={this.getParams(param)}/>
           {/if}
           {#if param.type === 'Radios'}
-            <radios list={param.list} default={params[param.name]} ref='{param.name}' on-change={this.getParams(param)}></radios>
+            <radios param={param} ref='{param.name}' on-change={this.getParams(param)}></radios>
           {/if}
           {#if param.invalid && !hideTip}
             <div class="text-help" r-class={{'form-group':stack}}>

@@ -3,16 +3,36 @@
 @Date:   2016-06-26 17:01:00
 @Email:  zyy7259@gmail.com
 @Last modified by:   zyy
-@Last modified time: 2016-06-27 10:47:38
+@Last modified time: 2016-07-05 21:29:44
 -->
 
-<div class="row m-x-0" ref="body">
-  {#list list as radio}
-    <div class="col-xs-6 p-l-0">
+<div class="row m-x-0" ref="body" on-click={this.clickBody($event)}>
+  {#if param.checkable}
+    <label class="checkbox-inline m-r-1" r-class={{disabled:param.disabled, 'has-warning':checked!=previousChecked}}>
+      <input type="checkbox"
+        on-click={this.toggle()}
+        {#if param.checked}checked{/if}
+        {#if param.disabled}disabled{/if}>
+        <span class="text-help">{param.checkableDesc||'开启'}</span>
+    </label>
+  {/if}
+  {#list param.list as radio}
+    <div
+      {#if param.spread}
+        style="display:inline-block;"
+      {#else}
+        class="col-xs-6 p-l-0"
+      {/if}>
       <label class="radio-inline {this.genClass(radio)}">
-        <input type="radio" name={name} {#if radio.checked}checked{/if} on-click={this.click($event, radio)}>
+        <input
+          type="radio"
+          name={name}
+          {#if radio.checked}checked{/if}
+          {#if this.shouldDisableRadio(radio)}disabled{/if}
+          on-click={this.click($event, radio)}>
         <span class="text-help" r-class={{'text-muted':muted}}>{radio.desc}</span>
       </label>
     </div>
   {/list}
+  {#include this.suffixTpl}
 </div>
