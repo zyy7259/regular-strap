@@ -1,5 +1,6 @@
 # dist
-dist/regular-strap*
+dist/regular-strap.zip
+dist/regular-strap/*
 
 # Logs
 logs
