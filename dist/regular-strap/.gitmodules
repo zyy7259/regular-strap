@@ -1,3 +1,0 @@
-[submodule "src/submodule/zoro-base"]
-	path = src/submodule/zoro-base
-	url = git@github.com:zoro-js/zoro-base.git
