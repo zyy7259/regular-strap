@@ -1,0 +1,71 @@
+<!--
+@Author: Yingya Zhang <zyy>
+@Date:   2016-05-19 15:39:00
+@Email:  zyy7259@gmail.com
+@Last modified by:   zyy
+@Last modified time: 2016-06-21 19:59:87
+-->
+
+<div class="m-pagination {clazz}" r-hide={size<=1}>
+  <!-- 可以动态调整 limit -->
+  <form class="form form-inline" r-hide={!showLimit}>
+    <fieldset class="form-group">
+      <label for={id+'-limit'}>limit</label>
+      <input class="limit form-control" type="text" r-model={limit} id={id+'-limit'}/>
+    </fieldset>
+  </form>
+  <ul class="pagination">
+    <!-- 上一页 -->
+    <li class="page-item" r-class={{'disabled':current===1}}>
+      {#if current!==1}
+        <a href="javascript:void(0)" class="page-link" on-click={this.nav(current-1)}>{#inc prevText}</a>
+      {#else}
+        <span class="page-link">{#inc prevText}</span>
+      {/if}
+    </li>
+    {#if size > sizeLimit}
+      <li class="page-item" r-class={{'active':current===1}}>
+        <a href="javascript:void(0)" class="page-link" on-click={this.nav(1)}>1</a>
+      </li>
+      {#if begin > 2}
+        <li class="page-item disabled">
+          <span class="page-link">...</span>
+        </li>
+      {/if}
+      {#list begin..end as i}
+        <li class="page-item" r-class={{'active':current===i}}>
+          <a href="javascript:void(0)" class="page-link" on-click={this.nav(i)}>{i}</a>
+        </li>
+      {/list}
+      {#if end < size -1}
+        <li class="page-item disabled">
+          <span class="page-link">...</span>
+        </li>
+      {/if}
+      <li class="page-item" r-class={{'active':current===size}}>
+        <a href="javascript:void(0)" class="page-link" on-click={this.nav(size)}>{size}</a>
+      </li>
+    {#else}
+      {#list 1..size as i}
+      <li class="page-item" r-class={{'active':current===i}}>
+        <a href="javascript:void(0)" class="page-link" on-click={this.nav(i)}>{i}</a>
+      </li>
+      {/list}
+    {/if}
+    <!-- 下一页 -->
+    <li class="page-item" r-class={{'disabled':current===size}}>
+      {#if current!==size}
+        <a href="javascript:void(0)" class="page-link" on-click={this.nav(current+1)}>{#inc nextText}</a>
+      {#else}
+        <span class="page-link">{#inc nextText}</span>
+      {/if}
+    </li>
+  </ul>
+  <!-- 可以随机跳转到某一页 -->
+  <form class="form form-inline" r-hide={!showJump}>
+    <fieldset class="form-group">
+      <input type="text" class="jump form-control" r-model={jump} {#if validJump}on-enter={this.jump()}{#else}on-enter={false}{/if} ref=jump>
+      <button type="button" class="btn btn-primary-outline" on-click={this.jump()} {#if !validJump}disabled{/if}>Go</button>
+    </fieldset>
+  </form>
+</div>

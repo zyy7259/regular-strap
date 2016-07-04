@@ -28,7 +28,7 @@
     "dev": "npm run watch",
     "server": "puer -p 8001 & npm run dev",
     "archive": "git archive --format zip -o dist/regular-strap.zip master",
-    "publish": "npm run build:js && NODE_ENV=production npm run build:js && npm run archive",
+    "publish": "npm run build:js && NODE_ENV=production npm run build:js && git add --all && git commit -m 'publish' && npm run archive",
     "foo": "NODE_ENV=production node build/foo.js"
   },
   "author": "",

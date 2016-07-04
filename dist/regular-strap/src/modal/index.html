@@ -1,0 +1,38 @@
+<!--
+@Author: Yingya Zhang <zyy>
+@Date:   2016-06-26 17:01:00
+@Email:  zyy7259@gmail.com
+@Last modified by:   zyy
+@Last modified time: 2016-07-02 16:41:08
+-->
+
+<div
+  class="modal-backdrop fade"
+  ref="backdrop"
+  r-class={{'in':show}}
+  r-animation="when:hide; class:out; emit:afterFadeOut;"
+  on-click={this.cancel()}
+></div>
+<div
+  class="modal fade"
+  ref="modal"
+  r-class={{'in':show}}
+  on-click={this.click($event)}
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" on-click={this.cancel()}>
+          <span>&times;</span>
+        </button>
+        <h4 class="modal-title">{title}</h4>
+      </div>
+      <div class="modal-body">{#include this.$body}</div>
+      <div class="modal-footer">
+        {#if loading}<loading/>{/if}
+        <button type="button" class="btn btn-primary-outline" r-hide={hideConfirm} on-click={this.confirm()}>{confirmTitle}</button>
+        <button type="button" class="btn btn-secondary" r-hide={hideCancel} on-click={this.cancel()}>{cancelTitle}</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,5 @@
+<li class="nav-item">
+  <a class="nav-link" href={href || 'javascript:void(0)'} r-class={{'hover': hover, 'active': this.$outer.data.selected===this}} {#if !disableClick}on-click={this.select()}{/if}>
+    {#include title}
+  </a>
+</li>
