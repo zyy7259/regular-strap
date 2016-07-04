@@ -3,11 +3,22 @@
 @Date:   2016-06-26 17:01:00
 @Email:  zyy7259@gmail.com
 @Last modified by:   zyy
-@Last modified time: 2016-07-02 16:09:36
+@Last modified time: 2016-07-02 16:41:08
 -->
 
-<div class="modal-backdrop fade" ref="backdrop" r-class={{'in':show}} r-animation="when:hide; class:out; emit:afterFadeOut;" on-click={this.cancel()}></div>
-<div class="modal fade" ref="modal" r-class={{'in':show}} on-click={this.click($event)}>
+<div
+  class="modal-backdrop fade"
+  ref="backdrop"
+  r-class={{'in':show}}
+  r-animation="when:hide; class:out; emit:afterFadeOut;"
+  on-click={this.cancel()}
+></div>
+<div
+  class="modal fade"
+  ref="modal"
+  r-class={{'in':show}}
+  on-click={this.click($event)}
+>
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">

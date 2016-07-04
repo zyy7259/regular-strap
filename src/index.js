@@ -3,9 +3,10 @@
 * @Date:   2016-06-26 17:04:00
 * @Email:  zyy7259@gmail.com
 * @Last modified by:   zyy
-* @Last modified time: 2016-06-30 13:55:22
+* @Last modified time: 2016-07-02 16:58:13
 */
 
+var Accordion = require('./accordion')
 var Dropdown = require('./dropdown')
 var EditableInput = require('./editableInput')
 var Loading = require('./loading')
@@ -17,6 +18,7 @@ var Search = require('./search')
 var Tab = require('./tab')
 
 var RegularStrap = {
+  Accordion: Accordion,
   Dropdown: Dropdown,
   EditableInput: EditableInput,
   Loading: Loading,

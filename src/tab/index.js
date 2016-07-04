@@ -2,13 +2,38 @@
 * @Author: Zhang Yingya(hzzhangyingya)
 * @Date:   2016-04-22 11:31:18
 * @Last modified by:   zyy
-* @Last modified time: 2016-06-26 18:09:11
+* @Last modified time: 2016-07-02 17:02:83
 */
 
 var tpl = require('./index.html')
 var paneTpl = require('./pane.html')
 
-var Tab = Regular.extend({
+Regular.extend({
+  name: 'tabPane',
+  template: paneTpl,
+  config: function () {
+    this.data.disableClick = this.$outer.data.disableClick
+    this.$outer.data.tabs[this.data.id] = this
+    this.$outer.data.tabArray.push(this)
+    if (this.data.selected) {
+      this.select()
+    }
+  },
+  select: function (notEmit) {
+    var self = this
+    var data = self.data
+    if (data.disabled) {
+      return
+    }
+    var $outer = self.$outer
+    $outer.$update('selected', self)
+    if (!notEmit) {
+      $outer.$emit('nav', data)
+    }
+  }
+})
+
+module.exports = Regular.extend({
   name: 'tab',
   template: tpl,
   config: function () {
@@ -31,31 +56,3 @@ var Tab = Regular.extend({
     }
   }
 })
-
-Tab.Pane = Regular.extend({
-  name: 'tabPane',
-  template: paneTpl,
-  config: function () {
-    var self = this
-    self.data.disableClick = self.$outer.data.disableClick
-    self.$outer.data.tabs[self.data.id] = self
-    self.$outer.data.tabArray.push(self)
-    if (self.data.selected) {
-      this.select()
-    }
-  },
-  select: function (notEmit) {
-    var self = this
-    var data = self.data
-    if (data.disabled) {
-      return
-    }
-    var $outer = self.$outer
-    $outer.$update('selected', self)
-    if (!notEmit) {
-      $outer.$emit('nav', data)
-    }
-  }
-})
-
-module.exports = Tab
