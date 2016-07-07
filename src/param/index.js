@@ -2,7 +2,7 @@
 * @Author: Zhang Yingya(hzzhangyingya)
 * @Date:   2016-05-30 16:40:04
 * @Last modified by:   zyy
-* @Last modified time: 2016-07-05 21:12:05
+* @Last modified time: 2016-07-07 14:24:11
 */
 
 require('../loading')
@@ -10,7 +10,7 @@ require('./checkboxes')
 require('./radios')
 var tpl = require('./index.html')
 var suffixTpl = require('./suffix.html')
-var util = require('util')
+var util = require('zoro-base')
 var dateUtil = util.date
 var DateStrFormat = 'yyyy-MM-dd'
 var DateTimeFormat = 'yyyy-MM-ddThh:mm'
