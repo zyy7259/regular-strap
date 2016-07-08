@@ -2,7 +2,7 @@
 * @Author: Zhang Yingya(hzzhangyingya)
 * @Date:   2016-05-30 16:40:04
 * @Last modified by:   zyy
-* @Last modified time: 2016-07-08 10:14:45
+* @Last modified time: 2016-07-08 10:52:15
 */
 
 require('../loading')
@@ -77,7 +77,6 @@ var valueParsers = {
  *     - checked: Boolean
  *   - invalidTip: String 参数非法时展示的提示
  *   - tip: String 参数提示
- * - default 默认值
  * - paramsLimit 超过这个数量, 参数就叠起来
  * - emailReg 验证邮箱的正则表达式
  * - hideMandatory 是否隐藏 * 号
@@ -93,7 +92,9 @@ var valueParsers = {
  * - labelPosClazz
  * - labelColClazz
  * - iptColClazz
- * 默认值的优先级 default < param.value < param.list.checked/selected
+ * - default 默认值
+ *   - 默认值的优先级 default < param.value < param.list.checked/selected
+ *   - 如果需要动态更新参数列表，每次更新参数列表之后都会根据 default 来重新渲染，此种场景下请注意及时更新参数的 default 值
  */
 module.exports = Regular.extend({
   name: 'params',

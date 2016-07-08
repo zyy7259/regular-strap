@@ -3,7 +3,7 @@
 * @Date:   2016-06-26 17:04:00
 * @Email:  zyy7259@gmail.com
 * @Last modified by:   zyy
-* @Last modified time: 2016-07-02 16:58:13
+* @Last modified time: 2016-07-08 10:53:77
 */
 
 var Accordion = require('./accordion')
@@ -13,7 +13,7 @@ var Loading = require('./loading')
 var Modal = require('./modal')
 var ModalForm = require('./modal/form')
 var Pager = require('./pager')
-var Param = require('./param')
+var Param = require('./params')
 var Search = require('./search')
 var Tab = require('./tab')
 
