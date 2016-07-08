@@ -390,7 +390,7 @@ return /******/ (function(modules) { // webpackBootstrap
   \*******************************/
 /***/ function(module, exports) {
 
-	eval("module.exports = \"<!--\\n@Author: Yingya Zhang <zyy>\\n@Date:   2016-06-26 17:01:00\\n@Email:  zyy7259@gmail.com\\n@Last modified by:   zyy\\n@Last modified time: 2016-06-27 09:24:14\\n-->\\n\\n<form class=\\\"form-inline\\\">\\n  <fieldset class=\\\"form-group\\\">\\n    <input class=\\\"form-control\\\" type=\\\"text\\\" placeholder=\\\"Search...\\\" r-model={search} on-input={this.input()}>\\n    <a href=\\\"javascript:void(0)\\\"><i class=\\\"fa fa-search\\\"></i></a>\\n  </fieldset>\\n</form>\\n\"\n\n/*****************\n ** WEBPACK FOOTER\n ** ./src/search/index.html\n ** module id = 37\n ** module chunks = 0\n **/\n//# sourceURL=webpack:///./src/search/index.html?");
+	eval("module.exports = \"<!--\\n@Author: Yingya Zhang <zyy>\\n@Date:   2016-06-26 17:01:00\\n@Email:  zyy7259@gmail.com\\n@Last modified by:   zyy\\n@Last modified time: 2016-07-08 13:19:73\\n-->\\n\\n<form class=\\\"form\\\">\\n  <fieldset class=\\\"form-group\\\">\\n    <input class=\\\"form-control\\\" type=\\\"text\\\" placeholder=\\\"Search...\\\" r-model={search} on-input={this.input()}>\\n    <a href=\\\"javascript:void(0)\\\"><i class=\\\"fa fa-search\\\"></i></a>\\n  </fieldset>\\n</form>\\n\"\n\n/*****************\n ** WEBPACK FOOTER\n ** ./src/search/index.html\n ** module id = 37\n ** module chunks = 0\n **/\n//# sourceURL=webpack:///./src/search/index.html?");
 
 /***/ },
 /* 38 */
