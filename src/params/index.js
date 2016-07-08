@@ -2,7 +2,7 @@
 * @Author: Zhang Yingya(hzzhangyingya)
 * @Date:   2016-05-30 16:40:04
 * @Last modified by:   zyy
-* @Last modified time: 2016-07-08 10:52:15
+* @Last modified time: 2016-07-08 11:46:13
 */
 
 require('../loading')
@@ -131,9 +131,6 @@ module.exports = Regular.extend({
     if (this.data.hideTip === undefined) {
       this.data.hideTip = false
     }
-    if (this.data.params === undefined) {
-      this.data.params = {}
-    }
     if (this.data.showSubmit === undefined) {
       this.data.showSubmit = false
     }
@@ -155,6 +152,7 @@ module.exports = Regular.extend({
     if (this.data.submitBtnClazz === undefined) {
       this.data.submitBtnClazz = 'btn-primary-outline'
     }
+    this.data.params = {}
   },
   /**
    * - 解析参数默认值
@@ -163,11 +161,13 @@ module.exports = Regular.extend({
   parseParamList: function () {
     var self = this
     var data = self.data
-    data.params = {}
     data.parsedList = data.list.map(function (param) {
-      param = JSON.parse(JSON.stringify(param))
+      param = util.simpleClone(param)
       // 解析默认值
-      var defaultValue = param.value
+      var defaultValue = data.params[param.name]
+      if (util.isEmpty(defaultValue)) {
+        defaultValue = param.value
+      }
       if (util.isEmpty(defaultValue)) {
         defaultValue = data.default[param.name]
       }
@@ -290,8 +290,7 @@ module.exports = Regular.extend({
     var data = self.data
     var $refs = self.$refs
     if (!$refs) { return {} }
-    // clone 一份
-    var params = JSON.parse(JSON.stringify(data.params))
+    var params = data.params
     var invalid = data.parsedList.some(function (param) {
       param.invalid = false
       var name = param.name
@@ -382,11 +381,15 @@ module.exports = Regular.extend({
         delete params[name]
       }
     })
-    // 如果当前正在检查某个参数，那么触发 change
-    if (paramToCheck) {
-      self.$emit('change', params)
+    if (!invalid) {
+      params = util.simpleClone(params)
+      // 如果当前正在检查某个参数，那么触发 change
+      if (paramToCheck) {
+        self.$emit('change', params)
+      }
+      return params
     }
-    return invalid ? false : params
+    return false
   },
   /**
   * 对于空的参数, 如果是必须的, 那么它是 invalid
