@@ -2,11 +2,12 @@
 * @Author: Zhang Yingya(hzzhangyingya)
 * @Date:   2016-05-19 15:39:01
 * @Last modified by:   zyy
-* @Last modified time: 2016-06-26 23:35:87
+* @Last modified time: 2016-07-08 12:08:27
 */
 
 var notNumReg = /[^0-9]/g
 var tpl = require('./index.html')
+var util = require('zoro-base')
 
 /**
  * data
@@ -31,36 +32,18 @@ Regular.extend({
     this.watchData()
   },
   initDefault: function () {
-    if (this.data.id === undefined) {
-      this.data.id = +new Date()
-    }
-    if (this.data.total === undefined) {
-      this.data.total = 0
-    }
-    if (this.data.limit === undefined) {
-      this.data.limit = 10
-    }
-    if (this.data.current === undefined) {
-      this.data.current = 1
-    }
-    if (this.data.padding === undefined) {
-      this.data.padding = 2
-    }
-    if (this.data.sizeLimit === undefined) {
-      this.data.sizeLimit = 9
-    }
-    if (this.data.prevText === undefined) {
-      this.data.prevText = '&laquo;'
-    }
-    if (this.data.nextText === undefined) {
-      this.data.nextText = '&raquo;'
-    }
-    if (this.data.showLimit === undefined) {
-      this.data.showLimit = false
-    }
-    if (this.data.showJump === undefined) {
-      this.data.showJump = false
-    }
+    util.fillUndef(this.data, {
+      id: +new Date(),
+      total: 0,
+      limit: 10,
+      current: 1,
+      padding: 2,
+      sizeLimit: 9,
+      prevText: '&laquo;',
+      nextText: '&raquo;',
+      showLimit: false,
+      showJump: false
+    })
   },
   caclSize: function () {
     this.data.size = Math.ceil(this.data.total / this.data.limit)

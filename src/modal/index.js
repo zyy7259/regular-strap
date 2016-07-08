@@ -2,11 +2,12 @@
 * @Author: Zhang Yingya(hzzhangyingya)
 * @Date:   2016-05-29 19:40:47
 * @Last modified by:   zyy
-* @Last modified time: 2016-07-05 10:52:14
+* @Last modified time: 2016-07-08 12:07:33
 */
 
 require('../loading')
 var tpl = require('./index.html')
+var util = require('zoro-base')
 var dom = Regular.dom
 var body = document.querySelector('.g-doc') || document.body
 var counter = 0
@@ -33,27 +34,15 @@ module.exports = Regular.extend({
     this.$on('afterFadeOut', this.afterFadeOut.bind(this))
   },
   initDefault: function () {
-    if (this.data.autoShow === undefined) {
-      this.data.autoShow = true
-    }
-    if (this.data.autoDestroy === undefined) {
-      this.data.autoDestroy = true
-    }
-    if (this.data.autoDestroyWhenCancel === undefined) {
-      this.data.autoDestroyWhenCancel = true
-    }
-    if (this.data.autoHideWhenConfirm === undefined) {
-      this.data.autoHideWhenConfirm = true
-    }
-    if (this.data.autoDestroyWhenConfirm === undefined) {
-      this.data.autoDestroyWhenConfirm = true
-    }
-    if (this.data.cancelTitle === undefined) {
-      this.data.cancelTitle = '取 消'
-    }
-    if (this.data.confirmTitle === undefined) {
-      this.data.confirmTitle = '确 定'
-    }
+    util.fillUndef(this.data, {
+      autoShow: true,
+      autoDestroy: true,
+      autoDestroyWhenCancel: true,
+      autoHideWhenConfirm: true,
+      autoDestroyWhenConfirm: true,
+      cancelTitle: '取 消',
+      confirmTitle: '确 定'
+    })
   },
   computed: {
     sizeClazz: function () {

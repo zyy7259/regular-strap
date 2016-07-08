@@ -2,7 +2,7 @@
 * @Author: Zhang Yingya(hzzhangyingya)
 * @Date:   2016-05-30 16:40:04
 * @Last modified by:   zyy
-* @Last modified time: 2016-07-08 11:46:13
+* @Last modified time: 2016-07-08 12:04:04
 */
 
 require('../loading')
@@ -107,51 +107,23 @@ module.exports = Regular.extend({
     this.watch()
   },
   initDefault: function () {
-    if (this.data.id === undefined) {
-      this.data.id = +new Date()
-    }
-    if (this.data.list === undefined) {
-      this.data.list = []
-    }
-    if (this.data.default === undefined) {
-      this.data.default = {}
-    }
-    if (this.data.paramsLimit === undefined) {
-      this.data.paramsLimit = 3
-    }
-    if (this.data.hideMandatory === undefined) {
-      this.data.hideMandatory = false
-    }
-    if (this.data.hideColon === undefined) {
-      this.data.hideColon = false
-    }
-    if (this.data.hideLabel === undefined) {
-      this.data.hideLabel = false
-    }
-    if (this.data.hideTip === undefined) {
-      this.data.hideTip = false
-    }
-    if (this.data.showSubmit === undefined) {
-      this.data.showSubmit = false
-    }
-    if (this.data.submitTitle === undefined) {
-      this.data.submitTitle = '确定'
-    }
-    if (this.data.labelPosClazz === undefined) {
-      this.data.labelPosClazz = 'text-xs-right'
-    }
-    if (this.data.labelColClazz === undefined) {
-      this.data.labelColClazz = 'col-md-3'
-    }
-    if (this.data.iptColClazz === undefined) {
-      this.data.iptColClazz = 'col-md-8'
-    }
-    if (this.data.submitClazz === undefined) {
-      this.data.submitClazz = 'col-md-offset-3 col-md-8'
-    }
-    if (this.data.submitBtnClazz === undefined) {
-      this.data.submitBtnClazz = 'btn-primary-outline'
-    }
+    util.fillUndef(this.data, {
+      id: +new Date(),
+      list: [],
+      default: {},
+      paramsLimit: 3,
+      hideMandatory: false,
+      hideColon: false,
+      hideLabel: false,
+      hideTip: false,
+      showSubmit: false,
+      submitTitle: '确定',
+      labelPosClazz: 'text-xs-right',
+      labelColClazz: 'col-md-3',
+      iptColClazz: 'col-md-8',
+      submitClazz: 'col-md-offset-3 col-md-8',
+      submitBtnClazz: 'btn-primary-outline'
+    })
     this.data.params = {}
   },
   /**
