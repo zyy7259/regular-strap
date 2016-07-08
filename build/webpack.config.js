@@ -3,7 +3,7 @@
 * @Date:   2016-05-16 21:15:00
 * @Email:  zyy7259@gmail.com
 * @Last modified by:   zyy
-* @Last modified time: 2016-07-07 14:24:63
+* @Last modified time: 2016-07-08 13:03:70
 */
 
 var pjson = require('../package.json')
@@ -32,7 +32,7 @@ var config = {
     ],
     alias: {
       'data': path.resolve(__dirname, '../data'),
-      'zoro-base': path.resolve(__dirname, '../src/submodule/zoro-base/src'),
+      'zoro-base': path.resolve(__dirname, '../submodule/zoro-base/src'),
       'regularjs': path.resolve(__dirname, '../node_modules/regularjs/dist/regular'),
       'restate': path.resolve(__dirname, '../node_modules/regular-state/restate-full'),
       'stateman': path.resolve(__dirname, '../node_modules/stateman/stateman')
