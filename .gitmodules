@@ -1,9 +1,3 @@
-# @Author: Yingya Zhang <zyy>
-# @Date:   2016-06-30 09:54:00
-# @Email:  zyy7259@gmail.com
-# @Last modified by:   zyy
-# @Last modified time: 2016-07-08 13:02:92
-
 [submodule "submodule/zoro-base"]
 	path = submodule/zoro-base
 	url = git@github.com:zoro-js/zoro-base.git
