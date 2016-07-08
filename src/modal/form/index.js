@@ -2,10 +2,10 @@
 * @Author: Zhang Yingya(hzzhangyingya)
 * @Date:   2016-05-31 13:46:32
 * @Last modified by:   zyy
-* @Last modified time: 2016-06-26 18:08:59
+* @Last modified time: 2016-07-08 10:53:72
 */
 
-require('../../param')
+require('../../params')
 var Modal = require('../index')
 var tpl = require('./index.html')
 
