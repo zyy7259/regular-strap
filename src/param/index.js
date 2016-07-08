@@ -2,7 +2,7 @@
 * @Author: Zhang Yingya(hzzhangyingya)
 * @Date:   2016-05-30 16:40:04
 * @Last modified by:   zyy
-* @Last modified time: 2016-07-07 14:24:11
+* @Last modified time: 2016-07-08 10:14:45
 */
 
 require('../loading')
@@ -96,7 +96,7 @@ var valueParsers = {
  * 默认值的优先级 default < param.value < param.list.checked/selected
  */
 module.exports = Regular.extend({
-  name: 'param',
+  name: 'params',
   template: tpl,
   suffixTpl: suffixTpl,
   mandatoryTpl: '{#if param.mandatory}<span class="text-danger">*&nbsp;&nbsp;</span>{/if}',
@@ -229,14 +229,12 @@ module.exports = Regular.extend({
   },
   watch: function () {
     var self = this
-    setTimeout(function () {
-      self.$watch('default|json', function () {
-        self.parseParamList()
-      })
-      self.$watch('list|json', function () {
-        self.parseParamList()
-      })
-    }, 0)
+    self.$watch('default|json', function () {
+      self.parseParamList()
+    })
+    self.$watch('list|json', function () {
+      self.parseParamList()
+    })
   },
   computed: {
     // 是否每个参数一排

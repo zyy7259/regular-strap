@@ -3,7 +3,7 @@
 * @Date:   2016-06-26 17:01:00
 * @Email:  zyy7259@gmail.com
 * @Last modified by:   zyy
-* @Last modified time: 2016-07-05 21:36:80
+* @Last modified time: 2016-07-07 18:57:98
 */
 
 var tpl = require('./index.html')
@@ -60,7 +60,5 @@ module.exports = Checkable.extend({
     var value = radio.value
     this.data.currChecked = [value]
     this.$emit('change')
-  },
-  clickBody: function (event) {
   }
 })

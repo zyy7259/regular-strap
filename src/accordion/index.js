@@ -3,24 +3,51 @@
 * @Date:   2016-07-02 16:45:00
 * @Email:  zyy7259@gmail.com
 * @Last modified by:   zyy
-* @Last modified time: 2016-07-02 22:59:93
+* @Last modified time: 2016-07-07 16:15:84
 */
 
-var tpl = require('./index.html')
-var paneTpl = require('./pane.html')
+Regular.extend({
+  name: 'accordionPaneTitle',
+  template: '<div on-click={this.toggle()}>{#include this.$body}</div>',
+  config: function () {
+    if (this.$outer) {
+      this.$outer.$title = this
+    }
+  },
+  toggle: function () {
+    if (this.$outer && this.$outer.toggle) {
+      this.$outer.toggle()
+    }
+  }
+})
+
+Regular.extend({
+  name: 'accordionPaneCnt',
+  template: '<div>{#include this.$body}</div>',
+  config: function () {
+    if (this.$outer) {
+      this.$outer.$cnt = this
+    }
+  }
+})
 
 Regular.extend({
   name: 'accordionPane',
-  template: paneTpl,
+  template: '<div style="cursor:pointer;">{#include this.$body}</div>',
   config: function () {
-    console.log('config accordionPane')
+    if (this.$outer && this.$outer.data.$panes) {
+      this.$outer.data.$panes.push(this)
+    }
+  },
+  toggle: function () {
+    console.log('toggle')
   }
 })
 
 module.exports = Regular.extend({
   name: 'accordion',
-  template: tpl,
+  template: '{#include this.$body}',
   config: function () {
-    console.log('config accordion')
+    this.data.$panes = []
   }
 })
