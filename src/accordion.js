@@ -3,13 +3,13 @@
 * @Date:   2016-07-02 16:45:00
 * @Email:  zyy7259@gmail.com
 * @Last modified by:   zyy
-* @Last modified time: 2016-07-10 22:31:77
+* @Last modified time: 2016-07-10 23:04:82
 */
 
 import * as util from 'zoro-base'
 
 const titleTpl = `
-  <div style="cursor:pointer;" on-click={this.toggle()}>
+  <div class="{clazz}" style="cursor:pointer;" on-click={this.toggle()}>
     {#include this.$body}
   </div>
 `
@@ -32,7 +32,7 @@ Regular.extend({
 })
 
 const cntTpl = `
-  <div class="collapse"
+  <div class="{clazz} collapse"
     r-animation="
       when: show && !first;
       wait: 0;
