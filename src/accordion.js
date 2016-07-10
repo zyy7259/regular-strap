@@ -3,8 +3,10 @@
 * @Date:   2016-07-02 16:45:00
 * @Email:  zyy7259@gmail.com
 * @Last modified by:   zyy
-* @Last modified time: 2016-07-10 21:26:50
+* @Last modified time: 2016-07-10 22:31:77
 */
+
+import * as util from 'zoro-base'
 
 const titleTpl = `
   <div style="cursor:pointer;" on-click={this.toggle()}>
@@ -84,13 +86,7 @@ Regular.extend({
     dom.delClass(this.$refs.body, 'in')
   },
   assignHeight: function () {
-    const node = this.$refs.body.cloneNode(true)
-    node.className = 'collapse in'
-    node.style.opacity = 0
-    node.style.height = ''
-    document.body.appendChild(node)
-    this.$refs.body.style.height = node.offsetHeight + 'px'
-    document.body.removeChild(node)
+    this.$refs.body.style.height = util.calHeight(this.$refs.body) + 'px'
   },
   resetCollaping: function () {
     // 重置数据、类、高度
