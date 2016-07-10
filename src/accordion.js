@@ -3,12 +3,18 @@
 * @Date:   2016-07-02 16:45:00
 * @Email:  zyy7259@gmail.com
 * @Last modified by:   zyy
-* @Last modified time: 2016-07-08 16:02:22
+* @Last modified time: 2016-07-10 15:48:27
 */
+
+const titleTpl = `
+  <div style="cursor:pointer;" on-click={this.toggle()}>
+    {#include this.$body}
+  </div>
+`
 
 Regular.extend({
   name: 'accordionPaneTitle',
-  template: '<div style="cursor:pointer;" on-click={this.toggle()}>{#include this.$body}</div>',
+  template: titleTpl,
   config: function () {
     if (this.$outer) {
       this.$outer.$title = this
@@ -21,9 +27,15 @@ Regular.extend({
   }
 })
 
+const cntTpl = `
+  <div r-class={{collapse:!this.$outer.data.open}}>
+    {#include this.$body}
+  </div>
+`
+
 Regular.extend({
   name: 'accordionPaneCnt',
-  template: '<div r-class={{collapse:!this.$outer.data.open}}>{#include this.$body}</div>',
+  template: cntTpl,
   config: function () {
     if (this.$outer) {
       this.$outer.$cnt = this
@@ -31,9 +43,15 @@ Regular.extend({
   }
 })
 
+const paneTpl = `
+  <div>
+    {#include this.$body}
+  </div>
+`
+
 Regular.extend({
   name: 'accordionPane',
-  template: '<div>{#include this.$body}</div>',
+  template: paneTpl,
   config: function () {
     if (this.$outer && this.$outer.data.$panes) {
       this.$outer.data.$panes.push(this)
@@ -44,9 +62,13 @@ Regular.extend({
   }
 })
 
-module.exports = Regular.extend({
+const tpl = `
+  {#include this.$body}
+`
+
+export default Regular.extend({
   name: 'accordion',
-  template: '{#include this.$body}',
+  template: tpl,
   config: function () {
     this.data.$panes = []
   }

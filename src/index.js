@@ -3,31 +3,29 @@
 * @Date:   2016-06-26 17:04:00
 * @Email:  zyy7259@gmail.com
 * @Last modified by:   zyy
-* @Last modified time: 2016-07-08 10:53:77
+* @Last modified time: 2016-07-10 15:51:43
 */
 
-var Accordion = require('./accordion')
-var Dropdown = require('./dropdown')
-var EditableInput = require('./editableInput')
-var Loading = require('./loading')
-var Modal = require('./modal')
-var ModalForm = require('./modal/form')
-var Pager = require('./pager')
-var Param = require('./params')
-var Search = require('./search')
-var Tab = require('./tab')
+import { default as Accordion } from './accordion'
+import { default as Dropdown } from './dropdown'
+import { default as EditableInput } from './editableInput'
+import { default as Loading } from 'loading'
+import { default as Modal } from './modal'
+import { default as ModalForm } from './modal/form'
+import { default as Pager } from './pager'
+import { default as Param } from './params'
+import { default as Search } from './search'
+import { default as Tab } from './tab'
 
-var RegularStrap = {
-  Accordion: Accordion,
-  Dropdown: Dropdown,
-  EditableInput: EditableInput,
-  Loading: Loading,
-  Modal: Modal,
-  ModalForm: ModalForm,
-  Pager: Pager,
-  Param: Param,
-  Search: Search,
-  Tab: Tab
+export default {
+  Accordion,
+  Dropdown,
+  EditableInput,
+  Loading,
+  Modal,
+  ModalForm,
+  Pager,
+  Param,
+  Search,
+  Tab
 }
-
-module.exports = RegularStrap

@@ -2,13 +2,13 @@
 * @Author: Zhang Yingya(hzzhangyingya)
 * @Date:   2016-05-19 15:39:01
 * @Last modified by:   zyy
-* @Last modified time: 2016-07-08 18:12:68
+* @Last modified time: 2016-07-10 16:26:91
 */
 
-var notNumReg = /[^0-9]/g
-var tpl = require('./index.html')
+import * as util from 'zoro-base'
 require('./index.css')
-var util = require('zoro-base')
+const tpl = require('./index.html')
+const notNumReg = /[^0-9]/g
 
 /**
  * data
@@ -27,7 +27,7 @@ var util = require('zoro-base')
  *   - totalPrefix
  *   - totalSuffix
  */
-Regular.extend({
+export default Regular.extend({
   name: 'pager',
   template: tpl,
   config: function () {
@@ -58,16 +58,15 @@ Regular.extend({
     this.data.size = Math.ceil(this.data.total / this.data.limit)
   },
   watchData: function () {
-    var self = this
-    var data = self.data
-    self.$watch('limit', function (newValue, oldValue) {
+    const data = this.data
+    this.$watch('limit', (newValue, oldValue) => {
       if (typeof newValue === 'string') {
         newValue = newValue.replace(notNumReg, '')
         data.limit = newValue ? parseInt(newValue) : data.total
-        self.caclSize()
+        this.caclSize()
       }
     })
-    self.$watch('jump', function (newValue, oldValue) {
+    this.$watch('jump', function (newValue, oldValue) {
       if (typeof newValue === 'string') {
         newValue = newValue.replace(notNumReg, '')
         if (newValue !== '') {
@@ -76,8 +75,8 @@ Regular.extend({
         data.jump = newValue
       }
     })
-    self.$watch(['current', 'total', 'limit'], function (current) {
-      self.caclSize()
+    this.$watch(['current', 'total', 'limit'], (current) => {
+      this.caclSize()
       if (current > data.size) {
         data.current = 1
       }
@@ -99,28 +98,26 @@ Regular.extend({
   },
   computed: {
     validJump: function () {
-      var data = this.data
-      var jump = data.jump
+      const data = this.data
+      const jump = data.jump
       return typeof jump === 'number' && jump > 0 && jump <= data.size && jump !== data.current
     }
   },
   jump: function () {
-    var self = this
-    var data = self.data
-    var jump = data.jump
+    const data = this.data
+    const jump = data.jump
     if (typeof jump === 'number') {
-      self.nav(jump)
+      this.nav(jump)
     }
     data.jump = ''
-    self.$refs.jump.focus()
+    this.$refs.jump.focus()
   },
   nav: function (page) {
-    var self = this
-    var data = self.data
+    const data = this.data
     if (page < 1 || page > data.total || page === data.current) {
       return
     }
     data.current = page
-    self.$emit('nav', data)
+    this.$emit('nav', data)
   }
 })

@@ -2,10 +2,12 @@
 * @Author: Zhang Yingya(hzzhangyingya)
 * @Date:   2016-05-28 23:53:02
 * @Last modified by:   zyy
-* @Last modified time: 2016-06-29 22:32:99
+* @Last modified time: 2016-07-10 15:53:51
 */
 
-var tpl = require('./index.html')
+const tpl = require('./index.html')
+require('./index.css')
+
 /**
  * data
  * - value 初始值
@@ -16,7 +18,7 @@ var tpl = require('./index.html')
  * on-confirm 确定变更
  * on-cancel 取消变更
  */
-module.exports = Regular.extend({
+export default Regular.extend({
   name: 'editableInput',
   template: tpl,
   config: function () {

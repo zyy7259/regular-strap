@@ -3,7 +3,7 @@
 * @Date:   2016-05-16 21:15:00
 * @Email:  zyy7259@gmail.com
 * @Last modified by:   zyy
-* @Last modified time: 2016-07-08 17:21:60
+* @Last modified time: 2016-07-10 16:29:09
 */
 
 var pjson = require('../package.json')
@@ -29,7 +29,23 @@ var config = {
     loaders: [
       { test: /\.html$/, loader: 'raw' },
       { test: /\.yaml$/, loader: 'json!yaml' },
-      { test: /\.css$/, loader: 'style!css!postcss' }
+      { test: /\.css$/, loader: 'style!css!postcss' },
+      {
+        test: /\.js$/,
+        exclude: /(node_modules|bower_components)/,
+        loader: 'babel',
+        query: {
+          presets: ['es2015'],
+          cacheDirectory: true,
+          plugins: [
+            'transform-es3-property-literals',
+            'transform-es3-member-expression-literals',
+            ['transform-es2015-modules-commonjs', {
+              loose: true
+            }]
+          ]
+        }
+      }
     ]
   },
   postcss: function () {

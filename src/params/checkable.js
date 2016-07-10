@@ -3,16 +3,12 @@
 * @Date:   2016-06-27 09:58:00
 * @Email:  zyy7259@gmail.com
 * @Last modified by:   zyy
-* @Last modified time: 2016-07-05 14:58:55
+* @Last modified time: 2016-07-10 16:26:24
 */
 
-module.exports = Regular.extend({
+export default Regular.extend({
   resetDefaultCheckeds: function () {
-    this.data.currChecked = this.data.param.list.filter(function (item) {
-      return item.checked
-    }).map(function (item) {
-      return item.value
-    })
+    this.data.currChecked = this.data.param.list.filter(item => item.checked).map(item => item.value)
     // 如果提供了上一次的值，那么默认选中的应该是它们，否则默认选中的就是当前选中的
     var v = this.data.param.previousValue
     if (v) {
@@ -22,9 +18,8 @@ module.exports = Regular.extend({
     }
   },
   watch: function () {
-    var self = this
-    self.$watch('param.list|json', self.resetDefaultCheckeds.bind(self))
-    self.$watch('param.previousValue', self.resetDefaultCheckeds.bind(self))
+    this.$watch('param.list|json', this.resetDefaultCheckeds.bind(this))
+    this.$watch('param.previousValue', this.resetDefaultCheckeds.bind(this))
   },
   isDefaultChecked: function (item) {
     return this.data.defaultCheckeds.indexOf(item.value) !== -1
@@ -37,8 +32,7 @@ module.exports = Regular.extend({
     var isCurrChecked = this.isCurrChecked(item)
     if (isDefaultChecked && isCurrChecked) {
       return 'has-success'
-    } else if ((isDefaultChecked && !isCurrChecked) ||
-    (!isDefaultChecked && isCurrChecked)) {
+    } else if ((isDefaultChecked && !isCurrChecked) || (!isDefaultChecked && isCurrChecked)) {
       return 'has-warning'
     }
   }

@@ -2,14 +2,16 @@
 * @Author: Zhang Yingya(hzzhangyingya)
 * @Date:   2016-05-31 13:46:32
 * @Last modified by:   zyy
-* @Last modified time: 2016-07-08 10:53:72
+* @Last modified time: 2016-07-10 15:55:41
 */
 
-require('../../params')
-var Modal = require('../index')
-var tpl = require('./index.html')
+import '../../params'
 
-module.exports = Modal.extend({
+import { default as Modal } from '../index'
+
+const tpl = require('./index.html')
+
+export default Modal.extend({
   name: 'modalForm',
   $body: tpl,
   config: function () {
@@ -21,7 +23,7 @@ module.exports = Modal.extend({
   initParamList: function () {},
   // override, 检查参数, 如果不合法那么直接返回, 否则抛出 create
   confirm: function () {
-    var params = this.$refs.params
+    let params = this.$refs.params
     if (params) {
       params = params.getParams()
       if (params) {

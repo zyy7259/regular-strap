@@ -2,13 +2,14 @@
 * @Author: Zhang Yingya(hzzhangyingya)
 * @Date:   2016-05-31 20:28:05
 * @Last modified by:   zyy
-* @Last modified time: 2016-07-05 01:20:46
+* @Last modified time: 2016-07-10 16:13:63
 */
 
-var tpl = require('./index.html')
-var Checkable = require('../checkable')
+import { default as Checkable } from '../checkable'
 
-module.exports = Checkable.extend({
+const tpl = require('./index.html')
+
+export default Checkable.extend({
   name: 'checkboxes',
   template: tpl,
   config: function () {
@@ -20,14 +21,12 @@ module.exports = Checkable.extend({
     return this.data.currChecked.slice(0)
   },
   click: function (event, checkbox) {
-    var checked = event.target.checked
-    var value = checkbox.value
+    const checked = event.target.checked
+    const value = checkbox.value
     if (checked) {
       this.data.currChecked.push(value)
     } else {
-      var index = this.data.currChecked.findIndex(function (id) {
-        return id === value
-      })
+      const index = this.data.currChecked.findIndex(id => id === value)
       if (index !== -1) {
         this.data.currChecked.splice(index, 1)
       }

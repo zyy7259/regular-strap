@@ -2,15 +2,16 @@
 * @Author: Zhang Yingya(hzzhangyingya)
 * @Date:   2016-05-29 19:40:47
 * @Last modified by:   zyy
-* @Last modified time: 2016-07-08 12:07:33
+* @Last modified time: 2016-07-10 16:24:12
 */
 
-require('../loading')
-var tpl = require('./index.html')
-var util = require('zoro-base')
-var dom = Regular.dom
-var body = document.querySelector('.g-doc') || document.body
-var counter = 0
+import '../loading'
+import * as util from 'zoro-base'
+
+const tpl = require('./index.html')
+const dom = Regular.dom
+const body = document.querySelector('.g-doc') || document.body
+let counter = 0
 
 /**
  * data
@@ -26,7 +27,7 @@ var counter = 0
  * - confirmTitle 确定按钮的文案
  * cancel/confirm 之后只是调用 hide 来触发动画, 在动画结束后执行 afterFadeOut
  */
-module.exports = Regular.extend({
+export default Regular.extend({
   name: 'modal',
   template: tpl,
   config: function () {
@@ -74,14 +75,13 @@ module.exports = Regular.extend({
     this.$refs.modal.style.display = 'block'
   },
   show: function () {
-    var self = this
     counter++
     dom.addClass(body, 'modal-open')
-    self.showDom()
-    self.$inject(body)
-    setTimeout(function () {
-      self.data.show = true
-      self.$update()
+    this.showDom()
+    this.$inject(body)
+    setTimeout(() => {
+      this.data.show = true
+      this.$update()
     }, 0)
   },
   click: function (event) {
@@ -107,7 +107,7 @@ module.exports = Regular.extend({
       this.hide()
     }
     this.data.reason = 'confirm'
-    var eventName = 'confirm'
+    let eventName = 'confirm'
     if (action) {
       eventName = action.value
     }
@@ -128,7 +128,7 @@ module.exports = Regular.extend({
     this.data.hide = false
     this.data.show = false
     this.hideDom()
-    var shouldDestroy = (this.data.reason === 'cancel' &&
+    const shouldDestroy = (this.data.reason === 'cancel' &&
       this.data.autoDestroyWhenCancel &&
       this.data.autoDestroy) ||
       (this.data.reason === 'confirm' &&

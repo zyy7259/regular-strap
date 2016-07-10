@@ -3,14 +3,15 @@
 * @Date:   2016-06-26 17:01:00
 * @Email:  zyy7259@gmail.com
 * @Last modified by:   zyy
-* @Last modified time: 2016-07-07 18:57:98
+* @Last modified time: 2016-07-10 16:16:84
 */
 
-var tpl = require('./index.html')
-var suffixTpl = require('../suffix.html')
-var Checkable = require('../checkable')
+import { default as Checkable } from '../checkable'
 
-module.exports = Checkable.extend({
+const tpl = require('./index.html')
+const suffixTpl = require('../suffix.html')
+
+export default Checkable.extend({
   name: 'radios',
   template: tpl,
   suffixTpl: suffixTpl,
@@ -35,7 +36,7 @@ module.exports = Checkable.extend({
     }
   },
   genClass: function (radio) {
-    var clazz = this.supr(radio) || ''
+    let clazz = this.supr(radio) || ''
     if (this.shouldDisableRadio(radio)) {
       clazz += ' disabled'
     }
@@ -57,7 +58,7 @@ module.exports = Checkable.extend({
   },
   click: function (event, radio) {
     if (radio.disabled) { return }
-    var value = radio.value
+    const value = radio.value
     this.data.currChecked = [value]
     this.$emit('change')
   }

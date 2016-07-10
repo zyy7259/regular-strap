@@ -9,8 +9,14 @@
     float: left;
     margin-right: .25rem;
   }
-  .jump {
-    margin-right: 0;
+  .limit, .jump {
+    input, label, button {
+      float: left;
+      margin-right: .25rem;
+      &:last-child {
+        margin-right: 0;
+      }
+    }
   }
   .text {
     padding: .5rem 0;

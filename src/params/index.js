@@ -2,18 +2,18 @@
 * @Author: Zhang Yingya(hzzhangyingya)
 * @Date:   2016-05-30 16:40:04
 * @Last modified by:   zyy
-* @Last modified time: 2016-07-08 12:04:04
+* @Last modified time: 2016-07-10 16:40:79
 */
 
-require('../loading')
-require('./checkboxes')
-require('./radios')
-var tpl = require('./index.html')
-var suffixTpl = require('./suffix.html')
-var util = require('zoro-base')
-var dateUtil = util.date
-var DateStrFormat = 'yyyy-MM-dd'
-var DateTimeFormat = 'yyyy-MM-ddThh:mm'
+import '../loading'
+import './checkboxes'
+import './radios'
+
+const tpl = require('./index.html')
+const suffixTpl = require('./suffix.html')
+const util = require('zoro-base')
+const DateStrFormat = 'yyyy-MM-dd'
+const DateTimeFormat = 'yyyy-MM-ddThh:mm'
 
 if (Regular.directive('r-model2') === undefined) {
   Regular.directive('r-model2', {
@@ -28,8 +28,8 @@ if (Regular.directive('r-model2') === undefined) {
 }
 
 // 合法的值类型, 这些类型均使用 input:text 来呈现
-var validValueTypes = ['String', 'Number', 'Boolean', 'Array', 'Object']
-var valueParsers = {
+const validValueTypes = ['String', 'Number', 'Boolean', 'Array', 'Object']
+const valueParsers = {
   'String': function (value) {
     return '' + value
   },
@@ -131,26 +131,25 @@ module.exports = Regular.extend({
    * - 解析值类型
    */
   parseParamList: function () {
-    var self = this
-    var data = self.data
-    data.parsedList = data.list.map(function (param) {
+    const data = this.data
+    data.parsedList = data.list.map(param => {
       param = util.simpleClone(param)
       // 解析默认值
-      var defaultValue = data.params[param.name]
+      let defaultValue = data.params[param.name]
       if (util.isEmpty(defaultValue)) {
         defaultValue = param.value
       }
       if (util.isEmpty(defaultValue)) {
         defaultValue = data.default[param.name]
       }
-      var defaultIsEmpty = util.isEmpty(defaultValue)
+      const defaultIsEmpty = util.isEmpty(defaultValue)
       switch (param.type) {
         case 'Select':
           // Select: 如果没有提供默认值, 那么取第一个为默认值, 如果某一项有 selected, 取其为默认值
           if (defaultIsEmpty) {
             defaultValue = param.list[0].value
           }
-          param.list.some(function (option) {
+          param.list.some(option => {
             if (option.selected) {
               defaultValue = option.value
               return true
@@ -161,10 +160,10 @@ module.exports = Regular.extend({
         case 'DateTime':
           // DateStr & DateTime: 如果提供了默认值，那么需要格式化一下日期
           if (!defaultIsEmpty) {
-            var format = param.type === 'DateStr' ? DateStrFormat : DateTimeFormat
+            const format = param.type === 'DateStr' ? DateStrFormat : DateTimeFormat
             defaultValue = +new Date(defaultValue)
             if (!isNaN(defaultValue)) {
-              defaultValue = dateUtil.format(defaultValue, format)
+              defaultValue = util.format(defaultValue, format)
             } else {
               defaultValue = null
             }
@@ -173,12 +172,10 @@ module.exports = Regular.extend({
         case 'Checkboxes':
         case 'Radios':
           // 如果没有 checked 并且提供了默认值, 那么根据默认值勾选对应的 item
-          var hasChecked = param.list.some(function (item) {
-            return item.checked
-          })
+          const hasChecked = param.list.some(item => item.checked)
           if (!hasChecked && !defaultIsEmpty) {
-            param.list.forEach(function (item) {
-              var checked
+            param.list.forEach(item => {
+              let checked
               if (param.type === 'Checkboxes') {
                 checked = defaultValue.indexOf(item.value) !== -1
               } else {
@@ -201,13 +198,8 @@ module.exports = Regular.extend({
     })
   },
   watch: function () {
-    var self = this
-    self.$watch('default|json', function () {
-      self.parseParamList()
-    })
-    self.$watch('list|json', function () {
-      self.parseParamList()
-    })
+    this.$watch('default|json', () => this.parseParamList())
+    this.$watch('list|json', () => this.parseParamList())
   },
   computed: {
     // 是否每个参数一排
@@ -226,7 +218,7 @@ module.exports = Regular.extend({
     return this.data.id + '-param-' + param.name
   },
   genParamTip: function (param) {
-    var tip = param.invalidTip || param.tip || ''
+    let tip = param.invalidTip || param.tip || ''
     if (tip) {
       return tip
     }
@@ -258,27 +250,29 @@ module.exports = Regular.extend({
   * 如果指定了 paramToCheck, 那么只有当此参数有错误时才报错
   */
   getParams: function (paramToCheck) {
-    var self = this
-    var data = self.data
-    var $refs = self.$refs
+    const data = this.data
+    const $refs = this.$refs
     if (!$refs) { return {} }
-    var params = data.params
-    var invalid = data.parsedList.some(function (param) {
+    let params = data.params
+    // 有的参数存的值跟放出去的是不一样的
+    // - DateTime，存的是字符串，放出去的是日期对象
+    let paramsToEmit = {}
+    const invalid = data.parsedList.some(param => {
       param.invalid = false
-      var name = param.name
+      const name = param.name
       // 如果是字符串，trim一下
-      var value = params[name]
+      let value = params[name]
       if (typeof value === 'string') {
         value = value.trim()
       }
       // 是否是待检查的参数
-      var isParamToCheck = paramToCheck && name === paramToCheck.name
+      const isParamToCheck = paramToCheck && name === paramToCheck.name
       // 参数值是否不存在
-      var valueIsEmpty = util.isEmpty(value)
-      var valueIsInvalid = false
+      let valueIsEmpty = util.isEmpty(value)
+      let valueIsInvalid = false
       // 参数类型
-      var type = param.type
-      if (self.isValidValueType(type)) {
+      let type = param.type
+      if (this.isValidValueType(type)) {
         type = 'Value'
       }
       switch (type) {
@@ -295,7 +289,7 @@ module.exports = Regular.extend({
           break
         case 'Email':
           if (!valueIsEmpty) {
-            valueIsInvalid = !self.verifyEmail(value)
+            valueIsInvalid = !this.verifyEmail(value)
           }
           break
         case 'DateStr':
@@ -303,23 +297,24 @@ module.exports = Regular.extend({
             value = +new Date(value)
             valueIsInvalid = isNaN(value)
             if (!valueIsInvalid) {
-              value = dateUtil.format(value, DateStrFormat)
+              value = util.format(value, DateStrFormat)
             }
           }
           break
         case 'DateTime':
           if (!valueIsEmpty) {
-            value = +dateUtil.dateFromDateTimeLocal(value)
+            value = +util.dateFromDateTimeLocal(value)
             valueIsInvalid = isNaN(value)
             if (!valueIsInvalid) {
-              value = new Date(value)
+              paramsToEmit[name] = new Date(value)
+              value = util.format(value, DateTimeFormat)
             }
           }
           break
         case 'Select':
           // value = $refs[name].value
           if (!valueIsEmpty) {
-            var parser = valueParsers[util.getClass(param.list[0].value)]
+            const parser = valueParsers[util.getClass(param.list[0].value)]
             if (!parser) {
               throw new Error('不支持的Select值类型', validValueTypes)
             }
@@ -340,11 +335,11 @@ module.exports = Regular.extend({
       }
       // 如果是检查所有参数 或者 是当前要检查的参数，那么当参数值为空时，检测参数是否非法
       if ((!paramToCheck || isParamToCheck) && valueIsEmpty) {
-        return self.shouldInvalidEmptyParam(params, param)
+        return this.shouldInvalidEmptyParam(params, param)
       }
       // 参数值非法
       if (valueIsInvalid) {
-        return self.invalidParam(param)
+        return this.invalidParam(param)
       }
       // 只有当参数非空时（空数组）, 才赋值参数值
       if (!valueIsEmpty && util.exist(value)) {
@@ -355,9 +350,10 @@ module.exports = Regular.extend({
     })
     if (!invalid) {
       params = util.simpleClone(params)
+      util.merge(params, paramsToEmit)
       // 如果当前正在检查某个参数，那么触发 change
       if (paramToCheck) {
-        self.$emit('change', params)
+        this.$emit('change', params)
       }
       return params
     }
@@ -378,22 +374,22 @@ module.exports = Regular.extend({
   },
   invalidParam: function (param) {
     param.invalid = true
-    var ref = this.$refs[param.name]
+    const ref = this.$refs[param.name]
     if (ref.tagName && ref.tagName.toLowerCase() === 'input') {
       ref.focus()
     }
     return true
   },
-  verifyEmail: (function () {
-    var _reg = /^\S+@\S+?\.\S+$/
+  verifyEmail: (() => {
+    const _reg = /^\S+@\S+?\.\S+$/
     return function (email) {
-      var reg = this.data.emailReg || _reg
+      const reg = this.data.emailReg || _reg
       return reg.test(email)
     }
   })(),
   submit: function (event) {
     event.stop()
-    var params = this.getParams()
+    const params = this.getParams()
     if (params) {
       this.$emit('submit', params)
     }

@@ -3,7 +3,7 @@
 @Date:   2016-05-19 15:39:00
 @Email:  zyy7259@gmail.com
 @Last modified by:   zyy
-@Last modified time: 2016-07-08 18:52:74
+@Last modified time: 2016-07-10 16:00:30
 -->
 
 <div class="m-pager clearfix m-y-1 {clazz}" r-hide={size<=1}>
@@ -13,7 +13,7 @@
     <form class="limit form form-inline" r-hide={!showLimit}>
       <fieldset class="form-group">
         <label class="text {limitClazz}" for={id+'-limit'}>limit</label>
-        <input class="limit form-control" type="text" r-model={limit} id={id+'-limit'}/>
+        <input class="form-control" type="text" r-model={limit} id={id+'-limit'}/>
       </fieldset>
     </form>
     <ul class="pagination m-y-0">
@@ -66,7 +66,7 @@
     <!-- 可以随机跳转到某一页 -->
     <form class="jump form form-inline" r-hide={!showJump}>
       <fieldset class="form-group">
-        <input type="text" class="jump form-control" r-model={jump} {#if validJump}on-enter={this.jump()}{#else}on-enter={false}{/if} ref=jump>
+        <input type="text" class="form-control" r-model={jump} {#if validJump}on-enter={this.jump()}{#else}on-enter={false}{/if} ref=jump>
         <button type="button" class="btn btn-primary-outline" on-click={this.jump()} {#if !validJump}disabled{/if}>Go</button>
       </fieldset>
     </form>

@@ -2,11 +2,11 @@
 * @Author: Zhang Yingya(hzzhangyingya)
 * @Date:   2016-04-22 11:31:18
 * @Last modified by:   zyy
-* @Last modified time: 2016-07-02 17:02:83
+* @Last modified time: 2016-07-10 16:23:57
 */
 
-var tpl = require('./index.html')
-var paneTpl = require('./pane.html')
+const tpl = require('./index.html')
+const paneTpl = require('./pane.html')
 
 Regular.extend({
   name: 'tabPane',
@@ -20,20 +20,19 @@ Regular.extend({
     }
   },
   select: function (notEmit) {
-    var self = this
-    var data = self.data
+    const data = this.data
     if (data.disabled) {
       return
     }
-    var $outer = self.$outer
-    $outer.$update('selected', self)
+    const $outer = this.$outer
+    $outer.$update('selected', this)
     if (!notEmit) {
       $outer.$emit('nav', data)
     }
   }
 })
 
-module.exports = Regular.extend({
+export default Regular.extend({
   name: 'tab',
   template: tpl,
   config: function () {
@@ -41,12 +40,10 @@ module.exports = Regular.extend({
     this.data.tabs = {}
   },
   selectId: function (id, notEmit) {
-    var self = this
-    self.selectTab(self.data.tabs[id], notEmit)
+    this.selectTab(this.data.tabs[id], notEmit)
   },
   selectIndex: function (index, notEmit) {
-    var self = this
-    self.selectTab(self.data.tabArray[index], notEmit)
+    this.selectTab(this.data.tabArray[index], notEmit)
   },
   selectTab: function (tab, notEmit) {
     if (tab && tab.select) {

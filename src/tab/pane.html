@@ -1,5 +1,17 @@
+<!--
+@Author: Yingya Zhang <zyy>
+@Date:   2016-06-26 17:01:00
+@Email:  zyy7259@gmail.com
+@Last modified by:   zyy
+@Last modified time: 2016-07-10 16:03:74
+-->
+
 <li class="nav-item">
-  <a class="nav-link" href={href || 'javascript:void(0)'} r-class={{'hover': hover, 'active': this.$outer.data.selected===this}} {#if !disableClick}on-click={this.select()}{/if}>
+  <a
+    class="nav-link"
+    href={href || 'javascript:void(0)'}
+    r-class={{'hover': hover, 'active': this.$outer.data.selected===this}}
+    {#if !disableClick}on-click={this.select()}{/if}>
     {#include title}
   </a>
 </li>

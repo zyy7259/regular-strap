@@ -2,33 +2,31 @@
 * @Author: Zhang Yingya(hzzhangyingya)
 * @Date:   2016-05-22 19:35:33
 * @Last modified by:   zyy
-* @Last modified time: 2016-06-26 17:12:68
+* @Last modified time: 2016-07-10 16:24:09
 */
 
-var dom = Regular.dom
-var tpl = require('./index.html')
+const dom = Regular.dom
 
-module.exports = Regular.extend({
+const tpl = require('./index.html')
+
+export default Regular.extend({
   name: 'dropdown',
   template: tpl,
   config: function () {
-    var self = this
-    self.unopenHandler = self.unopen.bind(self)
-    dom.on(document, 'click', self.unopenHandler)
+    this.unopenHandler = this.unopen.bind(this)
+    dom.on(document, 'click', this.unopenHandler)
   },
   unopen: function (event) {
-    var target = event.target
+    const target = event.target
     if (dom.hasClass(target, 'btn')) {
       return
     }
-    var self = this
-    var data = self.data
+    const data = this.data
     data.open = false
-    self.$update()
+    this.$update()
   },
   destroy: function () {
-    var self = this
-    self.supr()
-    dom.off(document, 'click', self.unopenHandler)
+    this.supr()
+    dom.off(document, 'click', this.unopenHandler)
   }
 })

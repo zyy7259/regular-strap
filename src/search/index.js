@@ -1,11 +1,11 @@
 /*
 * @Author: Zhang Yingya(hzzhangyingya)
 * @Date:   2016-06-13 14:49:26
-* @Last Modified by:   Zhang Yingya(hzzhangyingya)
-* @Last Modified time: 2016-06-13 14:59:49
+* @Last modified by:   zyy
+* @Last modified time: 2016-07-10 16:03:33
 */
 
-module.exports = Regular.extend({
+export default Regular.extend({
   name: 'search',
   template: require('./index.html'),
   input: function () {
