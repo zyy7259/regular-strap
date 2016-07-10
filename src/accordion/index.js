@@ -3,12 +3,12 @@
 * @Date:   2016-07-02 16:45:00
 * @Email:  zyy7259@gmail.com
 * @Last modified by:   zyy
-* @Last modified time: 2016-07-07 16:15:84
+* @Last modified time: 2016-07-08 16:02:22
 */
 
 Regular.extend({
   name: 'accordionPaneTitle',
-  template: '<div on-click={this.toggle()}>{#include this.$body}</div>',
+  template: '<div style="cursor:pointer;" on-click={this.toggle()}>{#include this.$body}</div>',
   config: function () {
     if (this.$outer) {
       this.$outer.$title = this
@@ -23,7 +23,7 @@ Regular.extend({
 
 Regular.extend({
   name: 'accordionPaneCnt',
-  template: '<div>{#include this.$body}</div>',
+  template: '<div r-class={{collapse:!this.$outer.data.open}}>{#include this.$body}</div>',
   config: function () {
     if (this.$outer) {
       this.$outer.$cnt = this
@@ -33,7 +33,7 @@ Regular.extend({
 
 Regular.extend({
   name: 'accordionPane',
-  template: '<div style="cursor:pointer;">{#include this.$body}</div>',
+  template: '<div>{#include this.$body}</div>',
   config: function () {
     if (this.$outer && this.$outer.data.$panes) {
       this.$outer.data.$panes.push(this)

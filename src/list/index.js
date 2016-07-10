@@ -2,7 +2,7 @@
 * @Author: Zhang Yingya(hzzhangyingya)
 * @Date:   2016-04-23 19:01:33
 * @Last modified by:   zyy
-* @Last modified time: 2016-06-28 11:20:79
+* @Last modified time: 2016-07-08 18:33:67
 */
 
 define([
@@ -52,7 +52,7 @@ define([
       },
       query: {},
       needPager: true,
-      pagerClazz: 'm-y-1 right text-xs-right',
+      pagerClazz: 'right',
       autoLoad: true,
       globalLoading: false,
       errmsg: '获取列表失败',

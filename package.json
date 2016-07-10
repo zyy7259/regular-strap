@@ -9,28 +9,22 @@
   },
   "scripts": {
     "env": "env",
-
     "clean": "run-p -lns clean:*",
     "clean:css": "rimraf dist/css",
     "clean:js": "rimraf dist/js",
-
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint --config build/eslint.yaml --ignore-path build/eslintignore --color . ; exit 0",
-
     "prebuild:css": "npm run --silent clean:css",
     "prebuild:js": "npm run --silent clean:js",
-
     "build": "run-p -lns build:js build:css",
     "build:favicon": "node build/favicon.js",
     "build:css": "postcss --config build/postcss.js",
     "build:js": "webpack --config build/webpack.config.js",
     "build:js:stats": "npm run build:js -- --profile --json > dist/webpack-stats.json",
-
     "watch": "run-p -lns watch:*",
     "watch-:css": "npm run build:css --silent -- --watch",
     "watch:js": "npm run build:js --silent -- --watch",
     "watch:lint": "watch 'npm run lint' -du --interval=0.25 --ignoreDirectoryPattern='/src/(?:third|submodule)|dist|node_modules/i' --filter=build/watchFilter.eslint.js",
-
     "dev": "npm run watch",
     "server": "puer -p 8001 & npm run dev",
     "dist": "npm run build:js && NODE_ENV=production npm run build:js",
@@ -43,11 +37,15 @@
   "devDependencies": {
     "autoprefixer": "^6.3.6",
     "bootstrap": "^4.0.0-alpha.2",
+    "css-loader": "^0.23.1",
     "cssnano": "^3.7.1",
     "font-awesome": "^4.6.3",
     "postcss-calc": "^5.2.1",
+    "postcss-custom-properties": "^5.0.1",
+    "postcss-loader": "^0.9.1",
     "precss": "^1.4.0",
     "raw-loader": "^0.5.1",
-    "regularjs": "^0.4.4"
+    "regularjs": "^0.4.4",
+    "style-loader": "^0.13.1"
   }
 }

@@ -3,7 +3,7 @@
 @Date:   2016-06-26 18:28:00
 @Email:  zyy7259@gmail.com
 @Last modified by:   zyy
-@Last modified time: 2016-07-08 12:16:37
+@Last modified time: 2016-07-08 18:34:51
 -->
 
 <!DOCTYPE html>
@@ -45,6 +45,14 @@
           bbb
         </accordionPaneCnt>
       </accordionPane>
+      <accordionPane open>
+        <accordionPaneTitle>
+          ccc
+        </accordionPaneTitle>
+        <accordionPaneCnt>
+          ddd
+        </accordionPaneCnt>
+      </accordionPane>
     </accordion>
     <h2>dropdown</h2>
     <dropdown title="dropdown" items={dropdownItems}></dropdown>
@@ -58,7 +66,7 @@
       modal body
     </modal>
     <h2>pager</h2>
-    <pager total={100} current={2}></pager>
+    <pager total={100} current={2} showLimit showJump showTotal clazz="right"></pager>
     <h2>search</h2>
     <search on-change={this.onSearchChange($event)}></search>
     <h2>tab</h2>

@@ -1,0 +1,30 @@
+.m-pager {
+  position: relative;
+  &.right {
+    .wrap {
+      float: right;
+    }
+  }
+  .total, .limit, .pagination, .jump {
+    float: left;
+    margin-right: .25rem;
+  }
+  .jump {
+    margin-right: 0;
+  }
+  .text {
+    padding: .5rem 0;
+    border: 1px solid transparent;
+  }
+  label {
+    margin-bottom: 0;
+  }
+  button {
+    margin-top: 2px;
+  }
+  input {
+    width: 2.5rem !important;
+    padding: .5rem 0;
+    text-align: center;
+  }
+}

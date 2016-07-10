@@ -2,11 +2,12 @@
 * @Author: Zhang Yingya(hzzhangyingya)
 * @Date:   2016-05-19 15:39:01
 * @Last modified by:   zyy
-* @Last modified time: 2016-07-08 12:08:27
+* @Last modified time: 2016-07-08 18:12:68
 */
 
 var notNumReg = /[^0-9]/g
 var tpl = require('./index.html')
+require('./index.css')
 var util = require('zoro-base')
 
 /**
@@ -22,6 +23,9 @@ var util = require('zoro-base')
  * - nextText 下一页文案
  * - showLimit 是否展示调整 limit 的 input
  * - showJump 是否展示跳页的 input
+ * - showTotal 是否展示总数
+ *   - totalPrefix
+ *   - totalSuffix
  */
 Regular.extend({
   name: 'pager',
@@ -42,7 +46,12 @@ Regular.extend({
       prevText: '&laquo;',
       nextText: '&raquo;',
       showLimit: false,
-      showJump: false
+      limitClazz: 'text-muted',
+      showJump: false,
+      showTotal: false,
+      totalClazz: 'text-muted',
+      totalPrefix: '共 ',
+      totalSuffix: ' 条'
     })
   },
   caclSize: function () {
