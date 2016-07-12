@@ -3,7 +3,7 @@
 * @Date:   2016-07-02 16:45:00
 * @Email:  zyy7259@gmail.com
 * @Last modified by:   zyy
-* @Last modified time: 2016-07-10 23:04:82
+* @Last modified time: 2016-07-12T16:53:24+08:00
 */
 
 import * as util from 'zoro-base'
@@ -86,7 +86,7 @@ Regular.extend({
     dom.delClass(this.$refs.body, 'in')
   },
   assignHeight: function () {
-    this.$refs.body.style.height = util.calHeight(this.$refs.body) + 'px'
+    this.$refs.body.style.height = util.calcHeight(this.$refs.body) + 'px'
   },
   resetCollaping: function () {
     // 重置数据、类、高度
