@@ -1,0 +1,63 @@
+<!--
+@Author: Zhang Yingya(hzzhangyingya) <zyy>
+@Date:   2016-07-11T13:54:26+08:00
+@Email:  zyy7259@gmail.com
+@Last modified by:   zyy
+@Last modified time: 2016-07-12T13:03:00+08:00
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>unwatch</title>
+  <link rel="stylesheet" href="../third/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="../third/bootstrap/dist/css/bootstrap.min.css">
+</head>
+<body>
+  <div class="g-doc container-fluid" id="app"></div>
+  <script src="../third/regular/dist/regular.js"></script>
+  <script src="../dist/regular-strap.js"></script>
+  <script>
+    let counter = 0
+    const App = Regular.extend({
+      config: function () {
+        this.parseList()
+      },
+      parseList: function () {
+        this.unwatch()
+        this.data.list = this.data.list.map(item => {
+          item.counter = ++counter
+          return item
+        })
+        this.watch()
+      },
+      watch: function () {
+        if (!this.data.listWatcher) {
+          this.data.listWatcher = this.$watch('list|json', this.parseList.bind(this), {
+            sync: true
+          })
+        }
+      },
+      unwatch: function () {
+        if (this.data.listWatcher) {
+          this.$unwatch(this.data.listWatcher)
+          this.data.listWatcher = null
+        }
+      }
+    })
+    const list = [
+      {
+        id: 1
+      }
+    ]
+    const app = new App({
+      data: {
+        list: list
+      }
+    })
+    list[0].invalid = true
+    app.$update()
+  </script>
+</body>
+</html>

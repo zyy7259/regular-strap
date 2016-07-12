@@ -2,7 +2,7 @@
 * @Author: Zhang Yingya(hzzhangyingya)
 * @Date:   2016-05-30 16:40:04
 * @Last modified by:   zyy
-* @Last modified time: 2016-07-11T11:40:27+08:00
+* @Last modified time: 2016-07-12T15:53:50+08:00
 */
 
 import '../loading'
@@ -111,7 +111,7 @@ module.exports = Regular.extend({
       id: +new Date(),
       list: [],
       default: {},
-      paramsLimit: 3,
+      paramsLimit: 2,
       hideMandatory: false,
       hideColon: false,
       hideLabel: false,
@@ -134,7 +134,10 @@ module.exports = Regular.extend({
     const data = this.data
     data.parsedList = data.list.map(param => {
       param = util.simpleClone(param)
-      // 解析默认值
+      // 解析默认值, 优先级为
+      // - 之前输入的值
+      // - param.value
+      // - data.default
       let defaultValue = data.params[param.name]
       if (util.isEmpty(defaultValue)) {
         defaultValue = param.value
@@ -198,8 +201,12 @@ module.exports = Regular.extend({
     })
   },
   watch: function () {
-    this.$watch('default|json', () => this.parseParamList())
-    this.$watch('list|json', () => this.parseParamList())
+    this.data.defaultWatcher = this.$watch('default|json', this.parseParamList.bind(this))
+    this.data.listWatcher = this.$watch('list|json', this.parseParamList.bind(this))
+  },
+  unwatch: function () {
+    this.$unwatch(this.data.defaultWatcher)
+    this.$unwatch(this.data.listWatcher)
   },
   computed: {
     // 是否每个参数一排
