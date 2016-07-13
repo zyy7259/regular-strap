@@ -3,7 +3,7 @@
 @Date:   2016-06-26 18:28:00
 @Email:  zyy7259@gmail.com
 @Last modified by:   zyy
-@Last modified time: 2016-07-11T15:43:32+08:00
+@Last modified time: 2016-07-13T17:25:52+08:00
 -->
 
 <!DOCTYPE html>
@@ -32,6 +32,10 @@
   <script src="../third/regular/dist/regular.js"></script>
   <script src="../dist/regular-strap.js"></script>
   <script type="text/template" id="tpl">
+    <h2>filter parseUrl</h2>
+    {#include 'http://baidu.com'|parseUrl}
+    {#include 'http://baidu.com foo'|parseUrl}
+    {#include 'https://baidu.com foo'|parseUrl}
     <h2>Accordion</h2>
     <accordion>
       <accordionPane>

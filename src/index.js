@@ -3,9 +3,10 @@
 * @Date:   2016-06-26 17:04:00
 * @Email:  zyy7259@gmail.com
 * @Last modified by:   zyy
-* @Last modified time: 2016-07-13T15:29:51+08:00
+* @Last modified time: 2016-07-13T17:24:09+08:00
 */
 
+import './filter'
 import { default as Accordion } from './accordion'
 import { default as Dropdown } from './dropdown'
 import { default as EditableInput } from './editableInput'
