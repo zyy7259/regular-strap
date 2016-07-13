@@ -2,16 +2,17 @@
 * @Author: Zhang Yingya(hzzhangyingya)
 * @Date:   2016-05-30 16:40:04
 * @Last modified by:   zyy
-* @Last modified time: 2016-07-13T11:33:51+08:00
+* @Last modified time: 2016-07-13T13:55:28+08:00
 */
 
 import '../loading'
 import './checkboxes'
 import './radios'
 
+import {default as util} from 'util'
+
 const tpl = require('./index.html')
 const suffixTpl = require('./suffix.html')
-const util = require('zoro-base')
 const DateStrFormat = 'yyyy-MM-dd'
 const DateTimeFormat = 'yyyy-MM-ddThh:mm'
 

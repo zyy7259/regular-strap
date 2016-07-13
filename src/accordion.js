@@ -3,10 +3,10 @@
 * @Date:   2016-07-02 16:45:00
 * @Email:  zyy7259@gmail.com
 * @Last modified by:   zyy
-* @Last modified time: 2016-07-12T16:53:24+08:00
+* @Last modified time: 2016-07-13T13:53:28+08:00
 */
 
-import * as util from 'zoro-base'
+import {default as util} from 'util'
 
 const titleTpl = `
   <div class="{clazz}" style="cursor:pointer;" on-click={this.toggle()}>

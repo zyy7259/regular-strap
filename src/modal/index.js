@@ -2,11 +2,11 @@
 * @Author: Zhang Yingya(hzzhangyingya)
 * @Date:   2016-05-29 19:40:47
 * @Last modified by:   zyy
-* @Last modified time: 2016-07-10 16:24:12
+* @Last modified time: 2016-07-13T13:53:22+08:00
 */
 
 import '../loading'
-import * as util from 'zoro-base'
+import {default as util} from 'util'
 
 const tpl = require('./index.html')
 const dom = Regular.dom

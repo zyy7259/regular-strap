@@ -3,7 +3,7 @@
 * @Date:   2016-06-26 17:04:00
 * @Email:  zyy7259@gmail.com
 * @Last modified by:   zyy
-* @Last modified time: 2016-07-10 15:51:43
+* @Last modified time: 2016-07-13T12:09:59+08:00
 */
 
 import { default as Accordion } from './accordion'
@@ -16,6 +16,7 @@ import { default as Pager } from './pager'
 import { default as Param } from './params'
 import { default as Search } from './search'
 import { default as Tab } from './tab'
+import './util'
 
 export default {
   Accordion,

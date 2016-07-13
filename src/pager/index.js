@@ -2,11 +2,12 @@
 * @Author: Zhang Yingya(hzzhangyingya)
 * @Date:   2016-05-19 15:39:01
 * @Last modified by:   zyy
-* @Last modified time: 2016-07-10 16:26:91
+* @Last modified time: 2016-07-13T13:54:23+08:00
 */
 
-import * as util from 'zoro-base'
+import {default as util} from 'util'
 require('./index.css')
+
 const tpl = require('./index.html')
 const notNumReg = /[^0-9]/g
 
