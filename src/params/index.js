@@ -2,7 +2,7 @@
 * @Author: Zhang Yingya(hzzhangyingya)
 * @Date:   2016-05-30 16:40:04
 * @Last modified by:   zyy
-* @Last modified time: 2016-07-12T15:53:50+08:00
+* @Last modified time: 2016-07-13T11:33:51+08:00
 */
 
 import '../loading'
@@ -124,6 +124,9 @@ module.exports = Regular.extend({
       submitClazz: 'col-md-offset-3 col-md-8',
       submitBtnClazz: 'btn-primary-outline'
     })
+    this.reset()
+  },
+  reset: function () {
     this.data.params = {}
   },
   /**
