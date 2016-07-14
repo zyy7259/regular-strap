@@ -2,7 +2,7 @@
 * @Author: Zhang Yingya(hzzhangyingya)
 * @Date:   2016-05-30 16:40:04
 * @Last modified by:   zyy
-* @Last modified time: 2016-07-13T13:55:28+08:00
+* @Last modified time: 2016-07-14T15:43:48+08:00
 */
 
 import '../loading'
@@ -220,10 +220,17 @@ module.exports = Regular.extend({
     return validValueTypes.indexOf(type) !== -1
   },
   paramFitInput: function (param) {
-    return this.isValidValueType(param.type) || param.type === 'Email'
+    return this.isValidValueType(param.type) || param.type === 'Email' || param.type === 'Password'
   },
   genInputType: function (param) {
-    return param.type === 'Email' ? 'email' : 'text'
+    switch (param.type) {
+      case 'Email':
+        return 'email'
+      case 'Password':
+        return 'password'
+      default:
+        return 'text'
+    }
   },
   genParamId: function (param) {
     return this.data.id + '-param-' + param.name

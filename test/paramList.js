@@ -3,7 +3,7 @@
 * @Date:   2016-07-02 22:39:00
 * @Email:  zyy7259@gmail.com
 * @Last modified by:   zyy
-* @Last modified time: 2016-07-05 16:01:39
+* @Last modified time: 2016-07-14T15:45:07+08:00
 */
 
 var paramList = [
@@ -123,6 +123,12 @@ var paramList = [
     type: 'Email',
     desc: '必选邮箱空',
     mandatory: true
+  },
+  // Password
+  {
+    name: 'passwordOptional',
+    type: 'Password',
+    desc: 'password'
   },
   // DateStr
   {

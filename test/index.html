@@ -3,7 +3,7 @@
 @Date:   2016-06-26 18:28:00
 @Email:  zyy7259@gmail.com
 @Last modified by:   zyy
-@Last modified time: 2016-07-13T17:25:52+08:00
+@Last modified time: 2016-07-13T22:30:44+08:00
 -->
 
 <!DOCTYPE html>
@@ -36,6 +36,9 @@
     {#include 'http://baidu.com'|parseUrl}
     {#include 'http://baidu.com foo'|parseUrl}
     {#include 'https://baidu.com foo'|parseUrl}
+    {#include 'https://baidu.com foo'|parseUrl:'success'}
+    {#include 'https://baidu.com foo'|parseUrl:'warning'}
+    {#include 'https://baidu.com foo'|parseUrl:'danger'}
     <h2>Accordion</h2>
     <accordion>
       <accordionPane>
