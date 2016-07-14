@@ -2,7 +2,7 @@
 * @Author: Zhang Yingya(hzzhangyingya)
 * @Date:   2016-05-30 16:40:04
 * @Last modified by:   zyy
-* @Last modified time: 2016-07-14T15:43:48+08:00
+* @Last modified time: 2016-07-14T16:07:00+08:00
 */
 
 import '../loading'
@@ -122,9 +122,12 @@ module.exports = Regular.extend({
       labelPosClazz: 'text-xs-right',
       labelColClazz: 'col-md-3',
       iptColClazz: 'col-md-8',
-      submitClazz: 'col-md-offset-3 col-md-8',
+      submitClazz: 'col-md-8',
       submitBtnClazz: 'btn-primary-outline'
     })
+    if (!this.data.hideLabel) {
+      this.data.submitClazz += ' col-md-offset-3'
+    }
     this.reset()
   },
   reset: function () {
