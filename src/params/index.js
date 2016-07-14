@@ -2,7 +2,7 @@
 * @Author: Zhang Yingya(hzzhangyingya)
 * @Date:   2016-05-30 16:40:04
 * @Last modified by:   zyy
-* @Last modified time: 2016-07-14T16:07:00+08:00
+* @Last modified time: 2016-07-14T16:10:38+08:00
 */
 
 import '../loading'
@@ -108,6 +108,15 @@ module.exports = Regular.extend({
     this.watch()
   },
   initDefault: function () {
+    let iptColClazz
+    let submitClazz = 'col-md-8'
+    if (!this.data.hideLabel) {
+      iptColClazz = 'col-md-8'
+      submitClazz += ' col-md-offset-3'
+    } else {
+      iptColClazz = 'col-xs-12'
+      submitClazz = 'col-xs-12'
+    }
     util.fillUndef(this.data, {
       id: +new Date(),
       list: [],
@@ -121,13 +130,10 @@ module.exports = Regular.extend({
       submitTitle: '确定',
       labelPosClazz: 'text-xs-right',
       labelColClazz: 'col-md-3',
-      iptColClazz: 'col-md-8',
-      submitClazz: 'col-md-8',
+      iptColClazz: iptColClazz,
+      submitClazz: submitClazz,
       submitBtnClazz: 'btn-primary-outline'
     })
-    if (!this.data.hideLabel) {
-      this.data.submitClazz += ' col-md-offset-3'
-    }
     this.reset()
   },
   reset: function () {
