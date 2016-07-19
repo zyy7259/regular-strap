@@ -2,7 +2,7 @@
 * @Author: Zhang Yingya(hzzhangyingya)
 * @Date:   2016-05-30 16:40:04
 * @Last modified by:   zyy
-* @Last modified time: 2016-07-14T16:12:13+08:00
+* @Last modified time: 2016-07-19T15:38:55+08:00
 */
 
 import '../loading'
@@ -139,6 +139,9 @@ module.exports = Regular.extend({
   },
   reset: function () {
     this.data.params = {}
+  },
+  resetParam: function (name) {
+    delete this.data.params[name]
   },
   /**
    * - 解析参数默认值
