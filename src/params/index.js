@@ -2,7 +2,7 @@
 * @Author: Zhang Yingya(hzzhangyingya)
 * @Date:   2016-05-30 16:40:04
 * @Last modified by:   zyy
-* @Last modified time: 2016-07-14T16:10:38+08:00
+* @Last modified time: 2016-07-14T16:12:13+08:00
 */
 
 import '../loading'
@@ -108,6 +108,7 @@ module.exports = Regular.extend({
     this.watch()
   },
   initDefault: function () {
+    // 处理 ipt 和 submit 的 class
     let iptColClazz
     let submitClazz = 'col-md-8'
     if (!this.data.hideLabel) {
