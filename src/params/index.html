@@ -3,7 +3,7 @@
 @Date:   2016-06-26 17:01:00
 @Email:  zyy7259@gmail.com
 @Last modified by:   zyy
-@Last modified time: 2016-07-20T16:01:22+08:00
+@Last modified time: 2016-07-20T16:45:45+08:00
 -->
 
 <div class="m-param {clazz}">
@@ -45,7 +45,8 @@
             <checkboxes param={param} ref='{param.name}' on-change={this.getParams(param)}/>
           {#elseif param.type === 'Radios'}
             <radios param={param} ref='{param.name}' on-change={this.getParams(param)}></radios>
-          {#elseif param.invalid && !hideTip}
+          {/if}
+          {#if param.invalid && !hideTip}
             <div class="text-help" r-class={{'form-group':stack}}>
               <small>{this.genParamTip(param)}</small>
             </div>
