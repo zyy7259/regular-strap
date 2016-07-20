@@ -3,7 +3,7 @@
 * @Date:   2016-07-02 22:39:00
 * @Email:  zyy7259@gmail.com
 * @Last modified by:   zyy
-* @Last modified time: 2016-07-14T15:45:07+08:00
+* @Last modified time: 2016-07-20T15:52:00+08:00
 */
 
 var paramList = [
@@ -130,6 +130,29 @@ var paramList = [
     type: 'Password',
     desc: 'password'
   },
+  // DateTime
+  {
+    name: 'dateTimeOptionalEmpty',
+    type: 'DateTime',
+    desc: '可选日期, 空'
+  },
+  {
+    name: 'dateTimeOptionalWithValue',
+    type: 'DateTime',
+    desc: '可选日期, 带值',
+    value: new Date()
+  },
+  {
+    name: 'dateTimeOptionalWithDefault',
+    type: 'DateTime',
+    desc: '可选日期, 带默认值'
+  },
+  {
+    name: 'dateTimeMandatoryEmpty',
+    type: 'DateTime',
+    desc: '必选日期空',
+    mandatory: true
+  },
   // DateStr
   {
     name: 'dateStrOptionalEmpty',
@@ -153,27 +176,27 @@ var paramList = [
     desc: '必选日期字符串空',
     mandatory: true
   },
-  // DateTime
+  // MonthStr
   {
-    name: 'dateTimeOptionalEmpty',
-    type: 'DateTime',
-    desc: '可选日期, 空'
+    name: 'monthStrOptionalEmpty',
+    type: 'MonthStr',
+    desc: '可选月份字符串, 空'
   },
   {
-    name: 'dateTimeOptionalWithValue',
-    type: 'DateTime',
-    desc: '可选日期, 带值',
-    value: new Date()
+    name: 'monthStrOptionalWithValue',
+    type: 'MonthStr',
+    desc: '可选月份字符串, 带值',
+    value: '2016-06'
   },
   {
-    name: 'dateTimeOptionalWithDefault',
-    type: 'DateTime',
-    desc: '可选日期, 带默认值'
+    name: 'monthStrOptionalWithDefault',
+    type: 'MonthStr',
+    desc: '可选月份字符串, 带默认值'
   },
   {
-    name: 'dateTimeMandatoryEmpty',
-    type: 'DateTime',
-    desc: '必选日期空',
+    name: 'monthStrMandatoryEmpty',
+    type: 'MonthStr',
+    desc: '必选月份字符串空',
     mandatory: true
   },
   // Select

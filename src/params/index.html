@@ -3,7 +3,7 @@
 @Date:   2016-06-26 17:01:00
 @Email:  zyy7259@gmail.com
 @Last modified by:   zyy
-@Last modified time: 2016-07-14T15:41:20+08:00
+@Last modified time: 2016-07-20T16:01:22+08:00
 -->
 
 <div class="m-param {clazz}">
@@ -31,30 +31,21 @@
               {#if !param.hideValue}{params[param.name]}{/if}
               {#include this.suffixTpl}
             </p>
-          {/if}
-          {#if this.paramFitInput(param)}
-            <input class="form-control" type={this.genInputType(param)} id={this.genParamId(param)} r-model2={'params.' + param.name} ref='{param.name}' placeholder={this.genParamTip(param)} maxlength={param.maxlength} on-input={this.getParams(param)}>
-          {/if}
-          {#if param.type === 'DateStr'}
-            <input type="date" class="form-control" id={this.genParamId(param)} r-model2={'params.' + param.name} ref='{param.name}' on-change={this.getParams(param)}>
-          {/if}
-          {#if param.type === 'DateTime'}
-            <input type="datetime-local" class="form-control" id={this.genParamId(param)} r-model2={'params.' + param.name} ref='{param.name}' on-change={this.getParams(param)}>
-          {/if}
-          {#if param.type === 'Select'}
+          {#elseif this.paramFitInput(param)}
+            <input type={this.genInputType(param)} class="form-control" id={this.genParamId(param)} r-model2={'params.' + param.name} ref='{param.name}' placeholder={this.genParamTip(param)} maxlength={param.maxlength} on-input={this.getParams(param)}>
+          {#elseif this.paramFitDateInput(param)}
+            <input type={this.genDateInputType(param)} class="form-control" id={this.genParamId(param)} r-model2={'params.' + param.name} ref='{param.name}' on-change={this.getParams(param)}>
+          {#elseif param.type === 'Select'}
             <select class="form-control c-select" id={this.genParamId(param)} r-model2={'params.' + param.name} ref='{param.name}' on-change={this.getParams(param)}>
               {#list param.list as option}
                 <option value={option.value}>{option.desc}</option>
               {/list}
             </select>
-          {/if}
-          {#if param.type === 'Checkboxes'}
+          {#elseif param.type === 'Checkboxes'}
             <checkboxes param={param} ref='{param.name}' on-change={this.getParams(param)}/>
-          {/if}
-          {#if param.type === 'Radios'}
+          {#elseif param.type === 'Radios'}
             <radios param={param} ref='{param.name}' on-change={this.getParams(param)}></radios>
-          {/if}
-          {#if param.invalid && !hideTip}
+          {#elseif param.invalid && !hideTip}
             <div class="text-help" r-class={{'form-group':stack}}>
               <small>{this.genParamTip(param)}</small>
             </div>

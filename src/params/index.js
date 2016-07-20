@@ -2,7 +2,7 @@
 * @Author: Zhang Yingya(hzzhangyingya)
 * @Date:   2016-05-30 16:40:04
 * @Last modified by:   zyy
-* @Last modified time: 2016-07-19T15:38:55+08:00
+* @Last modified time: 2016-07-20T16:00:18+08:00
 */
 
 import '../loading'
@@ -13,8 +13,9 @@ import {default as util} from 'util'
 
 const tpl = require('./index.html')
 const suffixTpl = require('./suffix.html')
-const DateStrFormat = 'yyyy-MM-dd'
 const DateTimeFormat = 'yyyy-MM-ddThh:mm'
+const DateStrFormat = 'yyyy-MM-dd'
+const MonthStrFormat = 'yyyy-MM'
 
 if (Regular.directive('r-model2') === undefined) {
   Regular.directive('r-model2', {
@@ -60,8 +61,9 @@ const valueParsers = {
  *     - Array
  *     - Object
  *     - Email
- *     - DateStr
  *     - DateTime
+ *     - DateStr
+ *     - MonthStr
  *     - Select
  *     - Checkboxes
  *     - Radios
@@ -176,11 +178,17 @@ module.exports = Regular.extend({
             }
           })
           break
-        case 'DateStr':
         case 'DateTime':
+        case 'DateStr':
+        case 'MonthStr':
           // DateStr & DateTime: 如果提供了默认值，那么需要格式化一下日期
           if (!defaultIsEmpty) {
-            const format = param.type === 'DateStr' ? DateStrFormat : DateTimeFormat
+            let format = DateTimeFormat
+            if (param.type === 'DateStr') {
+              format = DateStrFormat
+            } else if (param.type === 'MonthStr') {
+              format = MonthStrFormat
+            }
             defaultValue = +new Date(defaultValue)
             if (!isNaN(defaultValue)) {
               defaultValue = util.format(defaultValue, format)
@@ -245,6 +253,19 @@ module.exports = Regular.extend({
         return 'text'
     }
   },
+  paramFitDateInput: function (param) {
+    return param.type === 'DateTime' || param.type === 'DateStr' || param.type === 'MonthStr'
+  },
+  genDateInputType: function (param) {
+    switch (param.type) {
+      case 'DateTime':
+        return 'datetime-local'
+      case 'DateStr':
+        return 'date'
+      case 'MonthStr':
+        return 'month'
+    }
+  },
   genParamId: function (param) {
     return this.data.id + '-param-' + param.name
   },
@@ -270,8 +291,10 @@ module.exports = Regular.extend({
           tip += ', 最长 ' + param.maxlength + ' 位'
         }
         break
+      case 'DateTime':
       case 'DateStr':
-        tip = '请选择年月日'
+      case 'MonthStr':
+        tip = '请选择日期'
         break
     }
     return tip
@@ -324,11 +347,16 @@ module.exports = Regular.extend({
           }
           break
         case 'DateStr':
+        case 'MonthStr':
           if (!valueIsEmpty) {
             value = +new Date(value)
             valueIsInvalid = isNaN(value)
             if (!valueIsInvalid) {
-              value = util.format(value, DateStrFormat)
+              var format = DateStrFormat
+              if (type === 'MonthStr') {
+                format = MonthStrFormat
+              }
+              value = util.format(value, format)
             }
           }
           break
