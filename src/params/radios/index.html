@@ -3,7 +3,7 @@
 @Date:   2016-06-26 17:01:00
 @Email:  zyy7259@gmail.com
 @Last modified by:   zyy
-@Last modified time: 2016-07-07 18:57:61
+@Last modified time: 2016-07-26T17:28:53+08:00
 -->
 
 <div class="row m-x-0" ref="body">
@@ -21,14 +21,14 @@
       {#if param.spread}
         style="display:inline-block;"
       {#else}
-        class="col-xs-6 p-l-0"
+        class="{colClazz}"
       {/if}>
       <label class="radio-inline {this.genClass(radio)}">
         <input
           type="radio"
           name={name}
           {#if radio.checked}checked{/if}
-          {#if this.shouldDisableRadio(radio)}disabled{/if}
+          {#if this.shouldDisable(radio)}disabled{/if}
           on-click={this.click($event, radio)}>
         <span class="text-help" r-class={{'text-muted':muted}}>{radio.desc}</span>
       </label>

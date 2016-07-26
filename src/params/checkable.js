@@ -3,10 +3,20 @@
 * @Date:   2016-06-27 09:58:00
 * @Email:  zyy7259@gmail.com
 * @Last modified by:   zyy
-* @Last modified time: 2016-07-10 16:26:24
+* @Last modified time: 2016-07-26T17:05:13+08:00
 */
 
+import {default as util} from 'util'
+
 export default Regular.extend({
+  config: function () {
+    util.fillUndef(this.data, {
+      colClazz: 'col-xs-6 p-l-0',
+      spreadClazz: 'm-r-1'
+    })
+    this.resetDefaultCheckeds()
+    this.watch()
+  },
   resetDefaultCheckeds: function () {
     this.data.currChecked = this.data.param.list.filter(item => item.checked).map(item => item.value)
     // 如果提供了上一次的值，那么默认选中的应该是它们，否则默认选中的就是当前选中的
@@ -27,13 +37,24 @@ export default Regular.extend({
   isCurrChecked: function (item) {
     return this.data.currChecked.indexOf(item.value) !== -1
   },
+  shouldDisable: function (item) {
+    return item.disabled
+  },
   genClass: function (item) {
+    var clazz
     var isDefaultChecked = this.isDefaultChecked(item)
     var isCurrChecked = this.isCurrChecked(item)
     if (isDefaultChecked && isCurrChecked) {
-      return 'has-success'
+      clazz = 'has-success'
     } else if ((isDefaultChecked && !isCurrChecked) || (!isDefaultChecked && isCurrChecked)) {
-      return 'has-warning'
+      clazz = 'has-warning'
     }
+    if (this.shouldDisable(item)) {
+      clazz += ' disabled'
+    }
+    if (this.data.param.spread) {
+      clazz += ' ' + this.data.spreadClazz
+    }
+    return clazz
   }
 })

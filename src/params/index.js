@@ -2,7 +2,7 @@
 * @Author: Zhang Yingya(hzzhangyingya)
 * @Date:   2016-05-30 16:40:04
 * @Last modified by:   zyy
-* @Last modified time: 2016-07-20T16:00:18+08:00
+* @Last modified time: 2016-07-26T17:20:08+08:00
 */
 
 import '../loading'
@@ -78,6 +78,7 @@ const valueParsers = {
  *     - desc: String
  *     - selected: Boolean
  *     - checked: Boolean
+ *     - spread: 是否将 checkbox 和 radio 展开放在一行
  *   - invalidTip: String 参数非法时展示的提示
  *   - tip: String 参数提示
  * - paramsLimit 超过这个数量, 参数就叠起来
@@ -141,9 +142,13 @@ module.exports = Regular.extend({
   },
   reset: function () {
     this.data.params = {}
+    this.parseParamList()
+    this.$update()
   },
   resetParam: function (name) {
     delete this.data.params[name]
+    this.parseParamList()
+    this.$update()
   },
   /**
    * - 解析参数默认值
@@ -224,6 +229,7 @@ module.exports = Regular.extend({
       }
       return param
     })
+    console.log(data.parsedList.length, data.parsedList)
   },
   watch: function () {
     this.data.defaultWatcher = this.$watch('default|json', this.parseParamList.bind(this))

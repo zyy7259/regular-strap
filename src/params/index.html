@@ -3,7 +3,7 @@
 @Date:   2016-06-26 17:01:00
 @Email:  zyy7259@gmail.com
 @Last modified by:   zyy
-@Last modified time: 2016-07-20T16:45:45+08:00
+@Last modified time: 2016-07-26T17:28:18+08:00
 -->
 
 <div class="m-param {clazz}">
@@ -11,6 +11,7 @@
   <!-- 如果参数不多, 那么一排放; 否则每个参数一排 -->
   <form class="form" r-class={{'form-inline':!stack}} on-submit={this.submit($event)}>
     {#list parsedList as param}
+      {param_index}
       <fieldset class="form-group" r-class={{'row':stack, 'has-danger':param.invalid}}>
         <label
           {#if stack}
@@ -42,9 +43,11 @@
               {/list}
             </select>
           {#elseif param.type === 'Checkboxes'}
+            <!-- <div>asdf</div> -->
             <checkboxes param={param} ref='{param.name}' on-change={this.getParams(param)}/>
           {#elseif param.type === 'Radios'}
-            <radios param={param} ref='{param.name}' on-change={this.getParams(param)}></radios>
+            <!-- <div>asdf</div> -->
+            <radios param={param} ref='{param.name}' on-change={this.getParams(param)}/>
           {/if}
           {#if param.invalid && !hideTip}
             <div class="text-help" r-class={{'form-group':stack}}>

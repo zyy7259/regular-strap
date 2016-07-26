@@ -3,7 +3,7 @@
 * @Date:   2016-06-26 17:01:00
 * @Email:  zyy7259@gmail.com
 * @Last modified by:   zyy
-* @Last modified time: 2016-07-10 16:16:84
+* @Last modified time: 2016-07-26T17:02:26+08:00
 */
 
 import { default as Checkable } from '../checkable'
@@ -25,25 +25,14 @@ export default Checkable.extend({
         this.data.previousChecked = this.data.checked
       }
     }
-    this.resetDefaultCheckeds()
-    this.watch()
+    this.supr()
   },
-  shouldDisableRadio: function (radio) {
+  shouldDisable: function (radio) {
     if (this.data.param.checkable) {
       return !this.data.checked || this.data.param.disabled
     } else {
       return radio.disabled
     }
-  },
-  genClass: function (radio) {
-    let clazz = this.supr(radio) || ''
-    if (this.shouldDisableRadio(radio)) {
-      clazz += ' disabled'
-    }
-    if (this.data.param.spread) {
-      clazz += ' m-r-1'
-    }
-    return clazz
   },
   getChecked: function () {
     if (this.data.param.checkable && !this.data.checked) {

@@ -3,7 +3,7 @@
 * @Date:   2016-07-02 22:39:00
 * @Email:  zyy7259@gmail.com
 * @Last modified by:   zyy
-* @Last modified time: 2016-07-20T15:52:00+08:00
+* @Last modified time: 2016-07-26T17:13:12+08:00
 */
 
 var paramList = [
@@ -346,6 +346,30 @@ var paramList = [
     name: 'checkboxesOptionalEmpty',
     type: 'Checkboxes',
     desc: '可选checkboxes, 空',
+    list: [
+      {
+        value: 'a',
+        desc: 'apple'
+      },
+      {
+        value: 'b',
+        desc: 'boy'
+      },
+      {
+        value: 'c',
+        desc: 'cat'
+      },
+      {
+        value: 'd',
+        desc: 'dog'
+      }
+    ]
+  },
+  {
+    name: 'checkboxesOptionalEmptySpread',
+    type: 'Checkboxes',
+    desc: '可选checkboxes, 空, spread',
+    spread: true,
     list: [
       {
         value: 'a',
@@ -712,3 +736,5 @@ var paramList = [
 ]
 
 window.paramList = paramList
+
+console.log(paramList.length, paramList)
