@@ -1,0 +1,46 @@
+<!--
+@Author: Zhang Yingya(hzzhangyingya) <zyy>
+@Date:   2016-07-26T22:56:08+08:00
+@Email:  zyy7259@gmail.com
+@Last modified by:   zyy
+@Last modified time: 2016-07-27T09:28:09+08:00
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>params - checkboxes</title>
+  <link rel="stylesheet" href="../../third/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="../../third/bootstrap/dist/css/bootstrap.min.css">
+</head>
+<body>
+  <div class="g-doc container-fluid" id="app"></div>
+  <script src="../../third/regular/dist/regular.js"></script>
+  <script src="../../dist/regular-strap.js"></script>
+  <script src="paramListCheckboxes.js"></script>
+  <script type="text/template" id="tpl">
+    <h2>params - checkboxes</h2>
+    <params caption="params" list={paramList} paramsLimit=0 default={paramDefault} showSubmit on-change={this.onParamChange($event)} on-submit={this.onParamChange($event)}/>
+  </script>
+  <script>
+    var paramList = paramListCheckboxes
+    var paramDefault = {
+      checkboxesOptionalWithDefault: ['b']
+    }
+    var app = new Regular({
+      template: '#tpl',
+      data: {
+        paramList: paramList,
+        paramDefault: paramDefault
+      },
+      onParamChange: function (params) {
+        console.log('params', params)
+      }
+    })
+    app.$inject('#app')
+  </script>
+</body>
+</html>

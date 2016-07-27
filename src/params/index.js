@@ -2,7 +2,7 @@
 * @Author: Zhang Yingya(hzzhangyingya)
 * @Date:   2016-05-30 16:40:04
 * @Last modified by:   zyy
-* @Last modified time: 2016-07-26T17:20:08+08:00
+* @Last modified time: 2016-07-27T09:50:28+08:00
 */
 
 import '../loading'
@@ -138,7 +138,7 @@ module.exports = Regular.extend({
       submitClazz: submitClazz,
       submitBtnClazz: 'btn-primary-outline'
     })
-    this.reset()
+    this.data.params = {}
   },
   reset: function () {
     this.data.params = {}
@@ -229,11 +229,15 @@ module.exports = Regular.extend({
       }
       return param
     })
-    console.log(data.parsedList.length, data.parsedList)
+    // console.log(data.parsedList.length, data.parsedList)
   },
   watch: function () {
-    this.data.defaultWatcher = this.$watch('default|json', this.parseParamList.bind(this))
-    this.data.listWatcher = this.$watch('list|json', this.parseParamList.bind(this))
+    this.data.defaultWatcher = this.$watch('default|json', this.parseParamList.bind(this), {
+      sync: true
+    })
+    this.data.listWatcher = this.$watch('list|json', this.parseParamList.bind(this), {
+      sync: true
+    })
   },
   unwatch: function () {
     this.$unwatch(this.data.defaultWatcher)
