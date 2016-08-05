@@ -3,7 +3,7 @@
 @Date:   2016-06-26 17:01:00
 @Email:  zyy7259@gmail.com
 @Last modified by:   zyy
-@Last modified time: 2016-07-27T09:48:04+08:00
+@Last modified time: 2016-08-05T14:04:34+08:00
 -->
 
 <div class="m-param {clazz}">
@@ -47,6 +47,13 @@
           {#elseif param.type === 'Radios'}
             <radios param={param} ref='{param.name}' on-change={this.getParams(param)}/>
           {/if}
+          <!-- subtitle -->
+          {#if (showSubtitle || param.showSubtitle) && param.subtitle}
+            <div class="text-help" r-class={{'form-group':stack}}>
+              <small>{param.subtitle}</small>
+            </div>
+          {/if}
+          <!-- 提示 -->
           {#if param.invalid && !hideTip}
             <div class="text-help" r-class={{'form-group':stack}}>
               <small>{this.genParamTip(param)}</small>

@@ -3,7 +3,7 @@
 @Date:   2016-06-26 18:28:00
 @Email:  zyy7259@gmail.com
 @Last modified by:   zyy
-@Last modified time: 2016-07-26T23:06:14+08:00
+@Last modified time: 2016-08-05T14:01:35+08:00
 -->
 
 <!DOCTYPE html>
@@ -74,7 +74,7 @@
     <h2>search</h2>
     <search on-change={this.onSearchChange($event)}></search>
     <h2>tab</h2>
-    <tab>
+    <tab on-nav={this.tabNav($event)}>
       <tabPane id="first" title="t1">
         content of first
       </tabPane>
@@ -83,7 +83,7 @@
       </tabPane>
     </tab>
     <h2>params</h2>
-    <params caption="params" list={paramList} default={paramDefault} showSubmit on-change={this.onParamChange($event)} on-submit={this.onParamChange($event)}/>
+    <params caption="params" list={paramList} default={paramDefault} showSubtitle showSubmit on-change={this.onParamChange($event)} on-submit={this.onParamChange($event)}/>
   </script>
 
   <script src="paramList.js"></script>
@@ -122,6 +122,9 @@
       },
       confirmEditingInput: function (newValue) {
         this.data.editableInputValue = newValue
+      },
+      tabNav: function (obj) {
+        console.log('tabNav', obj)
       },
       showModal: function () {
         this.$refs.modal.show()

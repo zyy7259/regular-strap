@@ -2,7 +2,7 @@
 * @Author: Zhang Yingya(hzzhangyingya)
 * @Date:   2016-04-22 11:31:18
 * @Last modified by:   zyy
-* @Last modified time: 2016-07-10 16:23:57
+* @Last modified time: 2016-07-28T18:33:53+08:00
 */
 
 const tpl = require('./index.html')
@@ -25,7 +25,7 @@ Regular.extend({
       return
     }
     const $outer = this.$outer
-    $outer.$update('selected', this)
+    $outer.data.selected = this
     if (!notEmit) {
       $outer.$emit('nav', data)
     }

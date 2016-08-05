@@ -2,7 +2,7 @@
 * @Author: Zhang Yingya(hzzhangyingya)
 * @Date:   2016-05-30 16:40:04
 * @Last modified by:   zyy
-* @Last modified time: 2016-07-27T09:50:28+08:00
+* @Last modified time: 2016-08-05T14:06:23+08:00
 */
 
 import '../loading'
@@ -81,13 +81,15 @@ const valueParsers = {
  *     - spread: 是否将 checkbox 和 radio 展开放在一行
  *   - invalidTip: String 参数非法时展示的提示
  *   - tip: String 参数提示
+ *   - showSubtitle: Boolean 是否展示子标题
  * - paramsLimit 超过这个数量, 参数就叠起来
  * - emailReg 验证邮箱的正则表达式
  * - hideMandatory 是否隐藏 * 号
  * - hideColon 是否隐藏 : 号
  * - hideLabel 是否隐藏 label
  * - hideTip 是否隐藏提示
- * - params 参数值对象
+ * - subtitle 子标题
+ * - showSubtitle 是否展示子标题
  * - showSubmit 是否展示提交按钮
  * - submitTitle 提交按钮的文案
  * - submitClazz

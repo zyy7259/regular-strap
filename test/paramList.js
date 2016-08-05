@@ -3,7 +3,7 @@
 * @Date:   2016-07-02 22:39:00
 * @Email:  zyy7259@gmail.com
 * @Last modified by:   zyy
-* @Last modified time: 2016-07-26T23:05:58+08:00
+* @Last modified time: 2016-08-05T14:02:20+08:00
 */
 
 var paramList = [
@@ -29,6 +29,12 @@ var paramList = [
     type: 'Static',
     desc: '只读文本, 带附加值',
     suffix: 'suffix'
+  },
+  {
+    name: 'staticWithSubtitle',
+    type: 'Static',
+    desc: '只读文本, 带 subtitle',
+    subtitle: 'subtitle'
   },
   // String
   {
