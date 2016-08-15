@@ -1,7 +1,6 @@
 {
   "name": "regular-strap",
-  "private": true,
-  "version": "1.0.2",
+  "version": "0.0.2",
   "description": "",
   "main": "dist/regular-strap.js",
   "directories": {
@@ -53,5 +52,8 @@
     "raw-loader": "^0.5.1",
     "regularjs": "^0.4.4",
     "style-loader": "^0.13.1"
+  },
+  "dependencies": {
+    "bootstrap": "^4.0.0-alpha.3"
   }
 }

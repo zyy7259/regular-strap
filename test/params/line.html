@@ -3,7 +3,7 @@
 @Date:   2016-07-26T22:56:08+08:00
 @Email:  zyy7259@gmail.com
 @Last modified by:   zyy
-@Last modified time: 2016-08-08T15:15:44+08:00
+@Last modified time: 2016-08-08T15:24:56+08:00
 -->
 
 <!DOCTYPE html>
@@ -20,13 +20,13 @@
   <div class="g-doc container-fluid" id="app"></div>
   <script src="../../third/regular/dist/regular.js"></script>
   <script src="../../dist/regular-strap.js"></script>
-  <script src="checkboxesParamList.js"></script>
+  <script src="lineParamList.js"></script>
   <script type="text/template" id="tpl">
     <h2>params - checkboxes</h2>
-    <params caption="params" list={paramList} paramsLimit=0 default={paramDefault} showSubmit on-change={this.onParamChange($event)} on-submit={this.onParamChange($event)}/>
+    <params caption="params" list={paramList} paramsLimit=100 default={paramDefault} showSubtitle showSubmit on-change={this.onParamChange($event)} on-submit={this.onParamChange($event)}/>
   </script>
   <script>
-    var paramList = checkboxesParamList
+    var paramList = lineParamList
     var paramDefault = {
       checkboxesOptionalWithDefault: ['b']
     }

@@ -3,10 +3,10 @@
 * @Date:   2016-07-27T09:27:02+08:00
 * @Email:  zyy7259@gmail.com
 * @Last modified by:   zyy
-* @Last modified time: 2016-07-27T09:50:53+08:00
+* @Last modified time: 2016-08-08T15:15:49+08:00
 */
 
-window.paramListCheckboxes = [
+window.checkboxesParamList = [
   {
     name: 'checkboxesOptionalEmpty',
     type: 'Checkboxes',
