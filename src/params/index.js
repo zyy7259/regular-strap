@@ -118,7 +118,7 @@ module.exports = Regular.extend({
     let submitClazz = 'col-md-8'
     if (!this.data.hideLabel) {
       iptColClazz = 'col-md-8'
-      submitClazz += ' col-md-offset-3'
+      submitClazz += ' offset-md-3'
     } else {
       iptColClazz = 'col-xs-12'
       submitClazz = 'col-xs-12'
