@@ -138,7 +138,7 @@ module.exports = Regular.extend({
       labelColClazz: 'col-md-3',
       iptColClazz: iptColClazz,
       submitClazz: submitClazz,
-      submitBtnClazz: 'btn-primary-outline'
+      submitBtnClazz: 'btn-outline-primary'
     })
     this.data.params = {}
   },
