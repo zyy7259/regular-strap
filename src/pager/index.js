@@ -27,6 +27,7 @@ const notNumReg = /[^0-9]/g
  * - showTotal 是否展示总数
  *   - totalPrefix
  *   - totalSuffix
+ *  - on-nav
  */
 export default Regular.extend({
   name: 'pager',
@@ -119,6 +120,11 @@ export default Regular.extend({
       return
     }
     data.current = page
-    this.$emit('nav', data)
+    this.$emit('nav', {
+      total: data.total,
+      current: data.current,
+      limit: data.limit,
+      offset: data.limit * (data.current - 1)
+    })
   }
 })
