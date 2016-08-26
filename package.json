@@ -1,6 +1,6 @@
 {
   "name": "regular-strap",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "",
   "main": "dist/regular-strap.js",
   "directories": {
@@ -11,49 +11,38 @@
     "clean": "run-p -lns clean:*",
     "clean:css": "rimraf dist/css",
     "clean:js": "rimraf dist/js",
+    "clean-dist": "rimraf dist",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "eslint --config build/eslint.yaml --ignore-path build/eslintignore --color . ; exit 0",
+    "lint": "eslint --color . ; exit 0",
     "prebuild:css": "npm run --silent clean:css",
     "prebuild:js": "npm run --silent clean:js",
     "build": "run-p -lns build:js build:css",
     "build:favicon": "node build/favicon.js",
-    "build:css": "postcss --config build/postcss.js",
-    "build:js": "webpack --config build/webpack.config.js",
+    "build:css": "postcss --config node_modules/zoro-kit/build/postcss.js",
+    "build:js": "webpack",
     "build:js:stats": "npm run build:js -- --profile --json > dist/webpack-stats.json",
     "watch": "run-p watch:*",
     "watch-:css": "npm run build:css --silent -- --watch",
     "watch:js": "npm run build:js --silent -- --watch",
-    "watch:lint": "watch 'npm run lint' -du --interval=0.25 --ignoreDirectoryPattern='/src/(?:third|submodule)|dist|node_modules/i' --filter=build/watchFilter.eslint.js",
+    "watch-:lint": "watch 'npm run lint' -du --interval=0.25 --ignoreDirectoryPattern='/third|submodule|dist|node_modules/i' --filter=build/watchFilter.eslint.js",
     "dev": "npm run watch",
-    "server": "puer -p 8001 & npm run dev",
-    "dist": "npm run build:js && NODE_ENV=production npm run build:js",
+    "preprod": "npm run clean-dist",
+    "prod": "cross-env NODE_ENV=production npm run build:js",
+    "server": "puer & npm run dev",
     "archive": "git archive --format zip -o dist/regular-strap.zip master src dist",
-    "prepub": "npm run dist && git add --all && git commit -m 'publish' && npm run archive",
+    "prepub": "npm run dist && git add --all && git commit -m 'pre-publish' && npm run archive",
     "foo": "NODE_ENV=production node build/foo.js"
   },
   "author": "",
   "license": "MIT",
-  "devDependencies": {
-    "autoprefixer": "^6.4.0",
-    "babel-core": "^6.13.2",
-    "babel-loader": "^6.2.5",
-    "babel-plugin-add-module-exports": "^0.2.1",
-    "babel-plugin-transform-es3-member-expression-literals": "^6.8.0",
-    "babel-plugin-transform-es3-property-literals": "^6.8.0",
-    "babel-preset-es2015": "^6.13.2",
-    "bootstrap": "^4.0.0-alpha.2",
-    "css-loader": "^0.23.1",
-    "cssnano": "^3.7.4",
-    "font-awesome": "^4.6.3",
-    "postcss-calc": "^5.3.0",
-    "postcss-custom-properties": "^5.0.1",
-    "postcss-loader": "^0.10.1",
-    "precss": "^1.4.0",
-    "raw-loader": "^0.5.1",
-    "regularjs": "^0.4.4",
-    "style-loader": "^0.13.1"
-  },
   "dependencies": {
     "bootstrap": "^4.0.0-alpha.3"
+  },
+  "peerDependencies": {
+    "regularjs": "*"
+  },
+  "devDependencies": {
+    "font-awesome": "*",
+    "zoro-kit": "*"
   }
 }

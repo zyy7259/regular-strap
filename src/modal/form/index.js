@@ -5,24 +5,22 @@
 * @Last modified time: 2016-07-10 15:55:41
 */
 
-import '../../params'
-
-import { default as Modal } from '../index'
+import {default as Modal} from '../index'
 
 const tpl = require('./index.html')
 
 export default Modal.extend({
   name: 'modalForm',
   $body: tpl,
-  config: function () {
+  config () {
     this.supr()
     // 确认的时候不要自动隐藏, 要在请求结束后再隐藏, 隐藏后会自动销毁
     this.data.autoHideWhenConfirm = false
     this.initParamList()
   },
-  initParamList: function () {},
+  initParamList () {},
   // override, 检查参数, 如果不合法那么直接返回, 否则抛出 create
-  confirm: function () {
+  confirm () {
     let params = this.$refs.params
     if (params) {
       params = params.getParams()
@@ -34,8 +32,8 @@ export default Modal.extend({
       }
     }
   },
-  afterConfirm: function () {},
-  resetLoading: function () {
+  afterConfirm () {},
+  resetLoading () {
     this.data.loading = false
     this.$update()
   }

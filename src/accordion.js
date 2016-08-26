@@ -19,12 +19,12 @@ const dom = Regular.dom
 Regular.extend({
   name: 'accordionPaneTitle',
   template: titleTpl,
-  config: function () {
+  config () {
     if (this.$outer) {
       this.$outer.$title = this
     }
   },
-  toggle: function () {
+  toggle () {
     if (this.$outer && this.$outer.toggle) {
       this.$outer.toggle()
     }
@@ -53,7 +53,7 @@ const cntTpl = `
 Regular.extend({
   name: 'accordionPaneCnt',
   template: cntTpl,
-  config: function () {
+  config () {
     if (this.$outer) {
       this.data.show = this.$outer.data.open
       this.$outer.$cnt = this
@@ -63,12 +63,12 @@ Regular.extend({
     this.$on('assignHeight', this.assignHeight.bind(this))
     this.$on('done', this.resetCollaping.bind(this))
   },
-  init: function () {
+  init () {
     if (this.data.show) {
       dom.addClass(this.$refs.body, 'in')
     }
   },
-  toggle: function () {
+  toggle () {
     this.data.first = false
     // 防止多次点击
     if (this.data.collapsing) {
@@ -85,10 +85,10 @@ Regular.extend({
     dom.delClass(this.$refs.body, 'collapse')
     dom.delClass(this.$refs.body, 'in')
   },
-  assignHeight: function () {
+  assignHeight () {
     this.$refs.body.style.height = util.calcHeight(this.$refs.body) + 'px'
   },
-  resetCollaping: function () {
+  resetCollaping () {
     // 重置数据、类、高度
     this.data.collapsing = false
     dom.delClass(this.$refs.body, 'collapsing')
@@ -111,12 +111,12 @@ const paneTpl = `
 Regular.extend({
   name: 'accordionPane',
   template: paneTpl,
-  config: function () {
+  config () {
     if (this.$outer && this.$outer.data.$panes) {
       this.$outer.data.$panes.push(this)
     }
   },
-  toggle: function () {
+  toggle () {
     if (this.$cnt) {
       this.$cnt.toggle()
     }
@@ -130,7 +130,7 @@ const tpl = `
 export default Regular.extend({
   name: 'accordion',
   template: tpl,
-  config: function () {
+  config () {
     this.data.$panes = []
   }
 })

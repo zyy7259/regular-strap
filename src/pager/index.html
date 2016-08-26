@@ -6,8 +6,8 @@
 @Last modified time: 2016-07-10 16:00:30
 -->
 
-<div class="m-pager clearfix m-y-1 {clazz}" r-hide={size<=1}>
-  <div class="wrap">
+<div class="m-pager m-y-1 {clazz}" r-hide={size<=1}>
+  <div class="wrap clearfix" style="display:inline-block;">
     <span class="total text {totalClazz}" r-hide={!showTotal}>{totalPrefix}{total}{totalSuffix}</span>
     <!-- 可以动态调整 limit -->
     <form class="limit form form-inline" r-hide={!showLimit}>

@@ -12,11 +12,11 @@ const tpl = require('./index.html')
 export default Regular.extend({
   name: 'dropdown',
   template: tpl,
-  config: function () {
+  config () {
     this.unopenHandler = this.unopen.bind(this)
     dom.on(document, 'click', this.unopenHandler)
   },
-  unopen: function (event) {
+  unopen (event) {
     const target = event.target
     if (dom.hasClass(target, 'btn')) {
       return
@@ -25,7 +25,7 @@ export default Regular.extend({
     data.open = false
     this.$update()
   },
-  destroy: function () {
+  destroy () {
     this.supr()
     dom.off(document, 'click', this.unopenHandler)
   }

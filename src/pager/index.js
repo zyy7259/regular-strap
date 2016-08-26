@@ -32,12 +32,12 @@ const notNumReg = /[^0-9]/g
 export default Regular.extend({
   name: 'pager',
   template: tpl,
-  config: function () {
+  config () {
     this.initDefault()
     this.caclSize()
     this.watchData()
   },
-  initDefault: function () {
+  initDefault () {
     util.fillUndef(this.data, {
       id: +new Date(),
       total: 0,
@@ -56,10 +56,10 @@ export default Regular.extend({
       totalSuffix: ' 条'
     })
   },
-  caclSize: function () {
+  caclSize () {
     this.data.size = Math.ceil(this.data.total / this.data.limit)
   },
-  watchData: function () {
+  watchData () {
     const data = this.data
     this.$watch('limit', (newValue, oldValue) => {
       if (typeof newValue === 'string') {
@@ -77,7 +77,7 @@ export default Regular.extend({
         data.jump = newValue
       }
     })
-    this.$watch(['current', 'total', 'limit'], (current) => {
+    this.$watch(['current', 'total', 'limit'], current => {
       this.caclSize()
       if (current > data.size) {
         data.current = 1
@@ -99,13 +99,13 @@ export default Regular.extend({
     })
   },
   computed: {
-    validJump: function () {
+    validJump () {
       const data = this.data
       const jump = data.jump
       return typeof jump === 'number' && jump > 0 && jump <= data.size && jump !== data.current
     }
   },
-  jump: function () {
+  jump () {
     const data = this.data
     const jump = data.jump
     if (typeof jump === 'number') {
@@ -114,7 +114,7 @@ export default Regular.extend({
     data.jump = ''
     this.$refs.jump.focus()
   },
-  nav: function (page) {
+  nav (page) {
     const data = this.data
     if (page < 1 || page > data.total || page === data.current) {
       return

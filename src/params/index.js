@@ -5,7 +5,6 @@
 * @Last modified time: 2016-08-05T14:06:23+08:00
 */
 
-import '../loading'
 import './checkboxes'
 import './radios'
 
@@ -20,7 +19,7 @@ const MonthStrFormat = 'yyyy-MM'
 if (Regular.directive('r-model2') === undefined) {
   Regular.directive('r-model2', {
     // TODO 理解一下
-    link: function (elem, value) {
+    link (elem, value) {
       value = this.$get(value)
       return Regular.directive('r-model').link.call(this, elem, value)
     }
@@ -32,19 +31,19 @@ if (Regular.directive('r-model2') === undefined) {
 // 合法的值类型, 这些类型均使用 input:text 来呈现
 const validValueTypes = ['String', 'Number', 'Boolean', 'Array', 'Object']
 const valueParsers = {
-  'String': function (value) {
+  'String' (value) {
     return '' + value
   },
-  'Number': function (value) {
+  'Number' (value) {
     return +value
   },
-  'Boolean': function (value) {
+  'Boolean' (value) {
     return value === 'true'
   },
-  'Array': function (value) {
+  'Array' (value) {
     return JSON.parse(value)
   },
-  'Object': function (value) {
+  'Object' (value) {
     return JSON.parse(value)
   }
 }
@@ -105,14 +104,14 @@ const valueParsers = {
 module.exports = Regular.extend({
   name: 'params',
   template: tpl,
-  suffixTpl: suffixTpl,
+  suffixTpl,
   mandatoryTpl: '{#if param.mandatory}<span class="text-danger">*&nbsp;&nbsp;</span>{/if}',
-  config: function () {
+  config () {
     this.initDefault()
     this.parseParamList()
     this.watch()
   },
-  initDefault: function () {
+  initDefault () {
     // 处理 ipt 和 submit 的 class
     let iptColClazz
     let submitClazz = 'col-md-8'
@@ -136,18 +135,18 @@ module.exports = Regular.extend({
       submitTitle: '确定',
       labelPosClazz: 'text-xs-right',
       labelColClazz: 'col-md-3',
-      iptColClazz: iptColClazz,
-      submitClazz: submitClazz,
+      iptColClazz,
+      submitClazz,
       submitBtnClazz: 'btn-outline-primary btn-primary-outline'
     })
     this.data.params = {}
   },
-  reset: function () {
+  reset () {
     this.data.params = {}
     this.parseParamList()
     this.$update()
   },
-  resetParam: function (name) {
+  resetParam (name) {
     delete this.data.params[name]
     this.parseParamList()
     this.$update()
@@ -156,7 +155,7 @@ module.exports = Regular.extend({
    * - 解析参数默认值
    * - 解析值类型
    */
-  parseParamList: function () {
+  parseParamList () {
     const data = this.data
     data.parsedList = data.list.map(param => {
       param = util.simpleClone(param)
@@ -233,7 +232,7 @@ module.exports = Regular.extend({
     })
     // console.log(data.parsedList.length, data.parsedList)
   },
-  watch: function () {
+  watch () {
     this.data.defaultWatcher = this.$watch('default|json', this.parseParamList.bind(this), {
       sync: true
     })
@@ -241,7 +240,7 @@ module.exports = Regular.extend({
       sync: true
     })
   },
-  unwatch: function () {
+  unwatch () {
     this.$unwatch(this.data.defaultWatcher)
     this.$unwatch(this.data.listWatcher)
   },
@@ -249,13 +248,13 @@ module.exports = Regular.extend({
     // 是否每个参数一排
     stack: 'list.length >= paramsLimit'
   },
-  isValidValueType: function (type) {
+  isValidValueType (type) {
     return validValueTypes.indexOf(type) !== -1
   },
-  paramFitInput: function (param) {
+  paramFitInput (param) {
     return this.isValidValueType(param.type) || param.type === 'Email' || param.type === 'Password'
   },
-  genInputType: function (param) {
+  genInputType (param) {
     switch (param.type) {
       case 'Email':
         return 'email'
@@ -265,10 +264,10 @@ module.exports = Regular.extend({
         return 'text'
     }
   },
-  paramFitDateInput: function (param) {
+  paramFitDateInput (param) {
     return param.type === 'DateTime' || param.type === 'DateStr' || param.type === 'MonthStr'
   },
-  genDateInputType: function (param) {
+  genDateInputType (param) {
     switch (param.type) {
       case 'DateTime':
         return 'datetime-local'
@@ -278,10 +277,10 @@ module.exports = Regular.extend({
         return 'month'
     }
   },
-  genParamId: function (param) {
+  genParamId (param) {
     return this.data.id + '-param-' + param.name
   },
-  genParamTip: function (param) {
+  genParamTip (param) {
     let tip = param.invalidTip || param.tip || ''
     if (tip) {
       return tip
@@ -315,7 +314,7 @@ module.exports = Regular.extend({
   * 获取参数, 有错误的话返回 false, 正常的话返回所有的参数
   * 如果指定了 paramToCheck, 那么只有当此参数有错误时才报错
   */
-  getParams: function (paramToCheck) {
+  getParams (paramToCheck) {
     const data = this.data
     const $refs = this.$refs
     if (!$refs) { return {} }
@@ -434,7 +433,7 @@ module.exports = Regular.extend({
   * 对于空的参数, 如果是必须的, 那么它是 invalid
   * 如果不是必须的, 那么从最终的结果里面删除它
   */
-  shouldInvalidEmptyParam: function (params, param) {
+  shouldInvalidEmptyParam (params, param) {
     if (param.mandatory) {
       return this.invalidParam(param)
     } else {
@@ -443,7 +442,7 @@ module.exports = Regular.extend({
       return false
     }
   },
-  invalidParam: function (param) {
+  invalidParam (param) {
     param.invalid = true
     const ref = this.$refs[param.name]
     if (ref.tagName && ref.tagName.toLowerCase() === 'input') {
@@ -458,7 +457,7 @@ module.exports = Regular.extend({
       return reg.test(email)
     }
   })(),
-  submit: function (event) {
+  submit (event) {
     event.stop()
     const params = this.getParams()
     if (params) {

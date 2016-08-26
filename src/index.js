@@ -7,16 +7,16 @@
 */
 
 import './filter'
-import { default as Accordion } from './accordion'
-import { default as Dropdown } from './dropdown'
-import { default as EditableInput } from './editableInput'
-import { default as Loading } from 'loading'
-import { default as Modal } from './modal'
-import { default as ModalForm } from './modal/form'
-import { default as Pager } from './pager'
-import { default as Param } from './params'
-import { default as Search } from './search'
-import { default as Tab } from './tab'
+import {default as Accordion} from './accordion'
+import {default as Dropdown} from './dropdown'
+import {default as EditableInput} from './editableInput'
+import {default as Loading} from './loading'
+import {default as Modal} from './modal'
+import {default as ModalForm} from './modal/form'
+import {default as Pager} from './pager'
+import {default as Param} from './params'
+import {default as Search} from './search'
+import {default as Tab} from './tab'
 import {default as util} from './util'
 
 export default {

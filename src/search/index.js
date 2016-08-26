@@ -8,7 +8,7 @@
 export default Regular.extend({
   name: 'search',
   template: require('./index.html'),
-  input: function () {
+  input () {
     this.$emit('change', this.data.search)
   }
 })

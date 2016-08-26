@@ -65,7 +65,7 @@ define([
       listShown: 'list.slice((current-1)*limit, (current-1)*limit + limit)'
     },
 
-    init: function () {
+    init () {
       var self = this
       if (self.data.globalLoading) {
         self.$watch('loading', function () {
@@ -78,7 +78,7 @@ define([
       }
     },
 
-    load: function (page) {
+    load (page) {
       // debugger
       var self = this
       // beforeload callback
@@ -125,7 +125,7 @@ define([
       self.$update()
     },
 
-    packQuery: function () {
+    packQuery () {
       var self = this
       var data = self.data
       var query = data.query || {}
@@ -143,17 +143,17 @@ define([
       return Object.assign({}, query, data.extraData)
     },
 
-    jump: function () {
+    jump () {
       location.search = '?' + u._$object2query(this.packQuery())
     },
 
-    query: function () {
+    query () {
       var self = this
       var data = self.data
       var query = self.packQuery()
       u.post(data.url, {
         data: query,
-        onload: function (obj) {
+        onload (obj) {
           // 如果已经销毁了, 那么不再处理
           if (data.unloaded) {
             return
@@ -204,7 +204,7 @@ define([
           }
           self.$update()
         },
-        onerror: function (obj) {
+        onerror (obj) {
           data.loading = false
           data.limit = data.query.limit || data.queryBase.limit
 
@@ -237,7 +237,7 @@ define([
       })
     },
 
-    unload: function () {
+    unload () {
       var self = this
       var data = self.data
       data.current = 1

@@ -21,17 +21,17 @@ require('./index.css')
 export default Regular.extend({
   name: 'editableInput',
   template: tpl,
-  config: function () {
+  config () {
     if (!this.data.tmp) {
       this.data.tmp = this.data.value
     }
   },
-  cancel: function () {
+  cancel () {
     this.data.tmp = this.data.value
     this.reset()
     this.$emit('cancel')
   },
-  confirm: function (event) {
+  confirm (event) {
     event.stop()
     if (!this.data.tmp && !this.data.canEmpty) {
       this.data.invalid = true
@@ -40,7 +40,7 @@ export default Regular.extend({
     this.reset()
     this.$emit('confirm', this.data.tmp)
   },
-  reset: function () {
+  reset () {
     this.data.editing = false
     this.data.invalid = false
   }

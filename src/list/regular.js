@@ -10,13 +10,13 @@ define([
 ], function (List) {
   return List.extend({
 
-    init: function () {
+    init () {
       var self = this
       self.supr()
       self.load()
     },
 
-    destroy: function () {
+    destroy () {
       var self = this
       self.supr()
       self.unload()

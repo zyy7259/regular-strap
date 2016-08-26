@@ -15,7 +15,7 @@ define(function () {
       total: 'Math.ceil(list.length / limit)',
       listShown: 'list.slice((current-1)*limit, (current-1)*limit + limit)'
     },
-    init: function () {
+    init () {
       var self = this
       var data = self.data
       self.$watch('list', function () {

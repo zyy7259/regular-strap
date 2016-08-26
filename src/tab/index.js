@@ -11,7 +11,7 @@ const paneTpl = require('./pane.html')
 Regular.extend({
   name: 'tabPane',
   template: paneTpl,
-  config: function () {
+  config () {
     this.data.disableClick = this.$outer.data.disableClick
     this.$outer.data.tabs[this.data.id] = this
     this.$outer.data.tabArray.push(this)
@@ -19,7 +19,7 @@ Regular.extend({
       this.select()
     }
   },
-  select: function (notEmit) {
+  select (notEmit) {
     const data = this.data
     if (data.disabled) {
       return
@@ -35,17 +35,17 @@ Regular.extend({
 export default Regular.extend({
   name: 'tab',
   template: tpl,
-  config: function () {
+  config () {
     this.data.tabArray = []
     this.data.tabs = {}
   },
-  selectId: function (id, notEmit) {
+  selectId (id, notEmit) {
     this.selectTab(this.data.tabs[id], notEmit)
   },
-  selectIndex: function (index, notEmit) {
+  selectIndex (index, notEmit) {
     this.selectTab(this.data.tabArray[index], notEmit)
   },
-  selectTab: function (tab, notEmit) {
+  selectTab (tab, notEmit) {
     if (tab && tab.select) {
       tab.select(notEmit)
     } else {

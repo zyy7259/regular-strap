@@ -9,7 +9,7 @@
 import {default as util} from 'util'
 
 export default Regular.extend({
-  config: function () {
+  config () {
     util.fillUndef(this.data, {
       colClazz: 'col-xs-6 p-l-0',
       spreadClazz: 'm-r-1'
@@ -17,7 +17,7 @@ export default Regular.extend({
     this.resetDefaultCheckeds()
     this.watch()
   },
-  resetDefaultCheckeds: function () {
+  resetDefaultCheckeds () {
     this.data.currChecked = this.data.param.list.filter(item => item.checked).map(item => item.value)
     // 如果提供了上一次的值，那么默认选中的应该是它们，否则默认选中的就是当前选中的
     var v = this.data.param.previousValue
@@ -27,20 +27,20 @@ export default Regular.extend({
       this.data.defaultCheckeds = this.data.currChecked.slice(0)
     }
   },
-  watch: function () {
+  watch () {
     this.$watch('param.list|json', this.resetDefaultCheckeds.bind(this))
     this.$watch('param.previousValue', this.resetDefaultCheckeds.bind(this))
   },
-  isDefaultChecked: function (item) {
+  isDefaultChecked (item) {
     return this.data.defaultCheckeds.indexOf(item.value) !== -1
   },
-  isCurrChecked: function (item) {
+  isCurrChecked (item) {
     return this.data.currChecked.indexOf(item.value) !== -1
   },
-  shouldDisable: function (item) {
+  shouldDisable (item) {
     return item.disabled
   },
-  genClass: function (item) {
+  genClass (item) {
     var clazz
     var isDefaultChecked = this.isDefaultChecked(item)
     var isCurrChecked = this.isCurrChecked(item)

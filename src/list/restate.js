@@ -11,12 +11,12 @@ define([
 ], function (List, du) {
   return List.extend({
 
-    config: function () {
+    config () {
       var self = this
       self.supr()
     },
 
-    enter: function (options) {
+    enter (options) {
       var self = this
       var data = self.data
       data.param = options.param
@@ -28,11 +28,11 @@ define([
       self.update(options)
     },
 
-    leave: function (options) {
+    leave (options) {
       this.unload()
     },
 
-    update: function (options) {
+    update (options) {
       this.$update()
     }
 
