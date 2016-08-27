@@ -1,4 +1,8 @@
-module.exports = require('zoro-kit/build/webpack.config.lib.js')({
-  filename: 'regular-strap.js',
-  library: 'RegularStrap'
+const config = require('zoro-kit/build/webpack.config.lib.js')({
+  output: {
+    filename: 'regular-strap.js',
+    library: 'RegularStrap'
+  }
 })
+
+module.exports = config

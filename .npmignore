@@ -3,3 +3,5 @@ src
 submodule
 test
 third
+*eslint*
+*webpack*

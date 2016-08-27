@@ -1,6 +1,6 @@
 {
   "name": "regular-strap",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "",
   "main": "dist/regular-strap.js",
   "directories": {
@@ -35,14 +35,14 @@
   },
   "author": "",
   "license": "MIT",
-  "dependencies": {
-    "bootstrap": "^4.0.0-alpha.3"
-  },
+  "dependencies": {},
   "peerDependencies": {
     "regularjs": "*"
   },
   "devDependencies": {
+    "bootstrap": "^4.0.0-alpha.3",
     "font-awesome": "*",
+    "zoro-base": "*",
     "zoro-kit": "*"
   }
 }
