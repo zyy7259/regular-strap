@@ -1,12 +1,14 @@
 {
   "name": "regular-strap",
-  "version": "0.0.10",
+  "version": "0.0.12",
   "description": "",
   "main": "dist/regular-strap.js",
   "directories": {
     "test": "test"
   },
   "scripts": {
+    "unit": "karma start build/karma.unit.config.js",
+    "unit:build": "webpack --config build/webpack.test.config.js",
     "env": "env",
     "clean": "run-p -lns clean:*",
     "clean:css": "rimraf dist/css",
@@ -18,7 +20,7 @@
     "prebuild:js": "npm run --silent clean:js",
     "build": "run-p -lns build:js build:css",
     "build:favicon": "node build/favicon.js",
-    "build:css": "postcss --config node_modules/zoro-kit/build/postcss.js",
+    "build:css": "postcss --config build/postcss.js",
     "build:js": "webpack",
     "build:js:stats": "npm run build:js -- --profile --json > dist/webpack-stats.json",
     "watch": "run-p watch:*",
@@ -30,7 +32,7 @@
     "prod": "cross-env NODE_ENV=production npm run build:js",
     "server": "puer & npm run dev",
     "archive": "git archive --format zip -o dist/regular-strap.zip master src dist",
-    "prepub": "npm run dist && git add --all && git commit -m 'pre-publish' && npm run archive",
+    "prepublish": "npm run prod",
     "foo": "NODE_ENV=production node build/foo.js"
   },
   "author": "",
