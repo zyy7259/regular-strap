@@ -396,11 +396,15 @@ return /******/ (function(modules) { // webpackBootstrap
 		
 		var id = _interopRequireWildcard(_id);
 		
-		var _mixin = __webpack_require__(9);
+		var _json = __webpack_require__(9);
+		
+		var json = _interopRequireWildcard(_json);
+		
+		var _mixin = __webpack_require__(10);
 		
 		var _mixin2 = _interopRequireDefault(_mixin);
 		
-		var _object = __webpack_require__(10);
+		var _object = __webpack_require__(11);
 		
 		var object = _interopRequireWildcard(_object);
 		
@@ -408,7 +412,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		
 		var type = _interopRequireWildcard(_type);
 		
-		var _url = __webpack_require__(14);
+		var _url = __webpack_require__(15);
 		
 		var url = _interopRequireWildcard(_url);
 		
@@ -416,18 +420,21 @@ return /******/ (function(modules) { // webpackBootstrap
 		
 		function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj['default'] = obj; return newObj; } }
 		
+		/**
+		* @Author: Yingya Zhang <zyy>
+		* @Date:   2016-06-23 13:45:00
+		* @Email:  zyy7259@gmail.com
+		* @Last modified by:   zyy
+		* @Last modified time: 2016-07-13T12:13:51+08:00
+		*/
+		
 		var obj = object.merge({}, blob, css, consts, date, dom, {
 		  forOwn: _forOwn2['default']
-		}, id, {
+		}, id, json, {
 		  mixin: _mixin2['default']
-		}, object, type, url); /**
-		                       * @Author: Yingya Zhang <zyy>
-		                       * @Date:   2016-06-23 13:45:00
-		                       * @Email:  zyy7259@gmail.com
-		                       * @Last modified by:   zyy
-		                       * @Last modified time: 2016-07-13T12:13:51+08:00
-		                       */
+		}, object, type, url);
 		
+		// TODO obj.__esModule ???
 		delete obj.__esModule;
 		
 		exports['default'] = obj;
@@ -919,6 +926,49 @@ return /******/ (function(modules) { // webpackBootstrap
 		'use strict';
 		
 		exports.__esModule = true;
+		exports.isJSON = isJSON;
+		exports.parseJSON = parseJSON;
+		
+		var _forOwn = __webpack_require__(7);
+		
+		var _forOwn2 = _interopRequireDefault(_forOwn);
+		
+		var _type = __webpack_require__(6);
+		
+		function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+		
+		function isJSON(str) {
+		  return (0, _type.isString)(str) && str.indexOf('{') === 0 && str.lastIndexOf('}') === str.length - 1;
+		}
+		
+		function parseJSON(obj) {
+		  try {
+		    if (isJSON(obj)) {
+		      obj = JSON.parse(obj);
+		    }
+		    if ((0, _type.isObject)(obj)) {
+		      (0, _forOwn2['default'])(obj, function (key, value) {
+		        switch ((0, _type.typeOf)(value)) {
+		          case 'string':
+		          case 'object':
+		            obj[key] = parseJSON(value);
+		            break;
+		        }
+		      });
+		    }
+		  } catch (error) {
+		    console.error(error);
+		  }
+		  return obj;
+		}
+	
+	/***/ },
+	/* 10 */
+	/***/ function(module, exports, __webpack_require__) {
+	
+		'use strict';
+		
+		exports.__esModule = true;
 		
 		var _forOwn = __webpack_require__(7);
 		
@@ -941,14 +991,14 @@ return /******/ (function(modules) { // webpackBootstrap
 		module.exports = exports['default'];
 	
 	/***/ },
-	/* 10 */
+	/* 11 */
 	/***/ function(module, exports, __webpack_require__) {
 	
 		'use strict';
 		
 		exports.__esModule = true;
 		
-		var _stringify = __webpack_require__(11);
+		var _stringify = __webpack_require__(12);
 		
 		var _stringify2 = _interopRequireDefault(_stringify);
 		
@@ -960,7 +1010,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		exports.string2object = string2object;
 		exports.object2string = object2string;
 		
-		var _mixin = __webpack_require__(9);
+		var _mixin = __webpack_require__(10);
 		
 		var _mixin2 = _interopRequireDefault(_mixin);
 		
@@ -1091,30 +1141,30 @@ return /******/ (function(modules) { // webpackBootstrap
 		}
 	
 	/***/ },
-	/* 11 */
-	/***/ function(module, exports, __webpack_require__) {
-	
-		module.exports = { "default": __webpack_require__(12), __esModule: true };
-	
-	/***/ },
 	/* 12 */
 	/***/ function(module, exports, __webpack_require__) {
 	
-		var core  = __webpack_require__(13)
+		module.exports = { "default": __webpack_require__(13), __esModule: true };
+	
+	/***/ },
+	/* 13 */
+	/***/ function(module, exports, __webpack_require__) {
+	
+		var core  = __webpack_require__(14)
 		  , $JSON = core.JSON || (core.JSON = {stringify: JSON.stringify});
 		module.exports = function stringify(it){ // eslint-disable-line no-unused-vars
 		  return $JSON.stringify.apply($JSON, arguments);
 		};
 	
 	/***/ },
-	/* 13 */
+	/* 14 */
 	/***/ function(module, exports) {
 	
 		var core = module.exports = {version: '2.4.0'};
 		if(typeof __e == 'number')__e = core; // eslint-disable-line no-undef
 	
 	/***/ },
-	/* 14 */
+	/* 15 */
 	/***/ function(module, exports, __webpack_require__) {
 	
 		'use strict';
@@ -1124,7 +1174,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		exports.genUrlSep = genUrlSep;
 		exports.object2query = object2query;
 		
-		var _object = __webpack_require__(10);
+		var _object = __webpack_require__(11);
 		
 		function genUrlSep(url) {
 		  return url.indexOf('?') < 0 ? '?' : '&';
