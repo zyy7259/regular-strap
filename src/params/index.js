@@ -320,6 +320,7 @@ module.exports = Regular.extend({
     if (!$refs) { return {} }
     let params = data.params
     // 有的参数存的值跟放出去的是不一样的
+    // - 数字, 存的是字符串 (不能存数字, 否则小西点会被丢掉), 放出去的是数字
     // - DateTime，存的是字符串，放出去的是日期对象
     let paramsToEmit = {}
     const invalid = data.parsedList.some(param => {
@@ -344,10 +345,15 @@ module.exports = Regular.extend({
         case 'Value':
           if (!valueIsEmpty) {
             if (param.type === 'Number') {
+              const originValue = value
               value = valueParsers[param.type](value)
               valueIsInvalid = isNaN(value) ||
                 (param.min && value < param.min) ||
                 (param.max && value > param.max)
+              if (!valueIsInvalid) {
+                paramsToEmit[name] = value
+                value = originValue
+              }
             }
             // other types
           }
