@@ -42,6 +42,8 @@
                 <option value={option.value}>{option.desc}</option>
               {/list}
             </select>
+          {#elseif param.type === 'Textarea'}
+            <textarea class='form-control' id={this.genParamId(param)} r-model2={'params.' + param.name} ref='{param.name}' on-change={this.getParams(param)}></textarea>
           {#elseif param.type === 'Checkboxes'}
             <checkboxes param={param} ref='{param.name}' on-change={this.getParams(param)}/>
           {#elseif param.type === 'Radios'}

@@ -64,6 +64,7 @@ const valueParsers = {
  *     - DateStr
  *     - MonthStr
  *     - Select
+ *     - Textarea
  *     - Checkboxes
  *     - Radios
  *   - name: String
