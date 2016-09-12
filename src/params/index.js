@@ -323,7 +323,7 @@ module.exports = Regular.extend({
     // 有的参数存的值跟放出去的是不一样的
     // - 数字, 存的是字符串 (不能存数字, 否则小西点会被丢掉), 放出去的是数字
     // - DateTime，存的是字符串，放出去的是日期对象
-    let paramsToEmit = {}
+    let paramsToEmit = util.simpleClone(params)
     const invalid = data.parsedList.some(param => {
       param.invalid = false
       const name = param.name
@@ -332,6 +332,7 @@ module.exports = Regular.extend({
       if (typeof value === 'string') {
         value = value.trim()
       }
+      const originValue = value
       // 是否是待检查的参数
       const isParamToCheck = paramToCheck && name === paramToCheck.name
       // 参数值是否不存在
@@ -346,7 +347,6 @@ module.exports = Regular.extend({
         case 'Value':
           if (!valueIsEmpty) {
             if (param.type === 'Number') {
-              const originValue = value
               value = valueParsers[param.type](value)
               valueIsInvalid = isNaN(value) ||
                 (param.min && value < param.min) ||
@@ -410,29 +410,31 @@ module.exports = Regular.extend({
         default:
           break
       }
-      // 如果是检查所有参数 或者 是当前要检查的参数，那么当参数值为空时，检测参数是否非法
+      // 如果是检查所有参数 或者 是当前要检查的参数, 那么当参数值为空时, 检测参数是否非法
       if ((!paramToCheck || isParamToCheck) && valueIsEmpty) {
         return this.shouldInvalidEmptyParam(params, param)
       }
       // 参数值非法
       if (valueIsInvalid) {
-        return this.invalidParam(param)
+        this.invalidParam(param)
+        // 如果是检查所有参数 或者 是当前要检查的参数, 那么返回非法, 结束当前检查, 否则继续检查下一个参数
+        if (!paramToCheck || isParamToCheck) {
+          return true
+        }
       }
-      // 只有当参数非空时（空数组）, 才赋值参数值
-      if (!valueIsEmpty && util.exist(value)) {
-        params[name] = value
+      // 只有当参数合法并且非空时(空数组也是空), 才赋值参数值
+      if (!valueIsInvalid && !valueIsEmpty && util.exist(value)) {
+        paramsToEmit[name] = value
       } else {
-        delete params[name]
+        delete paramsToEmit[name]
       }
     })
     if (!invalid) {
-      params = util.simpleClone(params)
-      util.merge(params, paramsToEmit)
       // 如果当前正在检查某个参数，那么触发 change
       if (paramToCheck) {
-        this.$emit('change', params)
+        this.$emit('change', paramsToEmit)
       }
-      return params
+      return paramsToEmit
     }
     return false
   },

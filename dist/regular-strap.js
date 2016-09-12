@@ -2444,7 +2444,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    // 有的参数存的值跟放出去的是不一样的
 	    // - 数字, 存的是字符串 (不能存数字, 否则小西点会被丢掉), 放出去的是数字
 	    // - DateTime，存的是字符串，放出去的是日期对象
-	    var paramsToEmit = {};
+	    var paramsToEmit = _util2['default'].simpleClone(params);
 	    var invalid = data.parsedList.some(function (param) {
 	      param.invalid = false;
 	      var name = param.name;
@@ -2453,6 +2453,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      if (typeof value === 'string') {
 	        value = value.trim();
 	      }
+	      var originValue = value;
 	      // 是否是待检查的参数
 	      var isParamToCheck = paramToCheck && name === paramToCheck.name;
 	      // 参数值是否不存在
@@ -2467,7 +2468,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	        case 'Value':
 	          if (!valueIsEmpty) {
 	            if (param.type === 'Number') {
-	              var originValue = value;
 	              value = valueParsers[param.type](value);
 	              valueIsInvalid = isNaN(value) || param.min && value < param.min || param.max && value > param.max;
 	              if (!valueIsInvalid) {
@@ -2529,29 +2529,31 @@ return /******/ (function(modules) { // webpackBootstrap
 	        default:
 	          break;
 	      }
-	      // 如果是检查所有参数 或者 是当前要检查的参数，那么当参数值为空时，检测参数是否非法
+	      // 如果是检查所有参数 或者 是当前要检查的参数, 那么当参数值为空时, 检测参数是否非法
 	      if ((!paramToCheck || isParamToCheck) && valueIsEmpty) {
 	        return _this.shouldInvalidEmptyParam(params, param);
 	      }
 	      // 参数值非法
 	      if (valueIsInvalid) {
-	        return _this.invalidParam(param);
+	        _this.invalidParam(param);
+	        // 如果是检查所有参数 或者 是当前要检查的参数, 那么返回非法, 结束当前检查, 否则继续检查下一个参数
+	        if (!paramToCheck || isParamToCheck) {
+	          return true;
+	        }
 	      }
-	      // 只有当参数非空时（空数组）, 才赋值参数值
-	      if (!valueIsEmpty && _util2['default'].exist(value)) {
-	        params[name] = value;
+	      // 只有当参数合法并且非空时(空数组也是空), 才赋值参数值
+	      if (!valueIsInvalid && !valueIsEmpty && _util2['default'].exist(value)) {
+	        paramsToEmit[name] = value;
 	      } else {
-	        delete params[name];
+	        delete paramsToEmit[name];
 	      }
 	    });
 	    if (!invalid) {
-	      params = _util2['default'].simpleClone(params);
-	      _util2['default'].merge(params, paramsToEmit);
 	      // 如果当前正在检查某个参数，那么触发 change
 	      if (paramToCheck) {
-	        this.$emit('change', params);
+	        this.$emit('change', paramsToEmit);
 	      }
-	      return params;
+	      return paramsToEmit;
 	    }
 	    return false;
 	  },
