@@ -323,7 +323,7 @@ module.exports = Regular.extend({
     // 有的参数存的值跟放出去的是不一样的
     // - 数字, 存的是字符串 (不能存数字, 否则小西点会被丢掉), 放出去的是数字
     // - DateTime，存的是字符串，放出去的是日期对象
-    let paramsToEmit = util.simpleClone(params)
+    let paramsToEmit = {}
     const invalid = data.parsedList.some(param => {
       param.invalid = false
       const name = param.name
@@ -422,9 +422,13 @@ module.exports = Regular.extend({
           return true
         }
       }
-      // 只有当参数合法并且非空时(空数组也是空), 才赋值参数值
+      // 只有当参数合法并且非空时(空数组也是空), 才存储该参数的值
       if (!valueIsInvalid && !valueIsEmpty && util.exist(value)) {
-        paramsToEmit[name] = value
+        params[name] = value
+        // 只有 paramsToEmit 不存在该值时, 才存储, 如果有该值, 说明上面 switch 时已经存储过了
+        if (!paramsToEmit[name]) {
+          paramsToEmit[name] = value
+        }
       } else {
         delete paramsToEmit[name]
       }
