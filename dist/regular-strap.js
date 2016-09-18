@@ -2474,7 +2474,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	              if (!valueIsInvalid) {
 	                var origin = '' + originValue;
 	                // 截取小数点后的位数
-	                var dotIndex = originValue.indexOf('.');
+	                var dotIndex = origin.indexOf('.');
 	                if (param.digits && dotIndex !== -1) {
 	                  var digits = +param.digits;
 	                  digits = isNaN(digits) ? 2 : digits;
