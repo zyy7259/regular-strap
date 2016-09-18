@@ -7,7 +7,8 @@ window.fooParamList = [
   {
     name: 'num',
     type: 'Number',
-    max: 10
+    max: 10,
+    digits: 2
   },
   {
     name: 'radio',

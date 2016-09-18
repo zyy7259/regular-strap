@@ -72,6 +72,7 @@ const valueParsers = {
  *   - mandatory: true/false
  *   - value: 该参数的默认值
  *   - min/max: used by Number
+ *   - digits: used by Number, max number of digits after dot
  *   - maxlength: used by input
  *   - list: used by Select/Checkboxes/Radios
  *     - value: String
@@ -352,8 +353,17 @@ module.exports = Regular.extend({
                 (param.min && value < param.min) ||
                 (param.max && value > param.max)
               if (!valueIsInvalid) {
+                let origin = originValue
+                // 截取小数点后的位数
+                const dotIndex = originValue.indexOf('.')
+                if (param.digits && dotIndex !== -1) {
+                  let digits = +param.digits
+                  digits = isNaN(digits) ? 2 : digits
+                  origin = origin.slice(0, dotIndex + digits + 1)
+                  value = +origin
+                }
                 paramsToEmit[name] = value
-                value = originValue
+                value = origin
               }
             }
             // other types

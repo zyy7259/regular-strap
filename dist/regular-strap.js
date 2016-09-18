@@ -2184,6 +2184,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 *   - mandatory: true/false
 	 *   - value: 该参数的默认值
 	 *   - min/max: used by Number
+	 *   - digits: used by Number, max number of digits after dot
 	 *   - maxlength: used by input
 	 *   - list: used by Select/Checkboxes/Radios
 	 *     - value: String
@@ -2471,8 +2472,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	              value = valueParsers[param.type](value);
 	              valueIsInvalid = isNaN(value) || param.min && value < param.min || param.max && value > param.max;
 	              if (!valueIsInvalid) {
+	                var origin = originValue;
+	                // 截取小数点后的位数
+	                var dotIndex = originValue.indexOf('.');
+	                if (param.digits && dotIndex !== -1) {
+	                  var digits = +param.digits;
+	                  digits = isNaN(digits) ? 2 : digits;
+	                  origin = origin.slice(0, dotIndex + digits + 1);
+	                  value = +origin;
+	                }
 	                paramsToEmit[name] = value;
-	                value = originValue;
+	                value = origin;
 	              }
 	            }
 	            // other types
