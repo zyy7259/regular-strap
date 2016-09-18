@@ -353,7 +353,7 @@ module.exports = Regular.extend({
                 (param.min && value < param.min) ||
                 (param.max && value > param.max)
               if (!valueIsInvalid) {
-                let origin = originValue
+                let origin = '' + originValue
                 // 截取小数点后的位数
                 const dotIndex = originValue.indexOf('.')
                 if (param.digits && dotIndex !== -1) {

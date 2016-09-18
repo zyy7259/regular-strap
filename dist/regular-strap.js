@@ -2472,7 +2472,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	              value = valueParsers[param.type](value);
 	              valueIsInvalid = isNaN(value) || param.min && value < param.min || param.max && value > param.max;
 	              if (!valueIsInvalid) {
-	                var origin = originValue;
+	                var origin = '' + originValue;
 	                // 截取小数点后的位数
 	                var dotIndex = originValue.indexOf('.');
 	                if (param.digits && dotIndex !== -1) {
