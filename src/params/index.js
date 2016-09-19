@@ -356,10 +356,10 @@ module.exports = Regular.extend({
                 let origin = '' + originValue
                 // 截取小数点后的位数
                 const dotIndex = origin.indexOf('.')
-                if (param.digits && dotIndex !== -1) {
+                if (dotIndex !== -1) {
                   let digits = +param.digits
-                  digits = isNaN(digits) ? 2 : digits
-                  origin = origin.slice(0, dotIndex + digits + 1)
+                  digits = isNaN(digits) ? 0 : digits
+                  origin = origin.slice(0, digits ? dotIndex + digits + 1 : dotIndex)
                   value = +origin
                 }
                 paramsToEmit[name] = value
