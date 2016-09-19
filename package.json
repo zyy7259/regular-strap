@@ -1,6 +1,6 @@
 {
   "name": "regular-strap",
-  "version": "0.0.22",
+  "version": "0.0.23",
   "description": "",
   "main": "dist/regular-strap.js",
   "directories": {

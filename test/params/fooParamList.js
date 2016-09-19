@@ -5,9 +5,15 @@ window.fooParamList = [
     desc: 'foo'
   },
   {
-    name: 'int',
+    name: 'number',
     type: 'Number',
     max: 10
+  },
+  {
+    name: 'int',
+    type: 'Number',
+    max: 10,
+    digits: 0
   },
   {
     name: 'float',

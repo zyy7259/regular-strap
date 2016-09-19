@@ -356,7 +356,7 @@ module.exports = Regular.extend({
                 let origin = '' + originValue
                 // 截取小数点后的位数
                 const dotIndex = origin.indexOf('.')
-                if (dotIndex !== -1) {
+                if (util.exist(param.digits) && dotIndex !== -1) {
                   let digits = +param.digits
                   digits = isNaN(digits) ? 0 : digits
                   origin = origin.slice(0, digits ? dotIndex + digits + 1 : dotIndex)
