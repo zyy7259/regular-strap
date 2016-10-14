@@ -2562,11 +2562,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	        delete paramsToEmit[name];
 	      }
 	    });
+	    // 如果当前正在检查某个参数，那么触发 change
+	    if (paramToCheck) {
+	      return this.$emit('change', paramsToEmit);
+	    }
 	    if (!invalid) {
-	      // 如果当前正在检查某个参数，那么触发 change
-	      if (paramToCheck) {
-	        this.$emit('change', paramsToEmit);
-	      }
 	      return paramsToEmit;
 	    }
 	    return false;
