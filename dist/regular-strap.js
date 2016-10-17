@@ -1721,6 +1721,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 *   - sm/small
 	 * - autoShow 是否自动显示
 	 * - autoDestroy 是否要自动销毁
+	 * - autoHideWhenClickMask 是否在点击遮罩的时候自动隐藏
 	 * - autoDestroyWhenCancel 是否在取消时自动销毁
 	 * - autoHideWhenConfirm 是否在确认时自动隐藏
 	 * - autoDestroyWhenConfirm 是否在确认时自动销毁
@@ -1742,6 +1743,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      autoDestroyWhenCancel: true,
 	      autoHideWhenConfirm: true,
 	      autoDestroyWhenConfirm: true,
+	      autoHideWhenClickMask: true,
 	      cancelTitle: '取 消',
 	      confirmTitle: '确 定'
 	    });
@@ -1788,9 +1790,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	      _this.$update();
 	    }, 0);
 	  },
-	  click: function click(event) {
+	  clickModal: function clickModal(event) {
 	    // console.log(event)
-	    if (event.target === this.$refs.modal) {
+	    if (event.target === this.$refs.modal && this.data.autoHideWhenClickMask) {
 	      this.cancel();
 	    }
 	  },
@@ -1846,7 +1848,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 16 */
 /***/ function(module, exports) {
 
-	module.exports = "<!--\n@Author: Yingya Zhang <zyy>\n@Date:   2016-06-26 17:01:00\n@Email:  zyy7259@gmail.com\n@Last modified by:   zyy\n@Last modified time: 2016-07-05 10:26:07\n-->\n\n<div\n  class=\"modal-backdrop fade\"\n  ref=\"backdrop\"\n  r-class={{'in':show}}\n  r-animation=\"when:hide; class:out; emit:afterFadeOut;\"\n  on-click={this.cancel()}\n></div>\n<div\n  class=\"modal fade\"\n  ref=\"modal\"\n  r-class={{'in':show}}\n  on-click={this.click($event)}\n>\n  <div class=\"modal-dialog {sizeClazz}\">\n    <div class=\"modal-content\">\n      <div class=\"modal-header\">\n        <button type=\"button\" class=\"close\" on-click={this.cancel()}>\n          <span>&times;</span>\n        </button>\n        <h4 class=\"modal-title\">{title}</h4>\n      </div>\n      <div class=\"modal-body\">{#include this.$body}</div>\n      <div class=\"modal-footer\">\n        {#list actions as action}\n          <button type=\"button\" class=\"btn btn-primary-outline\" on-click={this.act(action)}>{action.desc}</button>\n        {/list}\n        {#if loading}<loading/>{/if}\n        <button type=\"button\" class=\"btn btn-primary-outline\" r-hide={hideConfirm} on-click={this.confirm()}>{confirmTitle}</button>\n        <button type=\"button\" class=\"btn btn-secondary\" r-hide={hideCancel} on-click={this.cancel()}>{cancelTitle}</button>\n      </div>\n    </div>\n  </div>\n</div>\n"
+	module.exports = "<!--\n@Author: Yingya Zhang <zyy>\n@Date:   2016-06-26 17:01:00\n@Email:  zyy7259@gmail.com\n@Last modified by:   zyy\n@Last modified time: 2016-07-05 10:26:07\n-->\n\n<div\n  class=\"modal-backdrop fade\"\n  ref=\"backdrop\"\n  r-class={{'in':show}}\n  r-animation=\"when:hide; class:out; emit:afterFadeOut;\"\n></div>\n<div\n  class=\"modal fade\"\n  ref=\"modal\"\n  r-class={{'in':show}}\n  on-click={this.clickModal($event)}\n>\n  <div class=\"modal-dialog {sizeClazz}\">\n    <div class=\"modal-content\">\n      <div class=\"modal-header\">\n        <button type=\"button\" class=\"close\" on-click={this.cancel()}>\n          <span>&times;</span>\n        </button>\n        <h4 class=\"modal-title\">{title}</h4>\n      </div>\n      <div class=\"modal-body\">{#include this.$body}</div>\n      <div class=\"modal-footer\">\n        {#list actions as action}\n          <button type=\"button\" class=\"btn btn-primary-outline\" on-click={this.act(action)}>{action.desc}</button>\n        {/list}\n        {#if loading}<loading/>{/if}\n        <button type=\"button\" class=\"btn btn-primary-outline\" r-hide={hideConfirm} on-click={this.confirm()}>{confirmTitle}</button>\n        <button type=\"button\" class=\"btn btn-secondary\" r-hide={hideCancel} on-click={this.cancel()}>{cancelTitle}</button>\n      </div>\n    </div>\n  </div>\n</div>\n"
 
 /***/ },
 /* 17 */
@@ -1905,7 +1907,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 18 */
 /***/ function(module, exports) {
 
-	module.exports = "<!--\n@Author: Yingya Zhang <zyy>\n@Date:   2016-06-26 17:01:00\n@Email:  zyy7259@gmail.com\n@Last modified by:   zyy\n@Last modified time: 2016-07-10 16:03:34\n-->\n\n<params\n  caption={caption}\n  list={paramList}\n  clazz={paramClazz}\n  paramsLimit={0}\n  labelColClazz={labelColClazz}\n  iptColClazz={iptColClazz}\n  default={default}\n  on-change=\"change\"\n  ref=\"params\"/>\n"
+	module.exports = "<!--\n@Author: Yingya Zhang <zyy>\n@Date:   2016-06-26 17:01:00\n@Email:  zyy7259@gmail.com\n@Last modified by:   zyy\n@Last modified time: 2016-07-10 16:03:34\n-->\n\n<params\n  caption={caption}\n  list={paramList}\n  clazz={paramClazz}\n  paramsLimit={0}\n  labelColClazz={labelColClazz}\n  iptColClazz={iptColClazz}\n  default={default}\n  autoHideWhenClickMask={autoHideWhenClickMask}\n  on-change=\"change\"\n  ref=\"params\"/>\n"
 
 /***/ },
 /* 19 */

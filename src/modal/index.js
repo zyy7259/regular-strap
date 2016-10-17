@@ -20,6 +20,7 @@ let counter = 0
  *   - sm/small
  * - autoShow 是否自动显示
  * - autoDestroy 是否要自动销毁
+ * - autoHideWhenClickMask 是否在点击遮罩的时候自动隐藏
  * - autoDestroyWhenCancel 是否在取消时自动销毁
  * - autoHideWhenConfirm 是否在确认时自动隐藏
  * - autoDestroyWhenConfirm 是否在确认时自动销毁
@@ -41,6 +42,7 @@ export default Regular.extend({
       autoDestroyWhenCancel: true,
       autoHideWhenConfirm: true,
       autoDestroyWhenConfirm: true,
+      autoHideWhenClickMask: true,
       cancelTitle: '取 消',
       confirmTitle: '确 定'
     })
@@ -84,9 +86,9 @@ export default Regular.extend({
       this.$update()
     }, 0)
   },
-  click (event) {
+  clickModal (event) {
     // console.log(event)
-    if (event.target === this.$refs.modal) {
+    if (event.target === this.$refs.modal && this.data.autoHideWhenClickMask) {
       this.cancel()
     }
   },

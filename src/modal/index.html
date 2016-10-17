@@ -11,13 +11,12 @@
   ref="backdrop"
   r-class={{'in':show}}
   r-animation="when:hide; class:out; emit:afterFadeOut;"
-  on-click={this.cancel()}
 ></div>
 <div
   class="modal fade"
   ref="modal"
   r-class={{'in':show}}
-  on-click={this.click($event)}
+  on-click={this.clickModal($event)}
 >
   <div class="modal-dialog {sizeClazz}">
     <div class="modal-content">
