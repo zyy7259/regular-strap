@@ -175,8 +175,12 @@ module.exports = Regular.extend({
       const defaultIsEmpty = util.isEmpty(defaultValue)
       switch (param.type) {
         case 'Select':
-          // Select: 如果没有提供默认值, 那么取第一个为默认值, 如果某一项有 selected, 取其为默认值
-          if (defaultIsEmpty) {
+          // Select: 如果没有提供默认值或者默认值找不到, 那么取第一个为默认值, 如果某一项有 selected, 取其为默认值
+          let invalidDefault = !defaultIsEmpty && param.list.every(option => {
+            return option.value !== defaultValue
+          })
+          invalidDefault = false
+          if (defaultIsEmpty || invalidDefault) {
             defaultValue = param.list[0].value
           }
           param.list.some(option => {

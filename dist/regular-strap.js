@@ -2290,8 +2290,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	      var defaultIsEmpty = _util2['default'].isEmpty(defaultValue);
 	      switch (param.type) {
 	        case 'Select':
-	          // Select: 如果没有提供默认值, 那么取第一个为默认值, 如果某一项有 selected, 取其为默认值
-	          if (defaultIsEmpty) {
+	          // Select: 如果没有提供默认值或者默认值找不到, 那么取第一个为默认值, 如果某一项有 selected, 取其为默认值
+	          var invalidDefault = !defaultIsEmpty && param.list.every(function (option) {
+	            return option.value !== defaultValue;
+	          });
+	          invalidDefault = false;
+	          if (defaultIsEmpty || invalidDefault) {
 	            defaultValue = param.list[0].value;
 	          }
 	          param.list.some(function (option) {
