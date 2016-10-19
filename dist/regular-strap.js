@@ -2294,7 +2294,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	          var invalidDefault = !defaultIsEmpty && param.list.every(function (option) {
 	            return option.value !== defaultValue;
 	          });
-	          invalidDefault = false;
 	          if (defaultIsEmpty || invalidDefault) {
 	            defaultValue = param.list[0].value;
 	          }

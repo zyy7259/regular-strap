@@ -179,7 +179,6 @@ module.exports = Regular.extend({
           let invalidDefault = !defaultIsEmpty && param.list.every(option => {
             return option.value !== defaultValue
           })
-          invalidDefault = false
           if (defaultIsEmpty || invalidDefault) {
             defaultValue = param.list[0].value
           }
