@@ -2375,7 +2375,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return validValueTypes.indexOf(type) !== -1;
 	  },
 	  paramFitInput: function paramFitInput(param) {
-	    return this.isValidValueType(param.type) || param.type === 'Email' || param.type === 'Password';
+	    return this.isValidValueType(param.type) || param.type === 'Email' || param.type === 'Password' || param.type === 'Checkbox';
 	  },
 	  genInputType: function genInputType(param) {
 	    switch (param.type) {
@@ -2383,6 +2383,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return 'email';
 	      case 'Password':
 	        return 'password';
+	      case 'Checkbox':
+	        return 'checkbox';
 	      default:
 	        return 'text';
 	    }
@@ -2498,6 +2500,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	            valueIsInvalid = !_this.verifyEmail(value);
 	          }
 	          break;
+	        case 'Checkbox':
+	          if (param.disabled) {
+	            valueIsEmpty = true;
+	          }
+	          break;
 	        case 'DateStr':
 	        case 'MonthStr':
 	          if (!valueIsEmpty) {
@@ -2525,7 +2532,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        case 'Select':
 	          // value = $refs[name].value
 	          if (!valueIsEmpty) {
-	            var parser = valueParsers[_util2['default'].getClass(param.list[0].value)];
+	            // 最后一个选项的类型应该是正确的, 第一个不一定
+	            var parser = valueParsers[_util2['default'].getClass(param.list[param.list.length - 1].value)];
 	            if (!parser) {
 	              throw new Error('不支持的Select值类型', validValueTypes);
 	            }
@@ -2739,7 +2747,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 26 */
 /***/ function(module, exports) {
 
-	module.exports = "<div class=\"row m-x-0\" ref=\"body\">\n  {#list param.list as checkbox}\n    <div\n      {#if param.spread}\n        style=\"display:inline-block;\"\n      {#else}\n        class=\"{colClazz}\"\n      {/if}>\n      <label class=\"checkbox-inline {this.genClass(checkbox)}\">\n        <input\n          type=\"checkbox\"\n          {#if checkbox.checked}checked{/if}\n          on-click={this.click($event, checkbox)}>\n        <span\n          class=\"text-help\"\n          r-class={{'text-muted':muted}}>\n          {checkbox.desc}\n        </span>\n      </label>\n    </div>\n  {/list}\n</div>\n"
+	module.exports = "<div class=\"row m-x-0\" ref=\"body\">\n  {#list param.list as checkbox}\n    <div\n      {#if param.spread}\n        style=\"display:inline-block;\"\n      {#else}\n        class=\"{colClazz}\"\n      {/if}>\n      <label class=\"checkbox-inline {this.genClass(checkbox)}\">\n        <input\n          type=\"checkbox\"\n          {#if checkbox.checked}checked{/if}\n          {#if this.shouldDisable(checkbox)}disabled{/if}\n          on-click={this.click($event, checkbox)}>\n        <span\n          class=\"text-help\"\n          r-class={{'text-muted':muted}}>\n          {checkbox.desc}\n        </span>\n      </label>\n    </div>\n  {/list}\n</div>\n"
 
 /***/ },
 /* 27 */
@@ -2828,7 +2836,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 30 */
 /***/ function(module, exports) {
 
-	module.exports = "<!--\n@Author: Yingya Zhang <zyy>\n@Date:   2016-06-26 17:01:00\n@Email:  zyy7259@gmail.com\n@Last modified by:   zyy\n@Last modified time: 2016-08-05T14:04:34+08:00\n-->\n\n<div class=\"m-param {clazz}\">\n  <div class=\"caption m-b-1\" r-hide={!caption}>{caption}</div>\n  <!-- 如果参数不多, 那么一排放; 否则每个参数一排 -->\n  <form class=\"form\" r-class={{'form-inline':!stack}} on-submit={this.submit($event)}>\n    {#list parsedList as param}\n      <!-- param_index: {param_index} -->\n      <fieldset class=\"form-group\" r-class={{'row':stack, 'has-danger':param.invalid}}>\n        <label\n          {#if stack}\n            class=\"form-control-label {labelPosClazz} {labelColClazz}\"\n          {#else}\n            class=\"form-control-label {param.labelClazz}\"\n          {/if}\n          for={this.genParamId(param)}\n          title={param.title || param.desc}\n          r-hide={hideLabel || param.hideLabel || !param.desc}>\n          {#if !hideMandatory}{#include this.mandatoryTpl}{/if}\n          {param.desc}\n          {#if !hideColon && !param.hideColon}:{/if}\n        </label>\n        <div {#if stack}class=\"{iptColClazz}\"{#else}class=\"form-group {param.iptClazz}\"{/if}>\n          {#if param.type === 'Static'}\n            <p class=\"form-control-static\">\n              {#if !param.hideValue}{params[param.name]}{/if}\n              {#include this.suffixTpl}\n            </p>\n          {#elseif this.paramFitInput(param)}\n            <input type={this.genInputType(param)} class=\"form-control\" id={this.genParamId(param)} r-model2={'params.' + param.name} ref='{param.name}' placeholder={this.genParamTip(param)} maxlength={param.maxlength} on-input={this.getParams(param)}>\n          {#elseif this.paramFitDateInput(param)}\n            <input type={this.genDateInputType(param)} class=\"form-control\" id={this.genParamId(param)} r-model2={'params.' + param.name} ref='{param.name}' on-change={this.getParams(param)}>\n          {#elseif param.type === 'Select'}\n            <select class=\"form-control custom-select\" id={this.genParamId(param)} r-model2={'params.' + param.name} ref='{param.name}' on-change={this.getParams(param)}>\n              {#list param.list as option}\n                <option value={option.value}>{option.desc}</option>\n              {/list}\n            </select>\n          {#elseif param.type === 'Textarea'}\n            <textarea class='form-control' id={this.genParamId(param)} r-model2={'params.' + param.name} ref='{param.name}' on-change={this.getParams(param)}></textarea>\n          {#elseif param.type === 'Checkboxes'}\n            <checkboxes param={param} ref='{param.name}' on-change={this.getParams(param)}/>\n          {#elseif param.type === 'Radios'}\n            <radios param={param} ref='{param.name}' on-change={this.getParams(param)}/>\n          {/if}\n          <!-- subtitle -->\n          {#if (showSubtitle || param.showSubtitle) && param.subtitle}\n            <div class=\"text-help\" r-class={{'form-group':stack}}>\n              <small>{param.subtitle}</small>\n            </div>\n          {/if}\n          <!-- 提示 -->\n          {#if param.invalid && !hideTip}\n            <div class=\"text-help\" r-class={{'form-group':stack}}>\n              <small>{this.genParamTip(param)}</small>\n            </div>\n          {/if}\n        </div>\n      </fieldset>\n    {/list}\n    {#if showSubmit}\n      <fieldset class=\"form-group\" r-class={{'row':stack}}>\n        <div {#if stack}class=\"{submitClazz}\"{#else}class=\"form-group\"{/if}>\n          <button type=\"submit\" class=\"btn {submitBtnClazz}\">{submitTitle}</button>{#if loading}<loading/>{/if}\n        </div>\n      </fieldset>\n    {/if}\n  </form>\n</div>\n"
+	module.exports = "<!--\n@Author: Yingya Zhang <zyy>\n@Date:   2016-06-26 17:01:00\n@Email:  zyy7259@gmail.com\n@Last modified by:   zyy\n@Last modified time: 2016-08-05T14:04:34+08:00\n-->\n\n<div class=\"m-param {clazz}\">\n  <div class=\"caption m-b-1\" r-hide={!caption}>{caption}</div>\n  <!-- 如果参数不多, 那么一排放; 否则每个参数一排 -->\n  <form class=\"form\" r-class={{'form-inline':!stack}} on-submit={this.submit($event)}>\n    {#list parsedList as param}\n      <fieldset class=\"form-group\" r-class={{'row':stack, 'has-danger':param.invalid}}>\n        <label\n          {#if stack}\n            class=\"form-control-label {labelPosClazz} {labelColClazz}\"\n          {#else}\n            class=\"form-control-label {param.labelClazz}\"\n          {/if}\n          for={this.genParamId(param)}\n          title={param.title || param.desc}\n          r-hide={hideLabel || param.hideLabel || !param.desc}>\n          {#if !hideMandatory}{#include this.mandatoryTpl}{/if}\n          {param.desc}\n          {#if !hideColon && !param.hideColon}:{/if}\n        </label>\n        <div {#if stack}class=\"{iptColClazz}\"{#else}class=\"form-group {param.iptClazz}\"{/if}>\n          {#if param.type === 'Static'}\n            <p class=\"form-control-static\">\n              {#if !param.hideValue}{params[param.name]}{/if}\n              {#include this.suffixTpl}\n            </p>\n          {#elseif this.paramFitInput(param)}\n            <input type={this.genInputType(param)} class=\"form-control\" id={this.genParamId(param)} r-model2={'params.' + param.name} ref='{param.name}' placeholder={this.genParamTip(param)} maxlength={param.maxlength} on-input={this.getParams(param)} on-change={this.getParams(param)} {#if param.disabled}disabled{/if}>\n          {#elseif this.paramFitDateInput(param)}\n            <input type={this.genDateInputType(param)} class=\"form-control\" id={this.genParamId(param)} r-model2={'params.' + param.name} ref='{param.name}' on-change={this.getParams(param)}>\n          {#elseif param.type === 'Select'}\n            <select class=\"form-control custom-select\" id={this.genParamId(param)} r-model2={'params.' + param.name} ref='{param.name}' on-change={this.getParams(param)}>\n              {#list param.list as option}\n                <option value={option.value}>{option.desc}</option>\n              {/list}\n            </select>\n          {#elseif param.type === 'Textarea'}\n            <textarea class='form-control' id={this.genParamId(param)} r-model2={'params.' + param.name} ref='{param.name}' on-change={this.getParams(param)}></textarea>\n          {#elseif param.type === 'Checkboxes'}\n            <checkboxes param={param} ref='{param.name}' on-change={this.getParams(param)}/>\n          {#elseif param.type === 'Radios'}\n            <radios param={param} ref='{param.name}' on-change={this.getParams(param)}/>\n          {/if}\n          <!-- subtitle -->\n          {#if (showSubtitle || param.showSubtitle) && param.subtitle}\n            <div class=\"text-help\" r-class={{'form-group':stack}}>\n              <small>{param.subtitle}</small>\n            </div>\n          {/if}\n          <!-- 提示 -->\n          {#if param.invalid && !hideTip}\n            <div class=\"text-help\" r-class={{'form-group':stack}}>\n              <small>{this.genParamTip(param)}</small>\n            </div>\n          {/if}\n        </div>\n      </fieldset>\n    {/list}\n    {#if showSubmit}\n      <fieldset class=\"form-group\" r-class={{'row':stack}}>\n        <div {#if stack}class=\"{submitClazz}\"{#else}class=\"form-group\"{/if}>\n          <button type=\"submit\" class=\"btn {submitBtnClazz}\">{submitTitle}</button>{#if loading}<loading/>{/if}\n        </div>\n      </fieldset>\n    {/if}\n  </form>\n</div>\n"
 
 /***/ },
 /* 31 */

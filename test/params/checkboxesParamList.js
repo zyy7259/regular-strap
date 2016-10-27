@@ -6,6 +6,16 @@
 * @Last modified time: 2016-08-08T15:15:49+08:00
 */
 
+// [
+//   'optional empty',
+//   'optional empty spread',
+//   'optional with value',
+//   'optional with default',
+//   'optional with checked',
+//   'optional integer',
+//   'optional disabled',
+//   'mandatory empty'
+// ]
 window.checkboxesParamList = [
   {
     name: 'checkboxesOptionalEmpty',
@@ -138,6 +148,30 @@ window.checkboxesParamList = [
         value: 1,
         desc: '1',
         checked: true
+      },
+      {
+        value: 2,
+        desc: '2'
+      },
+      {
+        value: 3,
+        desc: '3'
+      }
+    ]
+  },
+  {
+    name: 'checkboxesOptionalDisabled',
+    type: 'Checkboxes',
+    desc: '可选checkboxes, 禁用',
+    list: [
+      {
+        value: 0,
+        desc: '0'
+      },
+      {
+        value: 1,
+        desc: '1',
+        disabled: true
       },
       {
         value: 2,

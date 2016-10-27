@@ -257,7 +257,7 @@ module.exports = Regular.extend({
     return validValueTypes.indexOf(type) !== -1
   },
   paramFitInput (param) {
-    return this.isValidValueType(param.type) || param.type === 'Email' || param.type === 'Password'
+    return this.isValidValueType(param.type) || param.type === 'Email' || param.type === 'Password' || param.type === 'Checkbox'
   },
   genInputType (param) {
     switch (param.type) {
@@ -265,6 +265,8 @@ module.exports = Regular.extend({
         return 'email'
       case 'Password':
         return 'password'
+      case 'Checkbox':
+        return 'checkbox'
       default:
         return 'text'
     }
@@ -377,6 +379,11 @@ module.exports = Regular.extend({
             valueIsInvalid = !this.verifyEmail(value)
           }
           break
+        case 'Checkbox':
+          if (param.disabled) {
+            valueIsEmpty = true
+          }
+          break
         case 'DateStr':
         case 'MonthStr':
           if (!valueIsEmpty) {
@@ -404,7 +411,8 @@ module.exports = Regular.extend({
         case 'Select':
           // value = $refs[name].value
           if (!valueIsEmpty) {
-            const parser = valueParsers[util.getClass(param.list[0].value)]
+            // 最后一个选项的类型应该是正确的, 第一个不一定
+            const parser = valueParsers[util.getClass(param.list[param.list.length - 1].value)]
             if (!parser) {
               throw new Error('不支持的Select值类型', validValueTypes)
             }
