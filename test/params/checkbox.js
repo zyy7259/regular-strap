@@ -2,7 +2,8 @@ window.checkboxParamList = [
   {
     name: 'checkboxOptionalEmpty',
     type: 'Checkbox',
-    desc: '空'
+    desc: '空',
+    descTail: 'empty'
   },
   {
     name: 'checkboxOptionalWithDefault',

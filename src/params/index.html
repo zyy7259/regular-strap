@@ -7,7 +7,7 @@
 -->
 
 <div class="m-param {clazz}">
-  <div class="caption m-b-1" r-hide={!caption}>{caption}</div>
+  <h4 class="caption m-b-1 {captionClazz}" r-hide={!caption}>{caption}</h4>
   <!-- 如果参数不多, 那么一排放; 否则每个参数一排 -->
   <form class="form" r-class={{'form-inline':!stack}} on-submit={this.submit($event)}>
     {#list parsedList as param}
@@ -32,7 +32,13 @@
               {#include this.suffixTpl}
             </p>
           {#elseif this.paramFitInput(param)}
-            <input type={this.genInputType(param)} class="form-control" id={this.genParamId(param)} r-model2={'params.' + param.name} ref='{param.name}' placeholder={this.genParamTip(param)} maxlength={param.maxlength} on-input={this.getParams(param)} on-change={this.getParams(param)} {#if param.disabled}disabled{/if}>
+            <input type={this.genInputType(param)} class="form-control" id={this.genParamId(param)} r-model2={'params.' + param.name} ref='{param.name}' placeholder={this.genParamTip(param)} maxlength={param.maxlength} on-input={this.getParams(param)} {#if param.disabled}disabled{/if}>
+          {#elseif param.type === 'Checkbox'}
+            <label class="custom-control custom-checkbox">
+              <input type="checkbox" class="custom-control-input" id={this.genParamId(param)} r-model2={'params.' + param.name} ref='{param.name}' placeholder={this.genParamTip(param)} on-change={this.getParams(param)} {#if param.disabled}disabled{/if}>
+              <span class="custom-control-indicator"></span>
+              <span class="custom-control-description">{param.descTail}</span>
+            </label>
           {#elseif this.paramFitDateInput(param)}
             <input type={this.genDateInputType(param)} class="form-control" id={this.genParamId(param)} r-model2={'params.' + param.name} ref='{param.name}' on-change={this.getParams(param)}>
           {#elseif param.type === 'Select'}

@@ -2183,6 +2183,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 *     - Radios
 	 *   - name: String
 	 *   - desc: String
+	 *   - descTail: String
 	 *   - mandatory: true/false
 	 *   - value: 该参数的默认值
 	 *   - min/max: used by Number
@@ -2240,6 +2241,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	    _util2['default'].fillUndef(this.data, {
 	      id: +new Date(),
+	      captionClazz: 'text-xs-center',
 	      list: [],
 	      'default': {},
 	      paramsLimit: 2,
@@ -2375,7 +2377,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return validValueTypes.indexOf(type) !== -1;
 	  },
 	  paramFitInput: function paramFitInput(param) {
-	    return this.isValidValueType(param.type) || param.type === 'Email' || param.type === 'Password' || param.type === 'Checkbox';
+	    return this.isValidValueType(param.type) || param.type === 'Email' || param.type === 'Password';
 	  },
 	  genInputType: function genInputType(param) {
 	    switch (param.type) {
@@ -2383,8 +2385,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return 'email';
 	      case 'Password':
 	        return 'password';
-	      case 'Checkbox':
-	        return 'checkbox';
 	      default:
 	        return 'text';
 	    }
@@ -2417,10 +2417,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	      case 'String':
 	      case 'Number':
 	        tip = '请输入' + (param.type === 'String' ? '字符串' : '数字');
-	        if (param.min) {
+	        if (_util2['default'].exist(param.min)) {
 	          tip += ', 最小值 ' + param.min;
 	        }
-	        if (param.max) {
+	        if (_util2['default'].exist(param.max)) {
 	          tip += ', 最大值 ' + param.max;
 	        }
 	        if (param.maxlength) {
@@ -2477,7 +2477,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	          if (!valueIsEmpty) {
 	            if (param.type === 'Number') {
 	              value = valueParsers[param.type](value);
-	              valueIsInvalid = isNaN(value) || param.min && value < param.min || param.max && value > param.max;
+	              valueIsInvalid = isNaN(value) || _util2['default'].exist(param.min) && value < param.min || _util2['default'].exist(param.max) && value > param.max;
 	              if (!valueIsInvalid) {
 	                var origin = '' + originValue;
 	                // 截取小数点后的位数
@@ -2836,7 +2836,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 30 */
 /***/ function(module, exports) {
 
-	module.exports = "<!--\n@Author: Yingya Zhang <zyy>\n@Date:   2016-06-26 17:01:00\n@Email:  zyy7259@gmail.com\n@Last modified by:   zyy\n@Last modified time: 2016-08-05T14:04:34+08:00\n-->\n\n<div class=\"m-param {clazz}\">\n  <div class=\"caption m-b-1\" r-hide={!caption}>{caption}</div>\n  <!-- 如果参数不多, 那么一排放; 否则每个参数一排 -->\n  <form class=\"form\" r-class={{'form-inline':!stack}} on-submit={this.submit($event)}>\n    {#list parsedList as param}\n      <fieldset class=\"form-group\" r-class={{'row':stack, 'has-danger':param.invalid}}>\n        <label\n          {#if stack}\n            class=\"form-control-label {labelPosClazz} {labelColClazz}\"\n          {#else}\n            class=\"form-control-label {param.labelClazz}\"\n          {/if}\n          for={this.genParamId(param)}\n          title={param.title || param.desc}\n          r-hide={hideLabel || param.hideLabel || !param.desc}>\n          {#if !hideMandatory}{#include this.mandatoryTpl}{/if}\n          {param.desc}\n          {#if !hideColon && !param.hideColon}:{/if}\n        </label>\n        <div {#if stack}class=\"{iptColClazz}\"{#else}class=\"form-group {param.iptClazz}\"{/if}>\n          {#if param.type === 'Static'}\n            <p class=\"form-control-static\">\n              {#if !param.hideValue}{params[param.name]}{/if}\n              {#include this.suffixTpl}\n            </p>\n          {#elseif this.paramFitInput(param)}\n            <input type={this.genInputType(param)} class=\"form-control\" id={this.genParamId(param)} r-model2={'params.' + param.name} ref='{param.name}' placeholder={this.genParamTip(param)} maxlength={param.maxlength} on-input={this.getParams(param)} on-change={this.getParams(param)} {#if param.disabled}disabled{/if}>\n          {#elseif this.paramFitDateInput(param)}\n            <input type={this.genDateInputType(param)} class=\"form-control\" id={this.genParamId(param)} r-model2={'params.' + param.name} ref='{param.name}' on-change={this.getParams(param)}>\n          {#elseif param.type === 'Select'}\n            <select class=\"form-control custom-select\" id={this.genParamId(param)} r-model2={'params.' + param.name} ref='{param.name}' on-change={this.getParams(param)}>\n              {#list param.list as option}\n                <option value={option.value}>{option.desc}</option>\n              {/list}\n            </select>\n          {#elseif param.type === 'Textarea'}\n            <textarea class='form-control' id={this.genParamId(param)} r-model2={'params.' + param.name} ref='{param.name}' on-change={this.getParams(param)}></textarea>\n          {#elseif param.type === 'Checkboxes'}\n            <checkboxes param={param} ref='{param.name}' on-change={this.getParams(param)}/>\n          {#elseif param.type === 'Radios'}\n            <radios param={param} ref='{param.name}' on-change={this.getParams(param)}/>\n          {/if}\n          <!-- subtitle -->\n          {#if (showSubtitle || param.showSubtitle) && param.subtitle}\n            <div class=\"text-help\" r-class={{'form-group':stack}}>\n              <small>{param.subtitle}</small>\n            </div>\n          {/if}\n          <!-- 提示 -->\n          {#if param.invalid && !hideTip}\n            <div class=\"text-help\" r-class={{'form-group':stack}}>\n              <small>{this.genParamTip(param)}</small>\n            </div>\n          {/if}\n        </div>\n      </fieldset>\n    {/list}\n    {#if showSubmit}\n      <fieldset class=\"form-group\" r-class={{'row':stack}}>\n        <div {#if stack}class=\"{submitClazz}\"{#else}class=\"form-group\"{/if}>\n          <button type=\"submit\" class=\"btn {submitBtnClazz}\">{submitTitle}</button>{#if loading}<loading/>{/if}\n        </div>\n      </fieldset>\n    {/if}\n  </form>\n</div>\n"
+	module.exports = "<!--\n@Author: Yingya Zhang <zyy>\n@Date:   2016-06-26 17:01:00\n@Email:  zyy7259@gmail.com\n@Last modified by:   zyy\n@Last modified time: 2016-08-05T14:04:34+08:00\n-->\n\n<div class=\"m-param {clazz}\">\n  <h4 class=\"caption m-b-1 {captionClazz}\" r-hide={!caption}>{caption}</h4>\n  <!-- 如果参数不多, 那么一排放; 否则每个参数一排 -->\n  <form class=\"form\" r-class={{'form-inline':!stack}} on-submit={this.submit($event)}>\n    {#list parsedList as param}\n      <fieldset class=\"form-group\" r-class={{'row':stack, 'has-danger':param.invalid}}>\n        <label\n          {#if stack}\n            class=\"form-control-label {labelPosClazz} {labelColClazz}\"\n          {#else}\n            class=\"form-control-label {param.labelClazz}\"\n          {/if}\n          for={this.genParamId(param)}\n          title={param.title || param.desc}\n          r-hide={hideLabel || param.hideLabel || !param.desc}>\n          {#if !hideMandatory}{#include this.mandatoryTpl}{/if}\n          {param.desc}\n          {#if !hideColon && !param.hideColon}:{/if}\n        </label>\n        <div {#if stack}class=\"{iptColClazz}\"{#else}class=\"form-group {param.iptClazz}\"{/if}>\n          {#if param.type === 'Static'}\n            <p class=\"form-control-static\">\n              {#if !param.hideValue}{params[param.name]}{/if}\n              {#include this.suffixTpl}\n            </p>\n          {#elseif this.paramFitInput(param)}\n            <input type={this.genInputType(param)} class=\"form-control\" id={this.genParamId(param)} r-model2={'params.' + param.name} ref='{param.name}' placeholder={this.genParamTip(param)} maxlength={param.maxlength} on-input={this.getParams(param)} {#if param.disabled}disabled{/if}>\n          {#elseif param.type === 'Checkbox'}\n            <label class=\"custom-control custom-checkbox\">\n              <input type=\"checkbox\" class=\"custom-control-input\" id={this.genParamId(param)} r-model2={'params.' + param.name} ref='{param.name}' placeholder={this.genParamTip(param)} on-change={this.getParams(param)} {#if param.disabled}disabled{/if}>\n              <span class=\"custom-control-indicator\"></span>\n              <span class=\"custom-control-description\">{param.descTail}</span>\n            </label>\n          {#elseif this.paramFitDateInput(param)}\n            <input type={this.genDateInputType(param)} class=\"form-control\" id={this.genParamId(param)} r-model2={'params.' + param.name} ref='{param.name}' on-change={this.getParams(param)}>\n          {#elseif param.type === 'Select'}\n            <select class=\"form-control custom-select\" id={this.genParamId(param)} r-model2={'params.' + param.name} ref='{param.name}' on-change={this.getParams(param)}>\n              {#list param.list as option}\n                <option value={option.value}>{option.desc}</option>\n              {/list}\n            </select>\n          {#elseif param.type === 'Textarea'}\n            <textarea class='form-control' id={this.genParamId(param)} r-model2={'params.' + param.name} ref='{param.name}' on-change={this.getParams(param)}></textarea>\n          {#elseif param.type === 'Checkboxes'}\n            <checkboxes param={param} ref='{param.name}' on-change={this.getParams(param)}/>\n          {#elseif param.type === 'Radios'}\n            <radios param={param} ref='{param.name}' on-change={this.getParams(param)}/>\n          {/if}\n          <!-- subtitle -->\n          {#if (showSubtitle || param.showSubtitle) && param.subtitle}\n            <div class=\"text-help\" r-class={{'form-group':stack}}>\n              <small>{param.subtitle}</small>\n            </div>\n          {/if}\n          <!-- 提示 -->\n          {#if param.invalid && !hideTip}\n            <div class=\"text-help\" r-class={{'form-group':stack}}>\n              <small>{this.genParamTip(param)}</small>\n            </div>\n          {/if}\n        </div>\n      </fieldset>\n    {/list}\n    {#if showSubmit}\n      <fieldset class=\"form-group\" r-class={{'row':stack}}>\n        <div {#if stack}class=\"{submitClazz}\"{#else}class=\"form-group\"{/if}>\n          <button type=\"submit\" class=\"btn {submitBtnClazz}\">{submitTitle}</button>{#if loading}<loading/>{/if}\n        </div>\n      </fieldset>\n    {/if}\n  </form>\n</div>\n"
 
 /***/ },
 /* 31 */

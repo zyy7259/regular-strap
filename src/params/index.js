@@ -69,6 +69,7 @@ const valueParsers = {
  *     - Radios
  *   - name: String
  *   - desc: String
+ *   - descTail: String
  *   - mandatory: true/false
  *   - value: 该参数的默认值
  *   - min/max: used by Number
@@ -126,6 +127,7 @@ module.exports = Regular.extend({
     }
     util.fillUndef(this.data, {
       id: +new Date(),
+      captionClazz: 'text-xs-center',
       list: [],
       default: {},
       paramsLimit: 2,
@@ -257,7 +259,7 @@ module.exports = Regular.extend({
     return validValueTypes.indexOf(type) !== -1
   },
   paramFitInput (param) {
-    return this.isValidValueType(param.type) || param.type === 'Email' || param.type === 'Password' || param.type === 'Checkbox'
+    return this.isValidValueType(param.type) || param.type === 'Email' || param.type === 'Password'
   },
   genInputType (param) {
     switch (param.type) {
@@ -265,8 +267,6 @@ module.exports = Regular.extend({
         return 'email'
       case 'Password':
         return 'password'
-      case 'Checkbox':
-        return 'checkbox'
       default:
         return 'text'
     }
@@ -299,10 +299,10 @@ module.exports = Regular.extend({
       case 'String':
       case 'Number':
         tip = '请输入' + (param.type === 'String' ? '字符串' : '数字')
-        if (param.min) {
+        if (util.exist(param.min)) {
           tip += ', 最小值 ' + param.min
         }
-        if (param.max) {
+        if (util.exist(param.max)) {
           tip += ', 最大值 ' + param.max
         }
         if (param.maxlength) {
@@ -355,8 +355,8 @@ module.exports = Regular.extend({
             if (param.type === 'Number') {
               value = valueParsers[param.type](value)
               valueIsInvalid = isNaN(value) ||
-                (param.min && value < param.min) ||
-                (param.max && value > param.max)
+                (util.exist(param.min) && value < param.min) ||
+                (util.exist(param.max) && value > param.max)
               if (!valueIsInvalid) {
                 let origin = '' + originValue
                 // 截取小数点后的位数

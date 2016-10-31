@@ -16,6 +16,12 @@ window.numberParamList = [
     value: 42
   },
   {
+    name: 'numberOptionalWithMin',
+    type: 'Number',
+    desc: 'min',
+    min: 0
+  },
+  {
     name: 'numberOptionalWithDisabled',
     type: 'Number',
     desc: 'disabled',
