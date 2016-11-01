@@ -51,6 +51,8 @@ const valueParsers = {
 /**
  * data
  * - id ID
+ * - caption 顶部文字
+ * - captionClazz 顶部自定义样式类
  * - list 参数列表
  *   - type:
  *     - Static
@@ -100,6 +102,8 @@ const valueParsers = {
  * - labelPosClazz
  * - labelColClazz
  * - iptColClazz
+ * - footer 底部文字
+ * - footerClazz 底部自定义样式类
  * - default 默认值
  *   - 默认值的优先级 default < param.value < param.list.checked/selected
  *   - 如果需要动态更新参数列表，每次更新参数列表之后都会根据 default 来重新渲染，此种场景下请注意及时更新参数的 default 值
@@ -127,7 +131,6 @@ module.exports = Regular.extend({
     }
     util.fillUndef(this.data, {
       id: +new Date(),
-      captionClazz: 'text-xs-center',
       list: [],
       default: {},
       paramsLimit: 2,

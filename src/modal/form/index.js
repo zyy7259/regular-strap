@@ -1,40 +1,49 @@
-/*
-* @Author: Zhang Yingya(hzzhangyingya)
-* @Date:   2016-05-31 13:46:32
-* @Last modified by:   zyy
-* @Last modified time: 2016-07-10 15:55:41
-*/
-
-import {default as Modal} from '../index'
-
 const tpl = require('./index.html')
 
-export default Modal.extend({
+export default Regular.extend({
   name: 'modalForm',
-  $body: tpl,
+  template: tpl,
   config () {
     this.supr()
-    // 确认的时候不要自动隐藏, 要在请求结束后再隐藏, 隐藏后会自动销毁
-    this.data.autoHideWhenConfirm = false
     this.initParamList()
   },
-  initParamList () {},
+  initParamList () {
+    this.data.paramList = []
+  },
+  init () {
+    // 确认的时候不要自动隐藏, 要在请求结束后再隐藏, 隐藏后会自动销毁
+    this.data.autoHideWhenConfirm = false
+    this.data.list = this.data.paramList
+    this.data.paramsLimit = 0
+    this.$refs.modal.data = Object.assign(this.$refs.modal.data, this.data)
+    this.$refs.params.data = Object.assign(this.$refs.params.data, this.data)
+    if (this.data.autoShow !== false) {
+      this.show()
+    }
+  },
+  show () {
+    this.$refs.modal.show()
+  },
+  hide () {
+    this.$refs.modal.hide()
+  },
   // override, 检查参数, 如果不合法那么直接返回, 否则抛出 create
   confirm () {
     let params = this.$refs.params
     if (params) {
       params = params.getParams()
       if (params) {
-        this.data.loading = true
-        this.supr()
+        this.$refs.modal.data.loading = true
         this.$emit('confirm')
         this.afterConfirm(params)
       }
     }
   },
-  afterConfirm () {},
+  afterConfirm () {
+    this.resetLoading()
+  },
   resetLoading () {
-    this.data.loading = false
+    this.$refs.modal.data.loading = false
     this.$update()
   }
 })

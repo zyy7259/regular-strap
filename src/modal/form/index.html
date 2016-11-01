@@ -1,19 +1,10 @@
-<!--
-@Author: Yingya Zhang <zyy>
-@Date:   2016-06-26 17:01:00
-@Email:  zyy7259@gmail.com
-@Last modified by:   zyy
-@Last modified time: 2016-07-10 16:03:34
--->
-
-<params
-  caption={caption}
-  list={paramList}
-  clazz={paramClazz}
-  paramsLimit={0}
-  labelColClazz={labelColClazz}
-  iptColClazz={iptColClazz}
-  default={default}
-  autoHideWhenClickMask={autoHideWhenClickMask}
-  on-change="change"
-  ref="params"/>
+<modal
+  ref=modal
+  autoShow={false}
+  on-confirm={this.confirm($event)}>
+  <params
+    ref=params
+    list={paramList}
+    on-change="change"
+    />
+</modal>

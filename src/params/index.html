@@ -7,7 +7,7 @@
 -->
 
 <div class="m-param {clazz}">
-  <h4 class="caption m-b-1 {captionClazz}" r-hide={!caption}>{caption}</h4>
+  <h4 class="param-caption m-b-1 text-xs-center {captionClazz}" r-hide={!caption}>{caption}</h4>
   <!-- 如果参数不多, 那么一排放; 否则每个参数一排 -->
   <form class="form" r-class={{'form-inline':!stack}} on-submit={this.submit($event)}>
     {#list parsedList as param}
@@ -77,4 +77,5 @@
       </fieldset>
     {/if}
   </form>
+  <p class="param-footer m-t-1 text-muted text-xs-center {footerClazz}" r-hide={!footer}>{footer}</p>
 </div>
