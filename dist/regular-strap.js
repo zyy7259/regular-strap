@@ -1814,11 +1814,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	      this.hide();
 	    }
 	    this.data.reason = 'confirm';
-	    var eventName = 'confirm';
-	    if (action) {
-	      eventName = action.value;
-	    }
-	    this.$emit(eventName, action);
+	    this.$emit('confirm', action);
+	    this.afterConfirm();
+	  },
+	  afterConfirm: function afterConfirm() {
+	    this.resetLoading();
+	  },
+	  resetLoading: function resetLoading() {
+	    this.data.loading = false;
+	    this.$update();
 	  },
 	  hide: function hide() {
 	    this.data.show = false;
@@ -1877,13 +1881,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.data.paramList = this.data.paramList || [];
 	  },
 	  init: function init() {
+	    var data = this.data;
 	    // 确认的时候不要自动隐藏, 要在请求结束后再隐藏, 隐藏后会自动销毁
-	    this.data.autoHideWhenConfirm = false;
-	    this.data.list = this.data.paramList;
-	    this.data.paramsLimit = 0;
-	    this.$refs.modal.data = (0, _assign2['default'])(this.$refs.modal.data, this.data);
-	    this.$refs.params.data = (0, _assign2['default'])(this.$refs.params.data, this.data);
-	    if (this.data.autoShow !== false) {
+	    data.autoHideWhenConfirm = false;
+	    data.list = data.paramList;
+	    data.paramsLimit = 0;
+	    this.$refs.modal.data = (0, _assign2['default'])(this.$refs.modal.data, data, data.modalData || {});
+	    this.$refs.params.data = (0, _assign2['default'])(this.$refs.params.data, data, data.paramsData || {});
+	    if (data.autoShow !== false) {
 	      this.show();
 	    }
 	  },
@@ -2719,6 +2724,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	 *   - invalidTip: String 参数非法时展示的提示
 	 *   - tip: String 参数提示
 	 *   - showSubtitle: Boolean 是否展示子标题
+	 *   - disabled: 是否禁用该参数, 禁用的时候不会读取参数的值, 可以设置 required=true 来强制读取该参数的值
+	 *   - required: 禁用状态下是否需要读取参数的值
 	 * - paramsLimit 超过这个数量, 参数就叠起来
 	 * - emailReg 验证邮箱的正则表达式
 	 * - hideMandatory 是否隐藏 * 号
@@ -3023,9 +3030,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	          }
 	          break;
 	        case 'Checkbox':
-	          if (param.disabled) {
-	            valueIsEmpty = true;
-	          }
 	          break;
 	        case 'DateStr':
 	        case 'MonthStr':
@@ -3073,6 +3077,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	          break;
 	        default:
 	          break;
+	      }
+	      // 如果参数被禁用, 那么当不需要该参数的时候不存储该参数的值
+	      if (param.disabled && !param.required) {
+	        valueIsEmpty = true;
 	      }
 	      // 如果是检查所有参数 或者 是当前要检查的参数, 那么当参数值为空时, 检测参数是否非法
 	      if ((!paramToCheck || isParamToCheck) && valueIsEmpty) {

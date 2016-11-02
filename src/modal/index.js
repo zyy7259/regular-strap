@@ -109,11 +109,15 @@ export default Regular.extend({
       this.hide()
     }
     this.data.reason = 'confirm'
-    let eventName = 'confirm'
-    if (action) {
-      eventName = action.value
-    }
-    this.$emit(eventName, action)
+    this.$emit('confirm', action)
+    this.afterConfirm()
+  },
+  afterConfirm () {
+    this.resetLoading()
+  },
+  resetLoading () {
+    this.data.loading = false
+    this.$update()
   },
   hide () {
     this.data.show = false

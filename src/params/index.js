@@ -86,6 +86,8 @@ const valueParsers = {
  *   - invalidTip: String 参数非法时展示的提示
  *   - tip: String 参数提示
  *   - showSubtitle: Boolean 是否展示子标题
+ *   - disabled: 是否禁用该参数, 禁用的时候不会读取参数的值, 可以设置 required=true 来强制读取该参数的值
+ *   - required: 禁用状态下是否需要读取参数的值
  * - paramsLimit 超过这个数量, 参数就叠起来
  * - emailReg 验证邮箱的正则表达式
  * - hideMandatory 是否隐藏 * 号
@@ -383,9 +385,6 @@ module.exports = Regular.extend({
           }
           break
         case 'Checkbox':
-          if (param.disabled) {
-            valueIsEmpty = true
-          }
           break
         case 'DateStr':
         case 'MonthStr':
@@ -433,6 +432,10 @@ module.exports = Regular.extend({
           break
         default:
           break
+      }
+      // 如果参数被禁用, 那么当不需要该参数的时候不存储该参数的值
+      if (param.disabled && !param.required) {
+        valueIsEmpty = true
       }
       // 如果是检查所有参数 或者 是当前要检查的参数, 那么当参数值为空时, 检测参数是否非法
       if ((!paramToCheck || isParamToCheck) && valueIsEmpty) {

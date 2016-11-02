@@ -23,6 +23,13 @@ window.checkboxParamList = [
     disabled: true
   },
   {
+    name: 'checkboxOptionalWithDisabledRequired',
+    type: 'Checkbox',
+    desc: 'disabledRequired',
+    disabled: true,
+    required: true
+  },
+  {
     name: 'checkboxMandatoryEmpty',
     type: 'Checkbox',
     desc: 'mandatory',

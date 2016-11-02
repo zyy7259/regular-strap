@@ -11,13 +11,14 @@ export default Regular.extend({
     this.data.paramList = this.data.paramList || []
   },
   init () {
+    var data = this.data
     // 确认的时候不要自动隐藏, 要在请求结束后再隐藏, 隐藏后会自动销毁
-    this.data.autoHideWhenConfirm = false
-    this.data.list = this.data.paramList
-    this.data.paramsLimit = 0
-    this.$refs.modal.data = Object.assign(this.$refs.modal.data, this.data)
-    this.$refs.params.data = Object.assign(this.$refs.params.data, this.data)
-    if (this.data.autoShow !== false) {
+    data.autoHideWhenConfirm = false
+    data.list = data.paramList
+    data.paramsLimit = 0
+    this.$refs.modal.data = Object.assign(this.$refs.modal.data, data, data.modalData || {})
+    this.$refs.params.data = Object.assign(this.$refs.params.data, data, data.paramsData || {})
+    if (data.autoShow !== false) {
       this.show()
     }
   },
