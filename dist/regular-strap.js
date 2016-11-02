@@ -1877,14 +1877,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.supr();
 	    this.initParamList();
 	  },
-	  initParamList: function initParamList() {
-	    this.data.paramList = this.data.paramList || [];
-	  },
+	  initParamList: function initParamList() {},
 	  init: function init() {
 	    var data = this.data;
 	    // 确认的时候不要自动隐藏, 要在请求结束后再隐藏, 隐藏后会自动销毁
 	    data.autoHideWhenConfirm = false;
-	    data.list = data.paramList;
+	    data.list = data.paramList || [];
 	    data.paramsLimit = 0;
 	    this.$refs.modal.data = (0, _assign2['default'])(this.$refs.modal.data, data, data.modalData || {});
 	    this.$refs.params.data = (0, _assign2['default'])(this.$refs.params.data, data, data.paramsData || {});

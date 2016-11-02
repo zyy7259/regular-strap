@@ -8,13 +8,12 @@ export default Regular.extend({
     this.initParamList()
   },
   initParamList () {
-    this.data.paramList = this.data.paramList || []
   },
   init () {
     var data = this.data
     // 确认的时候不要自动隐藏, 要在请求结束后再隐藏, 隐藏后会自动销毁
     data.autoHideWhenConfirm = false
-    data.list = data.paramList
+    data.list = data.paramList || []
     data.paramsLimit = 0
     this.$refs.modal.data = Object.assign(this.$refs.modal.data, data, data.modalData || {})
     this.$refs.params.data = Object.assign(this.$refs.params.data, data, data.paramsData || {})
