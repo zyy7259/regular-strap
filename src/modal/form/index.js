@@ -8,7 +8,7 @@ export default Regular.extend({
     this.initParamList()
   },
   initParamList () {
-    this.data.paramList = []
+    this.data.paramList = this.data.paramList || []
   },
   init () {
     // 确认的时候不要自动隐藏, 要在请求结束后再隐藏, 隐藏后会自动销毁

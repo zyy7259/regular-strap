@@ -1874,7 +1874,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.initParamList();
 	  },
 	  initParamList: function initParamList() {
-	    this.data.paramList = [];
+	    this.data.paramList = this.data.paramList || [];
 	  },
 	  init: function init() {
 	    // 确认的时候不要自动隐藏, 要在请求结束后再隐藏, 隐藏后会自动销毁

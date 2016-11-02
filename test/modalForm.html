@@ -17,7 +17,9 @@
         ref=modal
         autoShow={false}
         autoDestroy={false}
-        caption="caption">
+        caption="caption"
+        paramList={paramList}
+        >
         asdf
       </modalForm>
       <button type="button" class="btn btn-primary-outline" on-click={this.showModal()}>show modal</button>
@@ -25,6 +27,14 @@
     <script>
       var app = new Regular({
         template: '#tpl',
+        data: {
+          paramList: [
+            {
+              name: 'foo',
+              type: 'String'
+            }
+          ]
+        },
         showModal: function () {
           this.$refs.modal.show()
         }
