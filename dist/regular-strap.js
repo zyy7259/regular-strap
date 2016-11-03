@@ -1901,6 +1901,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	  confirm: function confirm() {
 	    var params = this.$refs.params;
 	    if (params) {
+	      // 重置所有的错误
+	      params.clearAllInvalid();
 	      params = params.getParams();
 	      if (params) {
 	        this.$refs.modal.data.loading = true;
@@ -2794,6 +2796,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	  resetParam: function resetParam(name) {
 	    delete this.data.params[name];
 	    this.parseParamList();
+	    this.$update();
+	  },
+	  clearAllInvalid: function clearAllInvalid() {
+	    this.data.list.forEach(function (param) {
+	      param.invalid = false;
+	    });
 	    this.$update();
 	  },
 	

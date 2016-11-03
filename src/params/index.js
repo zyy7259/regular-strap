@@ -160,6 +160,12 @@ module.exports = Regular.extend({
     this.parseParamList()
     this.$update()
   },
+  clearAllInvalid () {
+    this.data.list.forEach(param => {
+      param.invalid = false
+    })
+    this.$update()
+  },
   /**
    * - 解析参数默认值
    * - 解析值类型

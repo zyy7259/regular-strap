@@ -31,6 +31,8 @@ export default Regular.extend({
   confirm () {
     let params = this.$refs.params
     if (params) {
+      // 重置所有的错误
+      params.clearAllInvalid()
       params = params.getParams()
       if (params) {
         this.$refs.modal.data.loading = true
