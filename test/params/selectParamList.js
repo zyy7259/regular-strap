@@ -45,5 +45,47 @@ window.selectParamList = [
         desc: 'one'
       }
     ]
+  },
+  {
+    name: 'disabled1',
+    type: 'Select',
+    desc: 'disabled',
+    disabled: true,
+    list: [
+      {
+        value: '',
+        desc: '请选择'
+      },
+      {
+        value: 1,
+        desc: 'one'
+      },
+      {
+        value: 2,
+        desc: 2
+      }
+    ]
+  },
+  {
+    name: 'disabled2',
+    type: 'Select',
+    desc: 'disabled',
+    disabled: true,
+    required: true,
+    list: [
+      {
+        value: '',
+        desc: '请选择'
+      },
+      {
+        value: 1,
+        desc: 'one'
+      },
+      {
+        value: 2,
+        desc: 2,
+        selected: true
+      }
+    ]
   }
 ]

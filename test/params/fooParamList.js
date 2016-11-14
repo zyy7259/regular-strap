@@ -5,6 +5,10 @@ window.fooParamList = [
     desc: 'foo'
   },
   {
+    name: 'password',
+    type: 'Password'
+  },
+  {
     name: 'number',
     type: 'Number',
     max: 10

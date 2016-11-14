@@ -42,7 +42,13 @@
           {#elseif this.paramFitDateInput(param)}
             <input type={this.genDateInputType(param)} class="form-control" id={this.genParamId(param)} r-model2={'params.' + param.name} ref='{param.name}' on-change={this.getParams(param)}>
           {#elseif param.type === 'Select'}
-            <select class="form-control custom-select" id={this.genParamId(param)} r-model2={'params.' + param.name} ref='{param.name}' on-change={this.getParams(param)}>
+            <select
+              class="form-control custom-select"
+              id={this.genParamId(param)}
+              r-model2={'params.' + param.name}
+              ref='{param.name}'
+              {#if param.disabled}disabled{/if}
+              on-change={this.getParams(param)}>
               {#list param.list as option}
                 <option value={option.value}>{option.desc}</option>
               {/list}
