@@ -175,7 +175,7 @@ module.exports = Regular.extend({
   parseParamList () {
     const data = this.data
     data.parsedList = data.list.map((param, index) => {
-      const parsedParam = data.parsedList ? data.parsedList[index] : {}
+      const parsedParam = data.parsedList ? data.parsedList[index] || {} : {}
       param = util.simpleClone(param)
       // 解析默认值, 优先级为
       // - 之前输入的值

@@ -2814,7 +2814,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  parseParamList: function parseParamList() {
 	    var data = this.data;
 	    data.parsedList = data.list.map(function (param, index) {
-	      var parsedParam = data.parsedList ? data.parsedList[index] : {};
+	      var parsedParam = data.parsedList ? data.parsedList[index] || {} : {};
 	      param = _util2['default'].simpleClone(param);
 	      // 解析默认值, 优先级为
 	      // - 之前输入的值
