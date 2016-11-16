@@ -67,6 +67,7 @@ const valueParsers = {
  *     - MonthStr
  *     - Select
  *     - Textarea
+ *     - Checkbox
  *     - Checkboxes
  *     - Radios
  *   - name: String
@@ -74,6 +75,7 @@ const valueParsers = {
  *   - descTail: String
  *   - mandatory: true/false
  *   - value: 该参数的默认值
+ *     - Checkbox 的值为 true/false
  *   - min/max: used by Number
  *   - digits: used by Number, max number of digits after dot
  *   - maxlength: used by input
@@ -172,7 +174,8 @@ module.exports = Regular.extend({
    */
   parseParamList () {
     const data = this.data
-    data.parsedList = data.list.map(param => {
+    data.parsedList = data.list.map((param, index) => {
+      const parsedParam = data.parsedList ? data.parsedList[index] : {}
       param = util.simpleClone(param)
       // 解析默认值, 优先级为
       // - 之前输入的值
@@ -234,6 +237,11 @@ module.exports = Regular.extend({
                 checked = item.value === defaultValue
               }
               item.checked = checked
+            })
+          }
+          if (parsedParam.valueIsEmpty) {
+            param.list.forEach(item => {
+              item.checked = false
             })
           }
           break
@@ -443,6 +451,7 @@ module.exports = Regular.extend({
       if (param.disabled && !param.required) {
         valueIsEmpty = true
       }
+      param.valueIsEmpty = valueIsEmpty
       // 如果是检查所有参数 或者 是当前要检查的参数, 那么当参数值为空时, 检测参数是否非法
       if ((!paramToCheck || isParamToCheck) && valueIsEmpty) {
         return this.shouldInvalidEmptyParam(params, param)

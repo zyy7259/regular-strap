@@ -18,31 +18,16 @@ window.selectParamList = [
     ]
   },
   {
-    name: 'key1',
+    name: 'frationalWithDefault',
     type: 'Select',
     list: [
       {
-        value: '',
-        desc: '请选择'
+        value: 0.2,
+        desc: '0.2'
       },
       {
-        value: 1,
-        desc: 'one'
-      }
-    ]
-  },
-  {
-    name: 'key2',
-    type: 'Select',
-    mandatory: true,
-    list: [
-      {
-        value: '',
-        desc: '请选择'
-      },
-      {
-        value: 1,
-        desc: 'one'
+        value: 1.2,
+        desc: '1.2'
       }
     ]
   },

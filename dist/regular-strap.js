@@ -2705,6 +2705,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 *     - MonthStr
 	 *     - Select
 	 *     - Textarea
+	 *     - Checkbox
 	 *     - Checkboxes
 	 *     - Radios
 	 *   - name: String
@@ -2712,6 +2713,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 *   - descTail: String
 	 *   - mandatory: true/false
 	 *   - value: 该参数的默认值
+	 *     - Checkbox 的值为 true/false
 	 *   - min/max: used by Number
 	 *   - digits: used by Number, max number of digits after dot
 	 *   - maxlength: used by input
@@ -2811,7 +2813,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 	  parseParamList: function parseParamList() {
 	    var data = this.data;
-	    data.parsedList = data.list.map(function (param) {
+	    data.parsedList = data.list.map(function (param, index) {
+	      var parsedParam = data.parsedList ? data.parsedList[index] : {};
 	      param = _util2['default'].simpleClone(param);
 	      // 解析默认值, 优先级为
 	      // - 之前输入的值
@@ -2875,6 +2878,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	                checked = item.value === defaultValue;
 	              }
 	              item.checked = checked;
+	            });
+	          }
+	          if (parsedParam.valueIsEmpty) {
+	            param.list.forEach(function (item) {
+	              item.checked = false;
 	            });
 	          }
 	          break;
@@ -3088,6 +3096,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      if (param.disabled && !param.required) {
 	        valueIsEmpty = true;
 	      }
+	      param.valueIsEmpty = valueIsEmpty;
 	      // 如果是检查所有参数 或者 是当前要检查的参数, 那么当参数值为空时, 检测参数是否非法
 	      if ((!paramToCheck || isParamToCheck) && valueIsEmpty) {
 	        return _this.shouldInvalidEmptyParam(params, param);
