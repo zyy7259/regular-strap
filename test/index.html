@@ -66,7 +66,7 @@
     <loading/>
     <h2>modal</h2>
     <button type="button" class="btn btn-primary-outline" on-click={this.showModal()}>show modal</button>
-    <modal title="modal title" size="large" autoShow={false} autoDestroy={false} actions={modalActions} hideCancel ref="modal" on-preview={this.modalPreview($event)}>
+    <modal title="modal title" size="large" autoShow={false} autoDestroy={false} actions={modalActions} hideCancel hideClose ref="modal" on-preview={this.modalPreview($event)}>
       modal body
     </modal>
     <h2>pager</h2>

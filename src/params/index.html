@@ -1,11 +1,3 @@
-<!--
-@Author: Yingya Zhang <zyy>
-@Date:   2016-06-26 17:01:00
-@Email:  zyy7259@gmail.com
-@Last modified by:   zyy
-@Last modified time: 2016-08-05T14:04:34+08:00
--->
-
 <div class="m-param {clazz}">
   <h4 class="param-caption m-b-1 text-xs-center {captionClazz}" r-hide={!caption}>{caption}</h4>
   <!-- 如果参数不多, 那么一排放; 否则每个参数一排 -->
@@ -54,7 +46,7 @@
               {/list}
             </select>
           {#elseif param.type === 'Textarea'}
-            <textarea class='form-control' id={this.genParamId(param)} r-model2={'params.' + param.name} ref='{param.name}' on-change={this.getParams(param)}></textarea>
+            <textarea class='form-control' id={this.genParamId(param)} maxlength={param.maxlength} r-model2={'params.' + param.name} ref='{param.name}' on-change={this.getParams(param)}></textarea>
           {#elseif param.type === 'Checkboxes'}
             <checkboxes param={param} ref='{param.name}' on-change={this.getParams(param)}/>
           {#elseif param.type === 'Radios'}

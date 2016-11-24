@@ -1,10 +1,3 @@
-/*
-* @Author: Zhang Yingya(hzzhangyingya)
-* @Date:   2016-05-30 16:40:04
-* @Last modified by:   zyy
-* @Last modified time: 2016-08-05T14:06:23+08:00
-*/
-
 import './checkboxes'
 import './radios'
 
@@ -154,13 +147,9 @@ module.exports = Regular.extend({
   },
   reset () {
     this.data.params = {}
-    this.parseParamList()
-    this.$update()
   },
   resetParam (name) {
     delete this.data.params[name]
-    this.parseParamList()
-    this.$update()
   },
   clearAllInvalid () {
     this.data.list.forEach(param => {
@@ -175,8 +164,12 @@ module.exports = Regular.extend({
   parseParamList () {
     const data = this.data
     data.parsedList = data.list.map((param, index) => {
-      const parsedParam = data.parsedList ? data.parsedList[index] || {} : {}
       param = util.simpleClone(param)
+      const parsedParam = data.parsedList ? data.parsedList[index] || {} : {}
+      // 维持 invalid 状态
+      if (parsedParam.invalid) {
+        param.invalid = true
+      }
       // 解析默认值, 优先级为
       // - 之前输入的值
       // - param.value
