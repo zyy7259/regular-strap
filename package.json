@@ -1,6 +1,6 @@
 {
   "name": "regular-strap",
-  "version": "0.0.32",
+  "version": "0.0.33",
   "description": "",
   "main": "dist/regular-strap.js",
   "directories": {
@@ -29,7 +29,7 @@
     "watch-:lint": "watch 'npm run lint' -du --interval=0.25 --ignoreDirectoryPattern='/third|submodule|dist|node_modules/i' --filter=build/watchFilter.eslint.js",
     "dev": "npm run watch",
     "preprod": "npm run clean-dist",
-    "prod": "cross-env NODE_ENV=production npm run build:js",
+    "prod": "cross-env NODE_ENV=production npm run build:js && npm run build:css",
     "server": "puer & npm run dev",
     "archive": "git archive --format zip -o dist/regular-strap.zip master src dist",
     "prepublish": "npm run prod",
