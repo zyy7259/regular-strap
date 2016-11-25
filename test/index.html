@@ -1,11 +1,3 @@
-<!--
-@Author: Yingya Zhang <zyy>
-@Date:   2016-06-26 18:28:00
-@Email:  zyy7259@gmail.com
-@Last modified by:   zyy
-@Last modified time: 2016-08-05T14:01:35+08:00
--->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,6 +7,7 @@
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <link rel="stylesheet" href="../third/font-awesome/css/font-awesome.min.css">
   <link rel="stylesheet" href="../third/bootstrap/dist/css/bootstrap.min.css">
+  <link rel='stylesheet' href='../dist/css/date-picker.css'>
   <style>
     h2 {
       border-bottom: 1px solid #ccc;
@@ -60,6 +53,16 @@
     </accordion>
     <h2>dropdown</h2>
     <dropdown title="dropdown" items={dropdownItems}></dropdown>
+    <h2>datePicker1</h2>
+    <datePicker ref='datePicker1' on-input={this.changeDate1($event)}></datePicker>
+    <h2>datePicker2</h2>
+    <datePicker
+      ref='datePicker2'
+      initDate={date2}
+      prevYearText='P'
+      on-input={this.changeDate2($event)}>
+      date2: {date2}
+    </datePicker>
     <h2>editableInput</h2>
     <editableInput value={editableInputValue} on-confirm={this.confirmEditingInput($event)}></editableInput>
     <h2>loading</h2>
@@ -101,9 +104,11 @@
       radiosOptionalWithDefault: 'b'
     }
 
-    var App = new Regular({
+    window.app = new Regular({
       template: '#tpl',
       data: {
+        date1: null,
+        date2: new Date(1990, 9),
         dropdownItems: [
           {
             href: 'https://baidu.com',
@@ -119,6 +124,14 @@
         ],
         paramList: paramList,
         paramDefault: paramDefault
+      },
+      changeDate1 (date) {
+        console.log('changeDate1', date)
+        this.data.date1 = date
+      },
+      changeDate2 (date) {
+        console.log('changeDate2', date)
+        this.data.date2 = date
       },
       confirmEditingInput: function (newValue) {
         this.data.editableInputValue = newValue

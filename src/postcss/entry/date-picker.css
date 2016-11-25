@@ -1,0 +1,90 @@
+.date-picker {
+  position: relative;
+  display: inline-block;
+  &.open {
+    .date-picker-panel {
+      display: block;
+    }
+  }
+}
+
+.date-picker-custom-trigger, .date-picker-trigger {
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+.date-picker-panel {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin: .25rem 0;
+  width: 100%;
+  min-width: 18rem;
+  max-width: 22rem;
+  background-color: white;
+  box-shadow: 0 2px 6px #ccc;
+  z-index: 999;
+}
+
+.date-picker-toolbar {
+  font-size: .875rem;
+  padding: .75rem;
+  text-align: center;
+  .prev-year, .prev-month, .next-year, .next-month, .year, .month {
+    display: inline-block;
+    padding: 0 .5rem;
+    height: 1.125rem;
+    line-height: 1.125rem;
+  }
+  .prev-year, .prev-month, .next-year, .next-month {
+    cursor: pointer;
+    user-select: none;
+    &:hover {
+      color: #20a0ff;
+    }
+  }
+  .prev-year, .prev-month {
+    float: left;
+  }
+  .next-year, .next-month {
+    float: right;
+  }
+}
+
+.date-picker-list {
+  font-size: .75rem;
+  padding: .125rem 1rem 1rem;
+  table {
+    width: 100%;
+  }
+  th, td {
+    text-align: center;
+    vertical-align: middle;
+  }
+  .days {
+    span {
+      display: inline-block;
+      width: 2rem;
+      height: 2rem;
+      line-height: 2rem;
+      &.prev-month, &.next-month {
+        color: #ddd;
+      }
+      &.active {
+        color: white;
+        background-color: #20a0ff;
+      }
+    }
+  }
+  td {
+    span {
+      cursor: pointer;
+      &:hover {
+        background-color: #e5e9f2;
+      }
+    }
+  }
+}

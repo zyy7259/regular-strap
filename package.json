@@ -1,6 +1,6 @@
 {
   "name": "regular-strap",
-  "version": "0.0.31",
+  "version": "0.0.32",
   "description": "",
   "main": "dist/regular-strap.js",
   "directories": {
@@ -20,11 +20,11 @@
     "prebuild:js": "npm run --silent clean:js",
     "build": "run-p -lns build:js build:css",
     "build:favicon": "node build/favicon.js",
-    "build:css": "postcss --config build/postcss.js",
+    "build:css": "postcss --config node_modules/zoro-kit/build/postcss.js",
     "build:js": "webpack",
     "build:js:stats": "npm run build:js -- --profile --json > dist/webpack-stats.json",
     "watch": "run-p watch:*",
-    "watch-:css": "npm run build:css --silent -- --watch",
+    "watch:css": "npm run build:css --silent -- --watch",
     "watch:js": "npm run build:js --silent -- --watch",
     "watch-:lint": "watch 'npm run lint' -du --interval=0.25 --ignoreDirectoryPattern='/third|submodule|dist|node_modules/i' --filter=build/watchFilter.eslint.js",
     "dev": "npm run watch",
@@ -37,7 +37,6 @@
   },
   "author": "",
   "license": "MIT",
-  "dependencies": {},
   "peerDependencies": {
     "bootstrap": "^4.0.0-alpha.3",
     "regularjs": "*"

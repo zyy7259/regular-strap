@@ -8,6 +8,7 @@
 
 import './filter'
 import {default as Accordion} from './accordion'
+import {default as DatePicker} from './datePicker'
 import {default as Dropdown} from './dropdown'
 import {default as EditableInput} from './editableInput'
 import {default as Loading} from './loading'
@@ -21,6 +22,7 @@ import {default as util} from './util'
 
 export default {
   Accordion,
+  DatePicker,
   Dropdown,
   EditableInput,
   Loading,

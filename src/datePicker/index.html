@@ -1,0 +1,45 @@
+<div class='date-picker' r-class={{open:open}}>
+  {#if this.$body}
+    <div class='date-picker-custom-trigger' on-click={this.toggle($event)}>
+      {#include this.$body}
+    </div>
+  {#else}
+    <span class='date-picker-trigger' on-click={this.toggle($event)}>{dateText}</span>
+  {/if}
+  <div class='date-picker-panel'>
+    <div class='date-picker-toolbar'>
+      <div class='prev-year' on-click={this.prevYear($event)}>{prevYearText}</div>
+      <div class='prev-month' on-click={this.prevMonth($event)}>{prevMonthText}</div>
+      <span class='year'>{yearText}</span>
+      <span class='month'>{monthText}</span>
+      <div class='next-year' on-click={this.nextYear($event)}>{nextYearText}</div>
+      <div class='next-month' on-click={this.nextMonth($event)}>{nextMonthText}</div>
+    </div>
+    <div class='date-picker-list'>
+      <table class='days'>
+        <tbody>
+          <tr>
+            <th><span>日</span></th>
+            <th><span>一</span></th>
+            <th><span>二</span></th>
+            <th><span>三</span></th>
+            <th><span>四</span></th>
+            <th><span>五</span></th>
+            <th><span>六</span></th>
+          </tr>
+          {#list 1..6 as i}
+          <tr>
+            {#list 1..7 as j}
+            <td>
+              <span on-click={this.pick(this.getDayInList(i, j))} class={this.getDayInList(i, j).clazz}>
+                {this.getDayInList(i, j).text}
+              </span>
+            </td>
+            {/list}
+          </tr>
+          {/list}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

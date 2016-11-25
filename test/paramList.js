@@ -575,5 +575,3 @@ var paramList = [
 ]
 
 window.paramList = paramList
-
-console.log(paramList.length, paramList)
