@@ -7,6 +7,7 @@ export default Regular.extend({
     this.supr()
     this.initParamList()
   },
+  // 子类重写这个方法来初始化参数列表
   initParamList () {
   },
   init () {
@@ -18,6 +19,7 @@ export default Regular.extend({
     this.$refs.modal.data = Object.assign(this.$refs.modal.data, data, data.modalData || {})
     this.$refs.params.data = Object.assign(this.$refs.params.data, data, data.paramsData || {})
     this.$refs.params.reset()
+    this.$refs.params.parseParamList()
     if (data.autoShow !== false) {
       this.show()
     }

@@ -25639,6 +25639,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.supr();
 	    this.initParamList();
 	  },
+	
+	  // 子类重写这个方法来初始化参数列表
 	  initParamList: function initParamList() {},
 	  init: function init() {
 	    var data = this.data;
@@ -25649,6 +25651,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.$refs.modal.data = Object.assign(this.$refs.modal.data, data, data.modalData || {});
 	    this.$refs.params.data = Object.assign(this.$refs.params.data, data, data.paramsData || {});
 	    this.$refs.params.reset();
+	    this.$refs.params.parseParamList();
 	    if (data.autoShow !== false) {
 	      this.show();
 	    }
