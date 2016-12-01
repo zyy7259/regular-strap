@@ -25648,6 +25648,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    data.paramsLimit = 0;
 	    this.$refs.modal.data = Object.assign(this.$refs.modal.data, data, data.modalData || {});
 	    this.$refs.params.data = Object.assign(this.$refs.params.data, data, data.paramsData || {});
+	    this.$refs.params.reset();
 	    if (data.autoShow !== false) {
 	      this.show();
 	    }
