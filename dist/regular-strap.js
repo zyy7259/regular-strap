@@ -26051,6 +26051,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	  resetParam: function resetParam(name) {
 	    delete this.data.params[name];
 	  },
+	  resetParamWithValue: function resetParamWithValue(name, value) {
+	    this.data.params[name] = value;
+	  },
 	  clearAllInvalid: function clearAllInvalid() {
 	    this.data.list.forEach(function (param) {
 	      param.invalid = false;

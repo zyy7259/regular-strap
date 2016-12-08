@@ -151,6 +151,9 @@ module.exports = Regular.extend({
   resetParam (name) {
     delete this.data.params[name]
   },
+  resetParamWithValue (name, value) {
+    this.data.params[name] = value
+  },
   clearAllInvalid () {
     this.data.list.forEach(param => {
       param.invalid = false
