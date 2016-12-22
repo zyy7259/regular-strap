@@ -56,6 +56,7 @@ const valueParsers = {
  *     - Object
  *     - Email
  *     - DateTime
+ *     - Date
  *     - DateStr
  *     - MonthStr
  *     - Select
@@ -202,12 +203,13 @@ module.exports = Regular.extend({
           })
           break
         case 'DateTime':
+        case 'Date':
         case 'DateStr':
         case 'MonthStr':
-          // DateStr & DateTime: 如果提供了默认值，那么需要格式化一下日期
+          // 如果提供了默认值，那么需要格式化一下日期
           if (!defaultIsEmpty) {
             let format = DateTimeFormat
-            if (param.type === 'DateStr') {
+            if (param.type === 'Date' || param.type === 'DateStr') {
               format = DateStrFormat
             } else if (param.type === 'MonthStr') {
               format = MonthStrFormat
@@ -287,12 +289,13 @@ module.exports = Regular.extend({
     }
   },
   paramFitDateInput (param) {
-    return param.type === 'DateTime' || param.type === 'DateStr' || param.type === 'MonthStr'
+    return param.type === 'DateTime' || param.type === 'Date' || param.type === 'DateStr' || param.type === 'MonthStr'
   },
   genDateInputType (param) {
     switch (param.type) {
       case 'DateTime':
         return 'datetime-local'
+      case 'Date':
       case 'DateStr':
         return 'date'
       case 'MonthStr':
@@ -325,6 +328,7 @@ module.exports = Regular.extend({
         }
         break
       case 'DateTime':
+      case 'Date':
       case 'DateStr':
       case 'MonthStr':
         tip = '请选择日期'
@@ -350,9 +354,6 @@ module.exports = Regular.extend({
       const name = param.name
       // 如果是字符串，trim一下
       let value = params[name]
-      if (typeof value === 'string') {
-        value = value.trim()
-      }
       const originValue = value
       // 是否是待检查的参数
       const isParamToCheck = paramToCheck && name === paramToCheck.name
@@ -366,6 +367,9 @@ module.exports = Regular.extend({
       }
       switch (type) {
         case 'Value':
+          if (param.type === 'String') {
+            valueIsEmpty = util.isEmpty(value.trim())
+          }
           if (!valueIsEmpty) {
             if (param.type === 'Number') {
               value = valueParsers[param.type](value)
@@ -385,6 +389,9 @@ module.exports = Regular.extend({
                 paramsToEmit[name] = value
                 value = origin
               }
+            }
+            if (param.type === 'String') {
+              paramsToEmit[name] = value.trim()
             }
             // other types
           }
@@ -411,12 +418,17 @@ module.exports = Regular.extend({
           }
           break
         case 'DateTime':
+        case 'Date':
           if (!valueIsEmpty) {
             value = +util.dateFromDateTimeLocal(value)
             valueIsInvalid = isNaN(value)
             if (!valueIsInvalid) {
               paramsToEmit[name] = new Date(value)
-              value = util.format(value, DateTimeFormat)
+              format = DateStrFormat
+              if (type === 'DateTime') {
+                format = DateTimeFormat
+              }
+              value = util.format(value, format)
             }
           }
           break
@@ -488,8 +500,6 @@ module.exports = Regular.extend({
     if (param.mandatory) {
       return this.invalidParam(param)
     } else {
-      delete params[param.name]
-      delete this.data.params[param.name]
       return false
     }
   },

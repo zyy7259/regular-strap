@@ -25956,6 +25956,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 *     - Object
 	 *     - Email
 	 *     - DateTime
+	 *     - Date
 	 *     - DateStr
 	 *     - MonthStr
 	 *     - Select
@@ -26103,12 +26104,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	          });
 	          break;
 	        case 'DateTime':
+	        case 'Date':
 	        case 'DateStr':
 	        case 'MonthStr':
-	          // DateStr & DateTime: 如果提供了默认值，那么需要格式化一下日期
+	          // 如果提供了默认值，那么需要格式化一下日期
 	          if (!defaultIsEmpty) {
 	            var format = DateTimeFormat;
-	            if (param.type === 'DateStr') {
+	            if (param.type === 'Date' || param.type === 'DateStr') {
 	              format = DateStrFormat;
 	            } else if (param.type === 'MonthStr') {
 	              format = MonthStrFormat;
@@ -26191,12 +26193,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	  },
 	  paramFitDateInput: function paramFitDateInput(param) {
-	    return param.type === 'DateTime' || param.type === 'DateStr' || param.type === 'MonthStr';
+	    return param.type === 'DateTime' || param.type === 'Date' || param.type === 'DateStr' || param.type === 'MonthStr';
 	  },
 	  genDateInputType: function genDateInputType(param) {
 	    switch (param.type) {
 	      case 'DateTime':
 	        return 'datetime-local';
+	      case 'Date':
 	      case 'DateStr':
 	        return 'date';
 	      case 'MonthStr':
@@ -26229,6 +26232,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	        break;
 	      case 'DateTime':
+	      case 'Date':
 	      case 'DateStr':
 	      case 'MonthStr':
 	        tip = '请选择日期';
@@ -26259,9 +26263,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	      var name = param.name;
 	      // 如果是字符串，trim一下
 	      var value = params[name];
-	      if (typeof value === 'string') {
-	        value = value.trim();
-	      }
 	      var originValue = value;
 	      // 是否是待检查的参数
 	      var isParamToCheck = paramToCheck && name === paramToCheck.name;
@@ -26275,6 +26276,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	      }
 	      switch (type) {
 	        case 'Value':
+	          if (param.type === 'String') {
+	            valueIsEmpty = _util2['default'].isEmpty(value.trim());
+	          }
 	          if (!valueIsEmpty) {
 	            if (param.type === 'Number') {
 	              value = valueParsers[param.type](value);
@@ -26292,6 +26296,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	                paramsToEmit[name] = value;
 	                value = origin;
 	              }
+	            }
+	            if (param.type === 'String') {
+	              paramsToEmit[name] = value.trim();
 	            }
 	            // other types
 	          }
@@ -26318,12 +26325,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	          }
 	          break;
 	        case 'DateTime':
+	        case 'Date':
 	          if (!valueIsEmpty) {
 	            value = +_util2['default'].dateFromDateTimeLocal(value);
 	            valueIsInvalid = isNaN(value);
 	            if (!valueIsInvalid) {
 	              paramsToEmit[name] = new Date(value);
-	              value = _util2['default'].format(value, DateTimeFormat);
+	              format = DateStrFormat;
+	              if (type === 'DateTime') {
+	                format = DateTimeFormat;
+	              }
+	              value = _util2['default'].format(value, format);
 	            }
 	          }
 	          break;
@@ -26396,8 +26408,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (param.mandatory) {
 	      return this.invalidParam(param);
 	    } else {
-	      delete params[param.name];
-	      delete this.data.params[param.name];
 	      return false;
 	    }
 	  },
@@ -26516,7 +26526,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return this.data.currChecked.indexOf(item.value) !== -1;
 	  },
 	  shouldDisable: function shouldDisable(item) {
-	    return item.disabled;
+	    return this.data.param.disabled || item.disabled;
 	  },
 	  genClass: function genClass(item) {
 	    var clazz;

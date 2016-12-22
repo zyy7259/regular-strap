@@ -1,9 +1,8 @@
 window.fooParamList = [
   {
-    name: 'textarea',
-    type: 'Textarea',
-    desc: 'foo',
-    maxlength: 3
+    name: 'str',
+    type: 'String',
+    desc: 'foo'
   },
   {
     name: 'password',

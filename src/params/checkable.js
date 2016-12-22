@@ -38,7 +38,7 @@ export default Regular.extend({
     return this.data.currChecked.indexOf(item.value) !== -1
   },
   shouldDisable (item) {
-    return item.disabled
+    return this.data.param.disabled || item.disabled
   },
   genClass (item) {
     var clazz
