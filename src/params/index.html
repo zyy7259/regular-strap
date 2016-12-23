@@ -1,5 +1,6 @@
 <div class="m-param {clazz}">
-  <h4 class="param-caption m-b-1 text-xs-center {captionClazz}" r-hide={!caption}>{caption}</h4>
+  <h4 class="param-caption m-b-1 text-xs-center {captionClazz}"
+    r-hide={!caption} r-html={caption}></h4>
   <!-- 如果参数不多, 那么一排放; 否则每个参数一排 -->
   <form class="form" r-class={{'form-inline':!stack}} on-submit={this.submit($event)}>
     {#list parsedList as param}
