@@ -18,25 +18,51 @@
           {param.desc}
           {#if !hideColon && !param.hideColon}:{/if}
         </label>
-        <div {#if stack}class="{iptColClazz}"{#else}class="form-group {param.iptClazz}"{/if}>
+        <div {#if stack}class="{iptColClazz}"{#else}class="form-group"{/if}>
           {#if param.type === 'Static'}
             <p class="form-control-static">
               {#if !param.hideValue}{params[param.name]}{/if}
               {#include this.suffixTpl}
             </p>
           {#elseif this.paramFitInput(param)}
-            <input type={this.genInputType(param)} class="form-control" id={this.genParamId(param)} r-model2={'params.' + param.name} ref='{param.name}' placeholder={this.genParamTip(param)} maxlength={param.maxlength} on-input={this.getParams(param)} {#if param.disabled}disabled{/if}>
+            {#if param.descHead}
+              <span class="input-desc-head">{param.descHead}</span>
+            {/if}
+            <input type={this.genInputType(param)}
+              class="form-control {param.iptClazz}"
+              id={this.genParamId(param)}
+              r-model2={'params.' + param.name}
+              ref='{param.name}'
+              placeholder={this.genParamTip(param)}
+              maxlength={param.maxlength}
+              on-input={this.getParams(param)}
+              {#if param.disabled}disabled{/if}>
+            {#if param.descTail}
+              <span class="input-desc-tail">{param.descTail}</span>
+            {/if}
           {#elseif param.type === 'Checkbox'}
             <label class="custom-control custom-checkbox">
-              <input type="checkbox" class="custom-control-input" id={this.genParamId(param)} r-model2={'params.' + param.name} ref='{param.name}' placeholder={this.genParamTip(param)} on-change={this.getParams(param)} {#if param.disabled}disabled{/if}>
+              <input type="checkbox"
+                class="custom-control-input"
+                id={this.genParamId(param)}
+                r-model2={'params.' + param.name}
+                ref='{param.name}'
+                placeholder={this.genParamTip(param)}
+                on-change={this.getParams(param)}
+                {#if param.disabled}disabled{/if}>
               <span class="custom-control-indicator"></span>
               <span class="custom-control-description">{param.descTail}</span>
             </label>
           {#elseif this.paramFitDateInput(param)}
-            <input type={this.genDateInputType(param)} class="form-control" id={this.genParamId(param)} r-model2={'params.' + param.name} ref='{param.name}' on-change={this.getParams(param)}>
+            <input type={this.genDateInputType(param)}
+              class="form-control {param.iptClazz}"
+              id={this.genParamId(param)}
+              r-model2={'params.' + param.name}
+              ref='{param.name}'
+              on-change={this.getParams(param)}>
           {#elseif param.type === 'Select'}
             <select
-              class="form-control custom-select"
+              class="form-control custom-select {param.iptClazz}"
               id={this.genParamId(param)}
               r-model2={'params.' + param.name}
               ref='{param.name}'
@@ -47,7 +73,13 @@
               {/list}
             </select>
           {#elseif param.type === 'Textarea'}
-            <textarea class='form-control' id={this.genParamId(param)} maxlength={param.maxlength} r-model2={'params.' + param.name} ref='{param.name}' on-change={this.getParams(param)}></textarea>
+            <textarea class='form-control {param.iptClazz}'
+              id={this.genParamId(param)}
+              maxlength={param.maxlength}
+              r-model2={'params.' + param.name}
+              ref='{param.name}'
+              on-change={this.getParams(param)}>
+            </textarea>
           {#elseif param.type === 'Checkboxes'}
             <checkboxes param={param} ref='{param.name}' on-change={this.getParams(param)}/>
           {#elseif param.type === 'Radios'}

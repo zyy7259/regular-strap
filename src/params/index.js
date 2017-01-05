@@ -82,6 +82,7 @@ const valueParsers = {
  *   - invalidTip: String 参数非法时展示的提示
  *   - tip: String 参数提示
  *   - showSubtitle: Boolean 是否展示子标题
+ *   - iptClazz: 如果是 input, 给 input 的 class
  *   - disabled: 是否禁用该参数, 禁用的时候不会读取参数的值, 可以设置 required=true 来强制读取该参数的值
  *   - required: 禁用状态下是否需要读取参数的值
  * - paramsLimit 超过这个数量, 参数就叠起来
@@ -367,7 +368,7 @@ module.exports = Regular.extend({
       }
       switch (type) {
         case 'Value':
-          if (param.type === 'String') {
+          if (param.type === 'String' && !valueIsEmpty) {
             valueIsEmpty = util.isEmpty(value.trim())
           }
           if (!valueIsEmpty) {
