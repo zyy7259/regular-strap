@@ -25966,6 +25966,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 *     - Radios
 	 *   - name: String
 	 *   - desc: String
+	 *   - descHead: String
 	 *   - descTail: String
 	 *   - mandatory: true/false
 	 *   - value: 该参数的默认值
@@ -26496,9 +26497,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports['default'] = Regular.extend({
 	  config: function config() {
 	    _util2['default'].fillUndef(this.data, {
-	      colClazz: 'col-xs-6 p-l-0',
 	      spreadClazz: 'm-r-1'
 	    });
+	    this.data.colClazz = this.data.param.colClazz || 'col-xs-6 p-l-0';
 	    this.resetDefaultCheckeds();
 	    this.watch();
 	  },

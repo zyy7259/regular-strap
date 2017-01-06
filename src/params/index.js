@@ -66,6 +66,7 @@ const valueParsers = {
  *     - Radios
  *   - name: String
  *   - desc: String
+ *   - descHead: String
  *   - descTail: String
  *   - mandatory: true/false
  *   - value: 该参数的默认值

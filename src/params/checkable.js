@@ -11,9 +11,9 @@ import {default as util} from 'util'
 export default Regular.extend({
   config () {
     util.fillUndef(this.data, {
-      colClazz: 'col-xs-6 p-l-0',
       spreadClazz: 'm-r-1'
     })
+    this.data.colClazz = this.data.param.colClazz || 'col-xs-6 p-l-0'
     this.resetDefaultCheckeds()
     this.watch()
   },

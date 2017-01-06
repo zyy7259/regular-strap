@@ -1,5 +1,12 @@
 window.inputParamList = [
   {
+    name: 'static',
+    type: 'Static',
+    desc: '测试',
+    value: '测试',
+    disabled: true
+  },
+  {
     name: 'str',
     type: 'String',
     desc: 'foo'
@@ -10,7 +17,8 @@ window.inputParamList = [
     desc: 'foo',
     descHead: '测试',
     descTail: '测试',
-    iptClazz: 'ipt'
+    iptClazz: 'ipt',
+    tip: '1'
   },
   {
     name: 'str2',
@@ -19,6 +27,7 @@ window.inputParamList = [
     hideColon: true,
     descHead: '测试',
     descTail: '测试',
-    iptClazz: 'ipt'
+    iptClazz: 'ipt',
+    tip: '2'
   }
 ]
