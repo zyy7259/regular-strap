@@ -86,6 +86,7 @@ const valueParsers = {
  *   - iptClazz: 如果是 input, 给 input 的 class
  *   - disabled: 是否禁用该参数, 禁用的时候不会读取参数的值, 可以设置 required=true 来强制读取该参数的值
  *   - required: 禁用状态下是否需要读取参数的值
+ *   - ignore: 是否忽略该参数, 如果忽略, 既不渲染该参数, 也不返回该参数的值
  * - paramsLimit 超过这个数量, 参数就叠起来
  * - emailReg 验证邮箱的正则表达式
  * - hideMandatory 是否隐藏 * 号
@@ -171,6 +172,10 @@ module.exports = Regular.extend({
     const data = this.data
     data.parsedList = data.list.map((param, index) => {
       param = util.simpleClone(param)
+      // 如果忽略该参数, 那么直接返回
+      if (param.ignore) {
+        return param
+      }
       const parsedParam = data.parsedList ? data.parsedList[index] || {} : {}
       // 维持 invalid 状态
       if (parsedParam.invalid) {
@@ -352,6 +357,10 @@ module.exports = Regular.extend({
     // - DateTime，存的是字符串，放出去的是日期对象
     let paramsToEmit = {}
     const invalid = data.parsedList.some(param => {
+      // 如果忽略该参数, 那么直接返回
+      if (param.ignore) {
+        return
+      }
       param.invalid = false
       const name = param.name
       // 如果是字符串，trim一下

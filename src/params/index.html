@@ -4,6 +4,7 @@
   <!-- 如果参数不多, 那么一排放; 否则每个参数一排 -->
   <form class="form" r-class={{'form-inline':!stack}} on-submit={this.submit($event)}>
     {#list parsedList as param}
+      {#if !param.ignore}
       <fieldset class="form-group" r-class={{'row':stack, 'has-danger':param.invalid}}>
         <label
           {#if stack}
@@ -99,6 +100,7 @@
           {/if}
         </div>
       </fieldset>
+      {/if}
     {/list}
     {#if showSubmit}
       <fieldset class="form-group" r-class={{'row':stack}}>

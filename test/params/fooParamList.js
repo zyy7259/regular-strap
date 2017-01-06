@@ -1,42 +1,18 @@
 window.fooParamList = [
   {
-    name: 'str',
+    name: 'foo',
     type: 'String',
     desc: 'foo'
   },
   {
-    name: 'password',
-    type: 'Password'
+    name: 'ignore',
+    type: 'String',
+    desc: 'ignore',
+    ignore: true
   },
   {
-    name: 'number',
-    type: 'Number',
-    max: 10
-  },
-  {
-    name: 'int',
-    type: 'Number',
-    max: 10,
-    digits: 0
-  },
-  {
-    name: 'float',
-    type: 'Number',
-    max: 10,
-    digits: 2
-  },
-  {
-    name: 'radio',
-    type: 'Radios',
-    list: [
-      {
-        value: '1',
-        desc: '1'
-      },
-      {
-        value: '2',
-        desc: '2'
-      }
-    ]
+    name: 'bar',
+    type: 'String',
+    desc: 'bar'
   }
 ]
