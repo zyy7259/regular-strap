@@ -25586,9 +25586,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this.$emit('confirm', action);
 	    this.afterConfirm();
 	  },
-	  afterConfirm: function afterConfirm() {
-	    this.resetLoading();
-	  },
+	  afterConfirm: function afterConfirm() {},
 	  resetLoading: function resetLoading() {
 	    this.data.loading = false;
 	    this.$update();

@@ -113,7 +113,6 @@ export default Regular.extend({
     this.afterConfirm()
   },
   afterConfirm () {
-    this.resetLoading()
   },
   resetLoading () {
     this.data.loading = false
